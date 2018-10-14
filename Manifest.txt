@@ -5,5 +5,8 @@ Rakefile
 lib/csvjson.rb
 lib/csvjson/parser.rb
 lib/csvjson/version.rb
+test/data/hello.json.csv
+test/data/hello11.json.csv
 test/helper.rb
 test/test_parser.rb
+test/test_parser_misc.rb

@@ -21,6 +21,48 @@ def logger()  self.class.logger; end
 
 
 
+def self.open( path, mode=nil, &block )   ## rename path to filename or name - why? why not?
+
+    ## note: default mode (if nil/not passed in) to 'r:bom|utf-8'
+    f = File.open( path, mode ? mode : 'r:bom|utf-8' )
+    csv = new( f )
+
+    # handle blocks like Ruby's open()
+    if block_given?
+      begin
+        block.call( csv )
+      ensure
+        csv.close
+      end
+    else
+      csv
+    end
+end # method self.open
+
+
+def self.read( path )
+    open( path ) { |csv| csv.read }
+end
+
+
+def self.foreach( path, &block )
+  csv = open( path )
+
+  if block_given?
+    begin
+      csv.each( &block )
+    ensure
+      csv.close
+    end
+  else
+    csv.to_enum    ## note: caller (responsible) must close file!!!
+    ## remove version without block given - why? why not?
+    ## use Csv.open().to_enum  or Csv.open().each
+    ##   or Csv.new( File.new() ).to_enum or Csv.new( File.new() ).each ???
+  end
+end # method self.foreach
+
+
 def self.parse( data, &block )
   csv = new( data )
 
@@ -81,5 +123,9 @@ def each( &block )
 end # method each
 
 def read() to_a; end # method read
+
+def close
+  @input.close   if @input.respond_to?(:close)   ## note: string needs no close
+end
 
 end # class CsvJson
