@@ -1,0 +1,6 @@
+HISTORY.md
+Manifest.txt
+README.md
+Rakefile
+lib/csvjson.rb
+lib/csvjson/version.rb
