@@ -3,4 +3,7 @@ Manifest.txt
 README.md
 Rakefile
 lib/csvjson.rb
+lib/csvjson/parser.rb
 lib/csvjson/version.rb
+test/helper.rb
+test/test_parser.rb
