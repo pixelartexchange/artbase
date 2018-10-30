@@ -2,11 +2,12 @@
 
 csvjson library / gem - read tabular data in the CSV <3 JSON format, that is, comma-separated values CSV (line-by-line) records with javascript object notation (JSON) encoding rules
 
-* home  :: [github.com/csv11/csvjson](https://github.com/csv11/csvjson)
-* bugs  :: [github.com/csv11/csvjson/issues](https://github.com/csv11/csvjson/issues)
+* home  :: [github.com/csvreader/csvjson](https://github.com/csvreader/csvjson)
+* bugs  :: [github.com/csvreader/csvjson/issues](https://github.com/csvreader/csvjson/issues)
 * gem   :: [rubygems.org/gems/csvjson](https://rubygems.org/gems/csvjson)
 * rdoc  :: [rubydoc.info/gems/csvjson](http://rubydoc.info/gems/csvjson)
 * forum :: [wwwmake](http://groups.google.com/group/wwwmake)
+
 
 
 ## What's CSV <3 JSON?
@@ -39,7 +40,7 @@ or
 4,"spells",[]
 ```
 
-For more see the [official CSV <3 JSON Format documentation »](https://github.com/csv11/csv-json)
+For more see the [official CSV <3 JSON Format documentation »](https://github.com/csvspecs/csv-json)
 
 
 
@@ -136,7 +137,7 @@ pp records
 #    ... ]
 ```
 
-For more see the [official CsvHash documentation in the csvreader library / gem »](https://github.com/csv11/csvreader)
+For more see the [official CsvHash documentation in the csvreader library / gem »](https://github.com/csvreader/csvreader)
 
 
 
