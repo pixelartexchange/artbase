@@ -12,7 +12,7 @@ require 'csvjson'
 ## add test_data_dir helper
 class CsvJson
   def self.test_data_dir
-    "#{root}/test/data"
+    "#{root}/datasets"
   end
 end
 

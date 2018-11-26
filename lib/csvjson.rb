@@ -18,5 +18,5 @@ CSVJ     = CsvJson
 CsvJ     = CsvJson
 
 
-
-puts CsvJson.banner
+# say hello
+puts CsvJson.banner    if $DEBUG || (defined?($RUBYCOCO_DEBUG) && $RUBYCOCO_DEBUG)
