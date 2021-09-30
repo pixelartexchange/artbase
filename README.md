@@ -1,3 +1,3 @@
-# (Modern Dotty Spotty) Currency Art How Tos
+# (Modern Dotty Spotty) Currency Art How-Tos
 
 
