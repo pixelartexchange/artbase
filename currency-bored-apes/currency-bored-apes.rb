@@ -13,10 +13,8 @@ BACKGROUND_SPOTS = [
 ]
 
 
-## todo/fix: add "generic" Composite.read helper to pixelart upstream!!!!
 path = "../../awesome-24px/collection/boredapes_au.png"
-img = ChunkyPNG::Image.from_file( path )
-apes = ImageComposite.new( img, width: 28, height: 28 )
+apes = ImageComposite.new( path, width: 28, height: 28 )
 
 
 
