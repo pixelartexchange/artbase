@@ -25,19 +25,28 @@ matching the OpenSea collection slug
 and add a config script - `blockydoge/config.rb`:
 
 ``` ruby
-COLLECTION = Collection.new( 'blockydoge', 100,
+COLLECTION = Collection.new( 
 
-format: '60x60',
-source: '512x512',
+'blockydoge',          # opensea collection slug
+100,                   # number of items
+
+format: '60x60',       # original pixel format
+source: '512x512',     # "big" source pixel format for downloaded image
+                       #  and referenced in meta data  
 
 #####
-#  Blocky Doge #1  => 1
+#   "automagically" get the id from the the meta data name field 
+#     via a "one-off / custom / hand-written" regex
+#   e.g. Blocky Doge #1  => 1
 meta_slugify: /^Blocky Doge #(?<num>[0-9]+)$/,
 )
 ```
 
-Sorry for now for the "magic" config format  -
+Sorry for the "magic" config format for now  -
 see the [**opensea.sandbox**](https://github.com/pixelartexchange/opensea.sandbox) for many more "real-world" examples.
+
+
+
 
 
 That's it now you can:
