@@ -31,7 +31,8 @@ COLLECTION = Collection.new(
 100,                   # number of items
 
 format: '60x60',       # original pixel format
-source: '512x512',     # "big" source pixel format for downloaded image referenced in meta data  
+source: '512x512',     # "big" source pixel format for 
+                       #   downloaded image referenced in meta data  
 
 #####
 #   "automagically" get the id from the meta data name field 
