@@ -31,11 +31,10 @@ COLLECTION = Collection.new(
 100,                   # number of items
 
 format: '60x60',       # original pixel format
-source: '512x512',     # "big" source pixel format for downloaded image
-                       #  and referenced in meta data  
+source: '512x512',     # "big" source pixel format for downloaded image referenced in meta data  
 
 #####
-#   "automagically" get the id from the the meta data name field 
+#   "automagically" get the id from the meta data name field 
 #     via a "one-off / custom / hand-written" regex
 #   e.g. Blocky Doge #1  => 1
 meta_slugify: /^Blocky Doge #(?<num>[0-9]+)$/,
