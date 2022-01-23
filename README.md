@@ -78,27 +78,27 @@ blockydoge/meta/
   ...
 ```
 
-Example - blockydoge/meta/0.json:
+Example - `blockydoge/meta/0.json`:
 
 ``` json
 {
-  "id": 52224520,
-  "token_id": "15422644651343706680889803232494072247486589087676571928209627290852067901441",
-  "num_sales": 1,
+  "id":                  52224520,
+  "token_id":            "154226446513437...7290852067901441",
+  "num_sales":           1,
   "image_url":           "https://lh3.googleusercontent.com/fIQQ0A7...gTlbgMTQ",
   "image_preview_url":   "https://lh3.googleusercontent.com/fIQQ0A7...gTlbgMTQ=s250",
   "image_thumbnail_url": "https://lh3.googleusercontent.com/fIQQ0A7...gTlbgMTQ=s128",
   "image_original_url":  null,
   "name":                "Blocky Doge #1",
-  "description": "Blocky Doge is a collection of 100 unique pixelated Doge avatars...",
-  "external_link": null,
+  "description":         "Blocky Doge ... 100 unique pixelated Doge avatars...",
+  "external_link":       null,
 
   ...
 
    "traits": [
-       { "trait_type": "Fur",        "value": "Red Fur", ... },
+       { "trait_type": "Fur",        "value": "Red Fur",        ... },
        { "trait_type": "Hat",        "value": "Pink Party Hat", ... },
-       { "trait_type": "Expression", "value": "Smiley",  ... },
+       { "trait_type": "Expression", "value": "Smiley",         ... },
   ],
 
   ...
@@ -139,7 +139,7 @@ blockydoge/i/
 
 Example - `blockydoge/i/0.png` (512x512):
 
-![](i/blockdoge0-512x512.png)
+![](i/blockydoge0-512x512.png)
 
 
 
@@ -178,19 +178,19 @@ blockydoge/ii/
 
 Example - `blockydoge/ii/000001.png` to `000013.png` (60x60):
 
-![](i/blockdoge000001.png)
-![](i/blockdoge000002.png)
-![](i/blockdoge000003.png)
-![](i/blockdoge000004.png)
-![](i/blockdoge000005.png)
-![](i/blockdoge000006.png)
-![](i/blockdoge000007.png)
-![](i/blockdoge000008.png)
-![](i/blockdoge000009.png)
-![](i/blockdoge000010.png)
-![](i/blockdoge000011.png)
-![](i/blockdoge000012.png)
-![](i/blockdoge000013.png)
+![](i/blockydoge000001.png)
+![](i/blockydoge000002.png)
+![](i/blockydoge000003.png)
+![](i/blockydoge000004.png)
+![](i/blockydoge000005.png)
+![](i/blockydoge000006.png)
+![](i/blockydoge000007.png)
+![](i/blockydoge000008.png)
+![](i/blockydoge000009.png)
+![](i/blockydoge000010.png)
+![](i/blockydoge000011.png)
+![](i/blockydoge000012.png)
+![](i/blockydoge000013.png)
 
 
 
@@ -203,9 +203,7 @@ Let's try:
 $ artbase blockydoge composite
 ```
 
-Note: The all-in-one composite image gets saved by convention to `blockydoge/tmp/blockydoge-60x60.png`.
-
-Example:
+Note: The all-in-one composite image gets saved by convention to `blockydoge/tmp/blockydoge-60x60.png`.  Example:
 
 ![](i/blockydoge-60x60.png)
 
@@ -221,8 +219,8 @@ $ artbase blockydoge export
 ```
 
 Note: The all-in-one datafile gets saved by convention to `blockydoge/tmp/blockydoge.csv`.
-
 Example:
+
 
 ```
 ID, Name, Fur, Hat, Expression, Glasses, Accessories, Mask, Collar
