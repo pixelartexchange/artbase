@@ -459,6 +459,10 @@ def self.download_meta( range, collection )
     puts "  image_url: >#{meta.image_url}<"
 
 
+    ## make sure path exists
+    dirname = File.dirname( dest )
+    FileUtils.mkdir_p( dirname )  unless Dir.exist?( dirname )
+
     File.open( dest, "w:utf-8" ) do |f|
       f.write( JSON.pretty_generate( data ) )
     end

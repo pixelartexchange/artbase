@@ -4,14 +4,28 @@
 * bugs  :: [github.com/pixelartexchange/artbase/issues](https://github.com/pixelartexchange/artbase/issues)
 * gem   :: [rubygems.org/gems/artbase](https://rubygems.org/gems/artbase)
 * rdoc  :: [rubydoc.info/gems/artbase](http://rubydoc.info/gems/artbase)
-* forum :: [wwwmake](http://groups.google.com/group/wwwmake)
 
 
 
 ## Usage
 
-to be done
 
+Note:  The artbase is alpha - it's still the early days - it's a work-in-progress.
+
+
+
+
+
+
+
+
+
+
+## Install
+
+Just install the gem:
+
+    $ gem install artbase
 
 
 ## License
@@ -22,5 +36,4 @@ Use it as you please with no restrictions whatsoever.
 
 ## Questions? Comments?
 
-Send them along to the [wwwmake forum](http://groups.google.com/group/wwwmake).
-Thanks!
+Post them on the [CryptoPunksDev reddit](https://old.reddit.com/r/CryptoPunksDev). Thanks.

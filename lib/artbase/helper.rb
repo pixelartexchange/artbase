@@ -129,8 +129,10 @@ def copy_image( src, dest,
               exit 1
             end
 
-    ## todo/fix/add:
     ##   make sure path exits - autocreate dirs
+    ## make sure path exists
+    dirname = File.dirname( "#{dest}.#{format}" )
+    FileUtils.mkdir_p( dirname )  unless Dir.exist?( dirname )
 
     File.open( "#{dest}.#{format}", 'wb' ) do |f|
       f.write( response.body )
