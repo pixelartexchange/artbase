@@ -73,3 +73,11 @@ require_relative 'image/24x24'
 require_relative 'image/32x32'
 require_relative 'image/60x60'
 require_relative 'image/80x80'
+
+
+PIXEL_OFFSETS[ '35x35' ] = {
+  # 14px * 35 = 490px   plus add 22px overflow => 512px
+  '512x512' =>  35.times.reduce({}) {|h,i| h[ (7+14*i+22.0/35.0*i).to_i ] = i; h }
+}
+
+
