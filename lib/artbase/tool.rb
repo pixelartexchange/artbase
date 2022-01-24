@@ -86,7 +86,7 @@ class Tool
     elsif ['p', 'px', 'pix', 'pixel', 'pixelate'].include?( command )
       pixelate( offset: options[ :offset] )
     elsif ['m', 'meta'].include?( command )
-      download_meta
+      download_meta( offset: options[ :offset] )
     elsif ['i', 'img', 'image', 'images'].include?( command )
       download_images( offset: options[ :offset] )
     elsif ['a', 'attr', 'attributes'].include?( command )
@@ -120,10 +120,18 @@ class Tool
   end
 
 
-  def self.download_meta
+  def self.download_meta( offset: )
       puts "==> download meta"
-      @collection.download_meta
+      ## note: use three dots (...) to exclude e.g. count 100 => 0 to 99)
+      range = if offset
+                (offset...@collection.count)
+              else
+                (0...@collection.count)
+              end
+
+      @collection.download_meta( range )
   end
+
 
   def self.download_images( offset: )
      puts "==> download images"
