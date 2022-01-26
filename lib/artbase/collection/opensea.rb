@@ -45,8 +45,15 @@ def _image_pixelate( img )
   else
     @sources.each do |source_width, source_height|
       if img.width == source_width && img.height == source_height
-        return img.pixelate( from: "#{source_width}x#{source_height}",
-                             to: "#{@width}x#{@height}" )
+         from = "#{source_width}x#{source_height}"
+         to   = "#{@width}x#{@height}"
+         steps = (Image::DOwNSAMPLING_STEPS[ to ] || {})[ from ]
+         if steps.nil?
+           puts "!! ERROR - no sampling steps defined for #{from} to #{to}; sorry"
+           exit 1
+         end
+
+        return img.pixelate( steps )
       end
     end
 
@@ -82,6 +89,7 @@ def make_composite
   composite_count = @count - @exclude.size
   cols, rows = if      composite_count == 100    then   [10,  10]
                elsif   composite_count == 500    then   [25,  20]
+               elsif   composite_count == 6969   then   [100, 70]   # 7000 (31 left empty)
                elsif   composite_count == 10000  then   [100, 100]
                else
                    raise ArgumentError, "sorry - unknown composite count #{composite_count}/#{@count} for now"
