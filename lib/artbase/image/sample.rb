@@ -51,17 +51,17 @@ end
 
 
     ## todo/check: rename to sample to resample or downsample - why? why not?
-    def sample( steps )
-      ## note: for now always assume square image (e.g. 24x24, 32x32 and such)
-      width = height = steps.size
-
+    def sample( steps_x, steps_y=steps_x,
+                top_x: 0, top_y: 0 )
+      width   = steps_x.size
+      height  = steps_y.size
       puts "    downsampling from #{self.width}x#{self.height} to #{width}x#{height}..."
 
       dest = Image.new( width, height )
 
-      steps.each_with_index do |step_x, x|
-        steps.each_with_index do |step_y, y|
-           pixel = self[step_x,step_y]
+      steps_x.each_with_index do |step_x, x|
+        steps_y.each_with_index do |step_y, y|
+           pixel = self[top_x+step_x, top_y+step_y]
 
            dest[x,y] =  pixel
         end
@@ -70,6 +70,38 @@ end
       dest
     end
     alias_method :pixelate, :sample
+
+
+
+def sample_debug( steps_x, steps_y=steps_x,
+              color:  Color.parse( '#ffff00' ),
+              top_x: 0,
+              top_y: 0)  ## add a yellow pixel
+
+   ## todo/fix:  get a clone of the image (DO NOT modify in place)
+
+    img = self
+
+  steps_x.each_with_index do |step_x, x|
+    steps_y.each_with_index do |step_y, y|
+        base_x = top_x+step_x
+        base_y = top_y+step_y
+
+        img[base_x,base_y] = color
+
+       ## add more colors
+       img[base_x+1,base_y] = color
+       img[base_x+2,base_y] = color
+
+       img[base_x,base_y+1] = color
+       img[base_x,base_y+2] = color
+      end
+  end
+
+  self
+end
+alias_method :pixelate_debug, :sample_debug
+
 
 
 ###
@@ -82,6 +114,7 @@ DOwNSAMPLING_STEPS = {
   },
   '32x32' => {
     '320x320' => Image.calc_sample_steps( 320, 32 ),
+    '512x512' => Image.calc_sample_steps( 512, 32 ),
   },
   '35x35' => {
     '512x512' => Image.calc_sample_steps( 512, 35 ),

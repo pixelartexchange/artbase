@@ -88,7 +88,9 @@ def make_composite
 
   composite_count = @count - @exclude.size
   cols, rows = if      composite_count == 100    then   [10,  10]
+               elsif   composite_count == 150    then   [15,  10]
                elsif   composite_count == 500    then   [25,  20]
+               elsif   composite_count == 5555   then   [100, 56]   # 5600 (45 left empty)
                elsif   composite_count == 6969   then   [100, 70]   # 7000 (31 left empty)
                elsif   composite_count == 10000  then   [100, 100]
                else

@@ -12,14 +12,20 @@ end
 
 
 def convert_images( collection, from: 'jpg',
-                                to: 'png' )
-    files = Dir.glob( "./#{collection}/i/*.#{from}" )
+                                to: 'png',
+                                dir: 'i',
+                                overwrite: true )
+    files = Dir.glob( "./#{collection}/#{dir}/*.#{from}" )
     puts "==> converting #{files.size} image(s) from #{from} to #{to}"
 
     files.each_with_index do |file,i|
       dirname   = File.dirname( file )
       extname   = File.extname( file )
       basename  = File.basename( file, extname )
+
+      ## skip convert if target / dest file already exists
+      next  if overwrite == false && File.exist?( "#{dirname}/#{basename}.#{to}" )
+
 
       cmd = "magick convert #{dirname}/#{basename}.#{from} #{dirname}/#{basename}.#{to}"
 
