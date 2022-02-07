@@ -1,28 +1,35 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/test/tmp/
+/test/version_tmp/
+/tmp/
 
-# Test binary, built with `go test -c`
-*.test
+## Specific to RubyMotion:
+.dat*
+.repl_history
+build/
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+## Documentation cache and generated files:
+/.yardoc/
+/_yardoc/
+/doc/
+/rdoc/
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+## Environment normalisation:
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
 
-# Go workspace file
-go.work
+# for a library or gem, you might want to ignore these files since the code is
+# intended to run in multiple environments; otherwise, check them in:
+# Gemfile.lock
+# .ruby-version
+# .ruby-gemset
 
-
-###
-# note: ignore all (cached) .png images
-*.png
-
-
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc
