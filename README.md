@@ -1,13 +1,15 @@
 # artbase tools & scripts
 
 
-## Scripts
+**Tools & Scripts**
 
 [**artbase.tools**](artbase.tools) - artbase ("right-clicker") command line tool & scripts - download complete pixel art collections - yes, you can! - automate "right-click 'n' download" and much more
 
 
 
-## X-Copy Binaries
+
+
+**X-Copy Zero-Config Binaries**
 
 [**artbase**](artbase) - artbase zero-config server; (auto-)downloads & serves pre-configured pixel art collections "out-of-the-box"; incl. 2x/4x/8x zoom for bigger image sizes and more; xcopy binaries for easy installation
 
