@@ -42,10 +42,11 @@ The pixel art collections pre-configured include:
 ### (Web) Services
 
 
-To get images, use `/:name/:id`
+To get pixel art images, use `/:name/:id`
 
 Example:
-`/punks/0`, `/punks/1`, `/punks/2`, ...
+`/punks/0`, `/punks/1`, `/punks/2`, ... or
+`/coolcats/0`, `/coolcats/1`, `/coolcats/2`, ...
 
 Note: The default image size is the default
 (minimum) pixel size of the collection e.g. 24x24 for punks, morepunks,
@@ -53,10 +54,13 @@ coolcats and so on.
 Use the z (zoom) parameter to upsize.
 
 Try 2x:
-`/punks/0?z=2`, `/punks/1?z=2`, `/punks/2?z=2`, ...
+`/punks/0?z=2`, `/punks/1?z=2`, `/punks/2?z=2`, ... or
+`/coolcats/0?z=2`, `/coolcats/1?z=2`, `/coolcats/2?z=2`, ...
+
 
 Try 8x:
-`/punks/0?z=8`, `/punks/1?z=8`, `/punks/2?z=8`, ... And so on.
+`/punks/0?z=8`, `/punks/1?z=8`, `/punks/2?z=8`, ... or 
+`/coolcats/0?z=8`, `/coolcats/1?z=8`, `/coolcats/2?z=8`, ...  And so on.
 
 
 That's it for now.
