@@ -11,27 +11,35 @@ Use
 $ go build artbase.go
 ```
 
-to get a x-copy zero-config binary for your operation system / architecture.
+to get a zero-config x-copy binary for your operation system / architecture.
 To run use:
 
 ```
 $ artbase
 ```
 
-This will start-up a (web) server (listening on port 8080)
-that will (auto-)download on demand pre-configured
-collections to your working directory and use the "cached"
-version the next time.
+This will start-up a (web) server (listening on port 8080).
 
-Pre-configured pixel art collections include:
 
-- [punks (24x24)](https://github.com/cryptopunksnotdead/awesome-24px/blob/master/collection/punks.png)
-- [morepunks (24x24)](https://github.com/cryptopunksnotdead/awesome-24px/blob/master/collection/morepunks.png)
-- [coolcats (24x24)](https://github.com/cryptopunksnotdead/awesome-24px/blob/master/collection/coolcats.png)
+
+
+
+## Artbase - The Server Edition
+
+The artbase (web) server will (auto-)download on demand the first-time only pre-configured
+pixel art collections (using all-in-one image composites)
+to your working directory and use the "cached" version from the next time on (incl. server restarts).
+
+
+The pixel art collections pre-configured include:
+
+- [punks](https://github.com/cryptopunksnotdead/awesome-24px/blob/master/collection/punks.png) (24x24)
+- [morepunks](https://github.com/cryptopunksnotdead/awesome-24px/blob/master/collection/morepunks.png) (24x24)
+- [coolcats](https://github.com/cryptopunksnotdead/awesome-24px/blob/master/collection/coolcats.png)  (24x24)
 - And more
 
 
-(Web) Services
+### (Web) Services
 
 
 To get images, use `/:name/:id`
@@ -40,7 +48,7 @@ Example:
 `/punks/0`, `/punks/1`, `/punks/2`, ...
 
 Note: The default image size is the default
-(minimum) size of the collection e.g. 24x24 for punks, morepunks,
+(minimum) pixel size of the collection e.g. 24x24 for punks, morepunks,
 coolcats and so on.
 Use the z (zoom) parameter to upsize.
 
@@ -51,6 +59,7 @@ Try 8x:
 `/punks/0?z=8`, `/punks/1?z=8`, `/punks/2?z=8`, ... And so on.
 
 
+That's it for now.
 
 
 
