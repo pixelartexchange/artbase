@@ -18,9 +18,15 @@ class TokenCollection
     range.each do |offset|
       token_src = @token_base.sub( '{id}', offset.to_s )
 
+      ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
+      if token_src.start_with?( 'ipfs://' )
+       # use/replace with public gateway
+       token_src = token_src.sub( 'ipfs://', 'https://ipfs.io/ipfs/' )
+      end
+
       puts "==> #{offset} - #{@slug}..."
 
-      copy_json( token_src, "./#{@slug}/token-meta/#{offset}.json" )
+      copy_json( token_src, "./#{@slug}/token/#{offset}.json" )
 
       stop = Time.now
       diff = stop - start
@@ -40,7 +46,7 @@ class TokenCollection
     delay_in_s = 0.3
 
     range.each do |offset|
-      txt = File.open( "./#{@slug}/token-meta/#{offset}.json", 'r:utf-8') { |f| f.read }
+      txt = File.open( "./#{@slug}/token/#{offset}.json", 'r:utf-8') { |f| f.read }
       data = JSON.parse( txt )
 
       meta_name  = data['name']
@@ -50,6 +56,13 @@ class TokenCollection
       puts "   name: #{meta_name}"
       puts "   image: #{meta_image}"
 
+      ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
+      if meta_image.start_with?( 'ipfs://' )
+        # use/replace with public gateway
+        # meta_image = meta_image.sub( 'ipfs://', 'https://ipfs.io/ipfs/' )
+        meta_image = meta_image.sub( 'ipfs://', 'https://cloudflare-ipfs.com/ipfs/' )
+      end
+
       ## note: will auto-add format file extension (e.g. .png, .jpg)
       ##        depending on http content type!!!!!
       start_copy = Time.now
@@ -57,7 +70,7 @@ class TokenCollection
 
       stop = Time.now
 
-      diff = stop -start_copy
+      diff = stop - start_copy
       puts "    download image in #{diff} sec(s)"
 
       diff = stop - start
