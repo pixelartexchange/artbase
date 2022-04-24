@@ -128,8 +128,8 @@ class TokenCollection
 
       if meta_image.start_with?( 'ipfs://' )
         # use/replace with public gateway
-        # meta_image = meta_image.sub( 'ipfs://', 'https://ipfs.io/ipfs/' )
-        meta_image = meta_image.sub( 'ipfs://', 'https://cloudflare-ipfs.com/ipfs/' )
+        meta_image = meta_image.sub( 'ipfs://', 'https://ipfs.io/ipfs/' )
+        # meta_image = meta_image.sub( 'ipfs://', 'https://cloudflare-ipfs.com/ipfs/' )
       end
 
       ## note: will auto-add format file extension (e.g. .png, .jpg)

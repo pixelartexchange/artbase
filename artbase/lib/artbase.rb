@@ -28,7 +28,6 @@ require 'artbase/image'
 
 
 require 'artbase/helper'
-require 'artbase/opensea'
 
 require 'artbase/collection'
 require 'artbase/attributes'
