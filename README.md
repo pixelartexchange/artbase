@@ -156,7 +156,7 @@ GET https://live---metadata-5covpqijaa-uc.a.run.app/images/3...
   content_type: image/png, content_length:...
 ```
 
-And in your (local) working directory you will find all downloadedn and saved
+And in your (local) working directory you will find all downloaded and saved
 image files:
 
 ```
