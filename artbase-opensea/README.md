@@ -3,7 +3,7 @@
 
 ## Usage
 
-Let's try the Etherbears collection ( max.):
+Let's try the Etherbears collection (5000 max.):
 
 ``` ruby
 CHROME_PATH = 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe'
