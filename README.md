@@ -17,10 +17,15 @@ Gems:
 Let's try the 10000 Moonbirds collection.
 
 Step 1: Lookup "by hand" the token uri/url using the blockchain contract service.   For Moonbirds if you [query the `tokenURI` contract function with
-with the `tokenId` 0](https://etherscan.io/address/0x23581767a106ae21c074b2276d25e5c3e136a68b#readContract), you will get
+with the `tokenId` 0](https://etherscan.io/address/0x23581767a106ae21c074b2276d25e5c3e136a68b#readContract) ...
+
+![](i/etherscan-moonbirds-tokenuri.png)
+
+
+... you will get
 <https://live---metadata-5covpqijaa-uc.a.run.app/metadata/0>.
 
-And if you try out the url you will get
+And if you open the url you will get
 the metadata in the JSON (JavaScript Object Notation)
 data interchange format:
 
