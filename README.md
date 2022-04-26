@@ -95,9 +95,9 @@ metadata files:
 **Q: How can I download all images (one-by-one) for token collections?**
 
 Let's continue with the 10000 Moonbirds collection.
-See "Q: How can I download all the metadata (one-by-one) for token collections?" for the first part.
+See "Q: How can I download all the metadata (one-by-one) for token collections?" for the first part (Step 1+2).
 
-Step 1:  Use a script to download and save all image files
+Step 3:  Use a script to download and save all image files
 (linked to in the metadata) in a loop counting from 0 to 9999.
 Let's write the script "from scratch" - `download_images.rb`:
 
