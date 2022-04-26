@@ -12,7 +12,7 @@ Gems:
 
 ##  Frequently Asked Questions (F.A.Qs) and Answers
 
-**Q: How can I download the metadata (one-by-one) for complete token collections?**
+**Q: How can I download all the metadata (one-by-one) for token collections?**
 
 Let's try the 10000 Moonbirds collection.
 
@@ -64,7 +64,7 @@ require 'webclient'
          f.write( JSON.pretty_generate( res.json ))
       end
    else
-      puts "!! ERROR - failed to download metadata; sorry - #{res.status.code} #{res.status.message}"
+      puts "!! ERROR: failed to download metadata; sorry - #{res.status.code} #{res.status.message}"
       exit 1
    end
 end
@@ -90,6 +90,85 @@ metadata files:
 3.json
 ...
 ```
+
+
+**Q: How can I download all images (one-by-one) for token collections?**
+
+Let's continue with the 10000 Moonbirds collection.
+See "Q: How can I download all the metadata (one-by-one) for token collections?" for the first part.
+
+Step 1:  Use a script to download and save all image files
+(linked to in the metadata) in a loop counting from 0 to 9999.
+Let's write the script "from scratch" - `download_images.rb`:
+
+
+```ruby
+require 'webclient'
+
+(0..9999).each do |id|
+   ## read (local) metadata
+   txt = File.open( "#{id}.json", "r:utf-8" ) { |f| f.read }
+   data = JSON.parse( txt )
+
+   image_url = data['image']
+
+   res = Webclient.get( image_url )
+
+   if res.status.ok?
+      content_type   = res.raw.content_type
+      content_length = res.raw.content_length
+
+      puts "  content_type: #{content_type}, content_length: #{content_length}"
+
+      format = if content_type =~ %r{image/jpeg}i
+                 'jpg'
+               elsif content_type =~ %r{image/png}i
+                 'png'
+               elsif content_type =~ %r{image/gif}i
+                 'gif'
+               else
+                 puts "!! ERROR:"
+                 puts " unknown image format content type: >#{content_type}<"
+                 exit 1
+               end
+
+      ## save image - using b(inary) mode
+      File.open( "#{id}.#{format}", 'wb' ) do |f|
+        f.write( res.raw.body )
+      end
+   else
+      puts "!! ERROR - failed to download image; sorry - #{res.status.code} #{res.status.message}"
+      exit 1
+   end
+end
+```
+
+Run the script - `$ ruby ./download_images.rb`; resulting in:
+
+```
+GET https://live---metadata-5covpqijaa-uc.a.run.app/images/0...
+  content_type: image/png, content_length:
+GET https://live---metadata-5covpqijaa-uc.a.run.app/images/1...
+  content_type: image/png, content_length:
+GET https://live---metadata-5covpqijaa-uc.a.run.app/images/2...
+  content_type: image/png, content_length:
+GET https://live---metadata-5covpqijaa-uc.a.run.app/images/3...
+  content_type: image/png, content_length:...
+```
+
+And in your (local) working directory you will find all downloadedn and saved
+image files:
+
+```
+0.png
+1.png
+2.png
+3.png
+...
+```
+
+That's it.
+
 
 
 
