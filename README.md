@@ -16,7 +16,7 @@ Gems:
 
 Let's try the 10000 Moonbirds collection.
 
-Step 1: Lookup "by hand" the token uri/url using the blockchain contract service.   For Moonbirds if you [query the `tokenURI` contract function with
+Step 1: Lookup "by hand" the (metadata) token uri/url using the blockchain contract service.   For Moonbirds if you [query the `tokenURI` contract function with
 with the `tokenId` 0](https://etherscan.io/address/0x23581767a106ae21c074b2276d25e5c3e136a68b#readContract) ...
 
 ![](i/etherscan-moonbirds-tokenuri.png)
