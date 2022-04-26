@@ -64,8 +64,7 @@ require 'webclient'
          f.write( JSON.pretty_generate( res.json ))
       end
    else
-      puts "!! ERROR - failed to download metadata; sorry - " +
-           "#{res.status.code} #{res.status.message}"
+      puts "!! ERROR - failed to download metadata; sorry - #{res.status.code} #{res.status.message}"
       exit 1
    end
 end
