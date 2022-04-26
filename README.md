@@ -25,7 +25,7 @@ with the `tokenId` 0](https://etherscan.io/address/0x23581767a106ae21c074b2276d2
 ... you will get
 <https://live---metadata-5covpqijaa-uc.a.run.app/metadata/0>.
 
-And if you open the url you will get
+And if you open up the url you will get
 the metadata in the JSON (JavaScript Object Notation)
 data interchange format:
 
@@ -64,7 +64,8 @@ require 'webclient'
          f.write( JSON.pretty_generate( res.json ))
       end
    else
-      puts "!! ERROR - failed to download metadata; sorry - #{res.status.code} #{res.status.message}"
+      puts "!! ERROR - failed to download metadata; sorry - " +
+           "#{res.status.code} #{res.status.message}"
       exit 1
    end
 end
@@ -80,7 +81,7 @@ GET https://live---metadata-5covpqijaa-uc.a.run.app/metadata/3...
 ...
 ```
 
-And in your working directory you will find all downloaded, saved and pretty printed / reformated
+And in your (local) working directory you will find all downloaded, saved and pretty printed / reformated
 metadata files:
 
 ```
