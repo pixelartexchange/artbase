@@ -13,15 +13,9 @@ Gems:
 ##  Frequently Asked Questions (F.A.Qs) and Answers
 
 
-Note: The script samples use the  [**webclient package / gem**](https://rubygems.org/gems/webclient).
-If you get the error `"cannot load such file -- webclient (LoadError)"`
-when running a sample script, use `$ gem install webclient` to install the missing webclient package /gem.
 
 
-
-
-
-**Q: How can I download all the metadata (one-by-one) for token collections?**
+### Q: How can I download all the metadata (one-by-one) for token collections?
 
 Let's try the 10000 Moonbirds collection.
 
@@ -101,7 +95,7 @@ metadata files:
 ```
 
 
-**Q: How can I download all images (one-by-one) for token collections?**
+### Q: How can I download all images (one-by-one) for token collections?
 
 Let's continue with the 10000 Moonbirds collection.
 See "Q: How can I download all the metadata (one-by-one) for token collections?" for the first part (Step 1+2).
@@ -180,7 +174,7 @@ That's it.
 
 
 
-**Q:  How can I download files starting with ipfs:// urls - hosted on the peer-to-peer InterPlanetary File System (IPFS) -  via https:// urls using a web client / browser?**
+### Q:  How can I download (metadata or image) files starting with ipfs:// urls - hosted on the peer-to-peer InterPlanetary File System (IPFS) -  via https:// urls using a web client / browser?
 
 Let's try the Noun Punk #1 metadata file
 and image hosted on the peer-to-peer InterPlanetary File System (IPFS):
@@ -202,6 +196,14 @@ Or try:
 - <https://cloudflare-ipfs.com/ipfs/QmU8YNRbju5KrGgPKbQ529FhJsUnPuuHNwndu5x9fXZdSM/1.png>
 
 using the IPFS web gateway by Cloudfare.
+
+
+
+### Troubleshooting
+
+Note: The sample scripts use the  [**webclient package / gem**](https://rubygems.org/gems/webclient).
+If you get the error `"cannot load such file -- webclient (LoadError)"`
+when running a sample script, use `$ gem install webclient` to install the missing webclient package /gem.
 
 
 
