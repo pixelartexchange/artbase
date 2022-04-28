@@ -12,6 +12,15 @@ Gems:
 
 ##  Frequently Asked Questions (F.A.Qs) and Answers
 
+
+Note: The script samples use the  [**webclient package / gem**](https://rubygems.org/gems/webclient).
+If you get the error `"cannot load such file -- webclient (LoadError)"`
+when running a sample script, use `$ gem install webclient` to install the missing webclient package /gem.
+
+
+
+
+
 **Q: How can I download all the metadata (one-by-one) for token collections?**
 
 Let's try the 10000 Moonbirds collection.
@@ -115,8 +124,8 @@ require 'webclient'
    res = Webclient.get( image_url )
 
    if res.status.ok?
-      content_type   = res.raw.content_type
-      content_length = res.raw.content_length
+      content_type   = res.content_type
+      content_length = res.content_length
 
       puts "  content_type: #{content_type}, content_length: #{content_length}"
 
@@ -134,7 +143,7 @@ require 'webclient'
 
       ## save image - using b(inary) mode
       File.open( "#{id}.#{format}", 'wb' ) do |f|
-        f.write( res.raw.body )
+        f.write( res.body )
       end
    else
       puts "!! ERROR - failed to download image; sorry - #{res.status.code} #{res.status.message}"
@@ -168,6 +177,32 @@ image files:
 ```
 
 That's it.
+
+
+
+**Q:  How can I download files starting with ipfs:// urls - hosted on the peer-to-peer InterPlanetary File System (IPFS) -  via https:// urls using a web client / browser?**
+
+Let's try the Noun Punk #1 metadata file
+and image hosted on the peer-to-peer InterPlanetary File System (IPFS):
+
+- ipfs://QmUELPeLor9x6369uFnH2yXxhyJ5xQ2agDwPCHiNdP4LYA/1.json
+- ipfs://QmU8YNRbju5KrGgPKbQ529FhJsUnPuuHNwndu5x9fXZdSM/1.png
+
+To download a file using a web client / browser - via HyperText Transfer Protocol (HTTP) -
+hosted on the peer-to-peer IPFS
+use a public web gateway. Try changing the ipfs:// urls to:
+
+- <https://ipfs.io/ipfs/QmUELPeLor9x6369uFnH2yXxhyJ5xQ2agDwPCHiNdP4LYA/1.json>
+- <https://ipfs.io/ipfs/QmU8YNRbju5KrGgPKbQ529FhJsUnPuuHNwndu5x9fXZdSM/1.png>
+
+using the "official" IPFS web gateway by Protocol Labs.
+Or try:
+
+- <https://cloudflare-ipfs.com/ipfs/QmUELPeLor9x6369uFnH2yXxhyJ5xQ2agDwPCHiNdP4LYA/1.json>
+- <https://cloudflare-ipfs.com/ipfs/QmU8YNRbju5KrGgPKbQ529FhJsUnPuuHNwndu5x9fXZdSM/1.png>
+
+using the IPFS web gateway by Cloudfare.
+
 
 
 
