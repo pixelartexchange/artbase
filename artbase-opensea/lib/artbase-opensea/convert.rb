@@ -43,13 +43,14 @@ end
 #  - add id as opensea_id  !!!!!!!
 
 
-def self.convert( collection, meta_slugify: )
+def self.convert( collection, meta_slugify: nil )
 
   files = Dir.glob( "./#{collection}/opensea/*.json" )
   pp files
 
   puts "  #{files.size }file(s)"
 
+  num = 0
   files.each_with_index do |path,i|
 
     puts "===> reading batch #{i}/#{files.size} - #{path}..."
@@ -74,7 +75,13 @@ meta.each do |asset|
    end
    data['attributes'] = traits
 
-   slug = do_meta_slugify( meta_slugify, asset.name )
+   ## note: if not meta(data) slugify regex present, use a counter (starting at 0)
+   slug = if meta_slugify
+             do_meta_slugify( meta_slugify, asset.name )
+          else
+             num.to_s
+          end
+
    puts "#{slug} - #{asset.name}"
    pp asset.traits
    puts
@@ -83,6 +90,8 @@ meta.each do |asset|
    File.open( outpath, "w:utf-8" ) do |f|
       f.write( JSON.pretty_generate( data ) )
    end
+
+   num += 1
   end
 end
 end

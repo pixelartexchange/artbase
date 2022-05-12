@@ -25,6 +25,7 @@ end   # module Pixelart
 
 
 
-require_relative 'image/sample'
+require_relative 'image/sample'    ## check - change to downsample/pixelate - why? why not?
+
 
 

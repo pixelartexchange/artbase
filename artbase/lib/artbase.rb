@@ -28,6 +28,8 @@ require 'artbase/image'
 
 
 require 'artbase/helper'
+require 'artbase/retry'    ## (global) retry_on_error helper
+
 
 require 'artbase/collection'
 require 'artbase/attributes'

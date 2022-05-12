@@ -2,6 +2,7 @@ module Pixelart
 
   class Image
 
+
 def self.calc_sample_steps( width, new_width, center: true )
   ## todo/fix: assert new_width is smaller than width
   puts
@@ -27,7 +28,14 @@ def self.calc_sample_steps( width, new_width, center: true )
   index = 0
   err   = err_step/2   ##  note: start off with +err_step/2 to add overflow pixel in the "middle"
 
-  index += base_step/2      if center
+
+  index +=  if center.is_a?( Integer )
+              center
+            elsif center
+              base_step/2
+            else
+               0   #  use 0px offset
+            end
 
 
   new_width.times do |i|

@@ -5,15 +5,30 @@ class TokenCollection
 
   def initialize( slug, count,
                   token_base:,
+                  image_base: nil,
+                  image_base_id_format: nil,
                   format:,
-                  source:  )   # check: rename count to items or such - why? why not?
+                  source:,
+                  top_x: 0,
+                  top_y: 0,
+                  center_x: true,
+                  center_y: true,
+                  excludes: []  )   # check: rename count to items or such - why? why not?
     @slug = slug
     @count = count
     @token_base = token_base
-
+    @image_base = image_base
+    @image_base_id_format = image_base_id_format
 
     @width, @height = _parse_dimension( format )
     @source_width, @source_height = _parse_dimension( source )
+
+    @top_x = top_x    ## more (down)sampling / pixelate options
+    @top_y = top_y
+    @center_x = center_x
+    @center_y = center_y
+
+    @excludes = excludes
   end
 
 
@@ -24,16 +39,28 @@ class TokenCollection
 
 
 
-  def pixelate( range=(0...@count), force: false )
+  def pixelate( range=(0...@count), force: false,
+                                     debug: false,
+                                     zoom: nil )
 
-    steps_x = Image.calc_sample_steps( @source_width, @width )
-    steps_y = Image.calc_sample_steps( @source_height, @height )
 
     range.each do |id|
+
+      if @excludes.include?( id )
+        puts "  skipping #{id}; listed in excludes #{@excludes.inspect}"
+        next
+      end
+
       outpath = "./#{@slug}/#{@width}x#{@height}/#{id}.png"
       if !force && File.exist?( outpath )
         next   ## note: skip if file already exists
       end
+
+      center_x =  if @center_x.is_a?( Proc ) then @center_x.call( id ); else @center_x; end
+      center_y =  if @center_y.is_a?( Proc ) then @center_y.call( id ); else @center_y; end
+
+      steps_x = Image.calc_sample_steps( @source_width-@top_x, @width,   center: center_x )
+      steps_y = Image.calc_sample_steps( @source_height-@top_y, @height, center: center_y )
 
 
       puts "==> #{id}  - reading / decoding #{id} ..."
@@ -47,11 +74,23 @@ class TokenCollection
       puts "  in #{diff} sec(s)\n"
 
       if img.width == @source_width && img.height == @source_height
-        pix = img.pixelate( steps_x, steps_y )
-
+        pix = if debug
+                img.pixelate_debug( steps_x, steps_y,
+                                    top_x: @top_x,
+                                    top_y: @top_y )
+              else
+                img.pixelate( steps_x, steps_y,
+                              top_x: @top_x,
+                              top_y: @top_y )
+              end
         ## todo/check: keep usingu slug e.g. 0001.png or "plain" 1.png - why? why not?
         ## slug = "%04d" % id
         pix.save( outpath )
+
+        if zoom
+          outpath = "./#{@slug}/#{@width}x#{@height}/#{id}@#{zoom}x.png"
+          pix.zoom( zoom ).save( outpath )
+        end
       else
         puts "!! ERROR - unknown/unsupported dimension - #{img.width}x#{img.height}; sorry"
         exit 1
@@ -110,32 +149,40 @@ class TokenCollection
       end
 
 
+      image_url =  if @image_base
+                      if @image_base_id_format
+                        @image_base.sub( '{id}', @image_base_id_format % offset )
+                      else
+                        @image_base.sub( '{id}', offset.to_s )
+                      end
+                   else
+                     txt = File.open( "./#{@slug}/token/#{offset}.json", 'r:utf-8') { |f| f.read }
+                      data = JSON.parse( txt )
 
-      txt = File.open( "./#{@slug}/token/#{offset}.json", 'r:utf-8') { |f| f.read }
-      data = JSON.parse( txt )
+                      meta_name  = data['name']
+                      meta_image = data['image']
 
-      meta_name  = data['name']
-      meta_image = data['image']
-
-      puts "==> #{offset} - #{@slug}..."
-      puts "   name: #{meta_name}"
-      puts "   image: #{meta_image}"
+                      puts "==> #{offset} - #{@slug}..."
+                      puts "   name: #{meta_name}"
+                      puts "   image: #{meta_image}"
+                      meta_image
+                   end
 
       ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
-      if meta_image.start_with?( 'https://ipfs.io/ipfs/' )
-        meta_image = meta_image.sub( 'https://ipfs.io/ipfs/', 'ipfs://' )
+      if image_url.start_with?( 'https://ipfs.io/ipfs/' )
+        image_url = image_url.sub( 'https://ipfs.io/ipfs/', 'ipfs://' )
       end
 
-      if meta_image.start_with?( 'ipfs://' )
+      if image_url.start_with?( 'ipfs://' )
         # use/replace with public gateway
-        meta_image = meta_image.sub( 'ipfs://', 'https://ipfs.io/ipfs/' )
-        # meta_image = meta_image.sub( 'ipfs://', 'https://cloudflare-ipfs.com/ipfs/' )
+        image_url = image_url.sub( 'ipfs://', 'https://ipfs.io/ipfs/' )
+        # image_url = image_url.sub( 'ipfs://', 'https://cloudflare-ipfs.com/ipfs/' )
       end
 
       ## note: will auto-add format file extension (e.g. .png, .jpg)
       ##        depending on http content type!!!!!
       start_copy = Time.now
-      copy_image( meta_image, "./#{@slug}/token-i/#{offset}" )
+      copy_image( image_url, "./#{@slug}/token-i/#{offset}" )
 
       stop = Time.now
 
