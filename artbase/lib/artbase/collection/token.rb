@@ -1,5 +1,78 @@
 
-class TokenCollection
+class TokenCollection   < Artbase::Base
+
+
+#############
+# (nested) Meta classes
+#    read meta data into struct
+class Meta
+  def self.read( path )
+    new( read_json( path ))
+  end
+
+
+  def initialize( data )
+    @data = data
+  end
+
+
+  def name
+    @name ||= _normalize( @data['name'] )
+  end
+
+  def description
+    @description ||= _normalize( @data['description'] )
+  end
+
+  ## note: auto-convert "" (empty string) to nil
+  def image()          _blank( @asset['image'] ); end
+  alias_method :image_url, :image     ## add image_url alias - why? why not?
+
+
+  def attributes
+    @attributes ||= begin
+                   traits = []
+                   ## keep traits as (simple)
+                   ##   ordered array of pairs for now
+                   ##
+                   ##  in a step two make lookup via hash table
+                   ##   or such easier / "automagic"
+
+                   @data[ 'attributes' ].each do |t|
+                      trait_type  = t['trait_type'].strip
+                      trait_value = t['value'].strip
+                      traits << [trait_type, trait_value]
+                   end
+
+                   traits
+                  end
+  end
+  alias_method :traits, :attributes    ## keep traits alias - why? why not?
+
+### "private"  convenience / helper methods
+    def _normalize( str )
+       return if str.nil?    ## check: check for nil - why? why not?
+
+       ## normalize string
+       ##   remove leading and trailing spaces
+       ##   collapse two and more spaces into one
+       ##    change unicode space to ascii
+       str = str.gsub( "\u{00a0}", ' ' )
+       str = str.strip.gsub( /[ ]{2,}/, ' ' )
+       str
+    end
+
+    def _blank( o )   ## auto-convert  "" (empty string) into nil
+       if o && o.strip.empty?
+         nil
+       else
+         o
+       end
+    end
+end  # (nested) class Meta
+
+
+
 
   attr_reader :slug, :count
 
@@ -13,9 +86,12 @@ class TokenCollection
                   top_y: 0,
                   center_x: true,
                   center_y: true,
-                  excludes: []  )   # check: rename count to items or such - why? why not?
+                  excludes: [],
+                  offset: 0  )   # check: rename count to items or such - why? why not?
     @slug = slug
     @count = count
+    @offset = offset   ## starting by default at 0 (NOT 1 or such)
+
     @token_base = token_base
     @image_base = image_base
     @image_base_id_format = image_base_id_format
@@ -38,11 +114,39 @@ class TokenCollection
   end
 
 
+  def _range    ## return "default" range  - make "private" helper public - why? why not?
+     ## note: range uses three dots (...) exclusive (NOT inclusive) range
+     ##  e.g. 0...100 => [0,..,99]
+     ##       1...101 => [1,..,100]
+     (0+@offset...@count+@offset)
+  end
 
-  def pixelate( range=(0...@count), force: false,
-                                     debug: false,
-                                     zoom: nil )
 
+
+
+def each_meta( range=_range,
+               exclude: true,      &blk )
+  range.each do |id|    ## todo/fix: change id to index
+    meta = Meta.read( "./#{@slug}/token/#{id}.json" )
+
+    ####
+    # filter out/skip
+    # if exclude && @exclude.include?( meta.name )
+    #  puts "  skipping / exclude #{id} >#{meta.name}<..."
+    #  next
+    # end
+
+    blk.call( meta, id )
+  end
+end
+
+
+
+
+
+  def pixelate( range=_range, force: false,
+                              debug: false,
+                              zoom: nil )
 
     range.each do |id|
 
@@ -100,7 +204,7 @@ class TokenCollection
 
 
 
-  def download_meta( range=(0...@count), force: false )
+  def download_meta( range=_range, force: false )
     start = Time.now
     delay_in_s = 0.3
 
@@ -114,10 +218,7 @@ class TokenCollection
       token_src = @token_base.sub( '{id}', offset.to_s )
 
       ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
-      if token_src.start_with?( 'ipfs://' )
-       # use/replace with public gateway
-       token_src = token_src.sub( 'ipfs://', 'https://ipfs.io/ipfs/' )
-      end
+      token_src = handle_ipfs( token_src )
 
       puts "==> #{offset} - #{@slug}..."
 
@@ -136,7 +237,10 @@ class TokenCollection
   end
 
 
-  def download_images( range=(0...@count), force: false )
+  ## note: default to direct true if image_base present/availabe
+  ##                    otherwise to false
+  def download_images( range=_range, force: false,
+                                           direct: @image_base ? true : false )
     start = Time.now
     delay_in_s = 0.3
 
@@ -149,18 +253,18 @@ class TokenCollection
       end
 
 
-      image_url =  if @image_base
+      image_url =  if direct && @image_base
                       if @image_base_id_format
                         @image_base.sub( '{id}', @image_base_id_format % offset )
                       else
                         @image_base.sub( '{id}', offset.to_s )
                       end
                    else
-                     txt = File.open( "./#{@slug}/token/#{offset}.json", 'r:utf-8') { |f| f.read }
-                      data = JSON.parse( txt )
+                      ## todo/check - change/rename data to meta - why? why not?
+                      data = Meta.read( "./#{@slug}/token/#{offset}.json" )
 
-                      meta_name  = data['name']
-                      meta_image = data['image']
+                      meta_name  = data.name
+                      meta_image = data.image
 
                       puts "==> #{offset} - #{@slug}..."
                       puts "   name: #{meta_name}"
@@ -169,15 +273,8 @@ class TokenCollection
                    end
 
       ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
-      if image_url.start_with?( 'https://ipfs.io/ipfs/' )
-        image_url = image_url.sub( 'https://ipfs.io/ipfs/', 'ipfs://' )
-      end
+      image_url = handle_ipfs( image_url )
 
-      if image_url.start_with?( 'ipfs://' )
-        # use/replace with public gateway
-        image_url = image_url.sub( 'ipfs://', 'https://ipfs.io/ipfs/' )
-        # image_url = image_url.sub( 'ipfs://', 'https://cloudflare-ipfs.com/ipfs/' )
-      end
 
       ## note: will auto-add format file extension (e.g. .png, .jpg)
       ##        depending on http content type!!!!!
