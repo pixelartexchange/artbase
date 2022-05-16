@@ -59,7 +59,11 @@ class Tool
     subcommand = args[2]
 
 
-    path = "./#{name}/config.rb"
+    path = if File.exist?( "./#{name}/config.rb" )
+               "./#{name}/config.rb"
+           else
+               "./#{name}/collection.rb"
+           end
     puts "==> reading collection config >#{path}<..."
 
     ## note: assume for now global const COLLECTION gets set/defined!!!
@@ -122,11 +126,11 @@ class Tool
 
   def self.download_meta( offset: )
       puts "==> download meta"
-      ## note: use three dots (...) to exclude e.g. count 100 => 0 to 99)
+
       range = if offset
-                (offset...@collection.count)
+                @collection._range( offset: offset )
               else
-                (0...@collection.count)
+                @collection._range
               end
 
       @collection.download_meta( range )
@@ -136,11 +140,10 @@ class Tool
   def self.download_images( offset: )
      puts "==> download images"
 
-    ## note: use three dots (...) to exclude e.g. count 100 => 0 to 99)
     range = if offset
-               (offset...@collection.count)
+              @collection._range( offset: offset )
             else
-               (0...@collection.count)
+              @collection._range
             end
 
      @collection.download_images( range )
@@ -149,11 +152,10 @@ class Tool
   def self.pixelate( offset: )
     puts "==> pixelate"
 
-    ## note: use three dots (...) to exclude e.g. count 100 => 0 to 99)
     range = if offset
-               (offset...@collection.count)
+              @collection._range( offset: offset )
             else
-               (0...@collection.count)
+              @collection._range
             end
 
     @collection.pixelate( range )

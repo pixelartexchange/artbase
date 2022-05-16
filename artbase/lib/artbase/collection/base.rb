@@ -14,6 +14,7 @@ def make_composite
                when   150 then   [15,  10]
                when   500 then   [25,  20]
                when  1000 then   [25,  40]
+               when  3000 then   [100, 30]    ## or use 50*60 - why? why not?
                when  4000 then   [100, 40]    ## or use 50x80 - why? why not?
                when  5000 then   [100, 50]    ## or use 50x100 - why? why not?
                when  5555 then   [100, 56]   # 5600 (45 left empty)
@@ -27,16 +28,8 @@ def make_composite
                                   width:  @width,
                                   height: @height )
 
-  ## note: use "private" _range helper
-  ##          e.g.  (0+@offset...@count+@offset)
-  ##         collection may start at 0 (offset) or 1 (offset)
-  ids = _range
-  ids.each do |id|
-    next  if @excludes.include?( id )
-
+  each_image do |img, id|
     puts "==> #{id}"
-    img = Image.read( "./#{slug}/#{@width}x#{@height}/#{id}.png")
-
     composite << img
   end
 

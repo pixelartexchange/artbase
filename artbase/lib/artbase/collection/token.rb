@@ -114,24 +114,44 @@ end  # (nested) class Meta
   end
 
 
-  def _range    ## return "default" range  - make "private" helper public - why? why not?
+  def _range( offset: 0 )    ## return "default" range  - make "private" helper public - why? why not?
      ## note: range uses three dots (...) exclusive (NOT inclusive) range
      ##  e.g. 0...100 => [0,..,99]
      ##       1...101 => [1,..,100]
-     (0+@offset...@count+@offset)
+     ##
+     ##  note: allow offset argument
+     ##           (to start with different offset - note: in addition to builtin 0/1 offset)
+
+     (0+@offset+offset...@count+@offset)
   end
 
 
 
+def each_image( range=_range,
+                exclude: true,      &blk )
+  range.each do |id|
+    ####
+    # filter out/skip
+    # if exclude && @excludes.include?( id )
+    #  puts "  skipping / exclude #{id}..."
+    #  next
+    # end
+
+    puts "==> #{id}"
+    img = Image.read( "./#{@slug}/#{@width}x#{@height}/#{id}.png" )
+    blk.call( img, id )
+  end
+end
+
 
 def each_meta( range=_range,
                exclude: true,      &blk )
-  range.each do |id|    ## todo/fix: change id to index
+  range.each do |id|  ## check: change/rename id to index - why? why not?
     meta = Meta.read( "./#{@slug}/token/#{id}.json" )
 
     ####
     # filter out/skip
-    # if exclude && @exclude.include?( meta.name )
+    # if exclude && @excludes.include?( meta.name )
     #  puts "  skipping / exclude #{id} >#{meta.name}<..."
     #  next
     # end
@@ -144,13 +164,14 @@ end
 
 
 
-  def pixelate( range=_range, force: false,
+  def pixelate( range=_range, exclude: true,
+                              force: false,
                               debug: false,
                               zoom: nil )
 
     range.each do |id|
 
-      if @excludes.include?( id )
+      if exclude && @excludes.include?( id )
         puts "  skipping #{id}; listed in excludes #{@excludes.inspect}"
         next
       end
@@ -203,29 +224,67 @@ end
   end
 
 
+  def meta_url( id: )
+    src = @token_base.sub( '{id}', id.to_s )
+
+    ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
+    src = handle_ipfs( src )
+    src
+  end
+  alias_method :token_url, :meta_url
+
+
+  def image_url( id:,
+                 direct: @image_base ? true : false  )
+    src =  if direct && @image_base
+              ###
+              ## todo/fix:
+              ##   change image_base_id_format
+              ##    to image_base proc with para id and call proc!!!!
+              if @image_base_id_format
+                @image_base.sub( '{id}', @image_base_id_format % id )
+              else
+                @image_base.sub( '{id}', id.to_s )
+              end
+           else
+              ## todo/check - change/rename data to meta - why? why not?
+              data = Meta.read( "./#{@slug}/token/#{id}.json" )
+
+              meta_name  = data.name
+              meta_image = data.image
+
+              puts "==> #{id} - #{@slug}..."
+              puts "   name: #{meta_name}"
+              puts "   image: #{meta_image}"
+              meta_image
+          end
+    src
+
+    ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
+    src = handle_ipfs( src )
+    src
+ end
+
+
 
   def download_meta( range=_range, force: false )
     start = Time.now
     delay_in_s = 0.3
 
-    range.each do |offset|
-      outpath = "./#{@slug}/token/#{offset}.json"
+    range.each do |id|
+      outpath = "./#{@slug}/token/#{id}.json"
       if !force && File.exist?( outpath )
         next   ## note: skip if file already exists
       end
 
+      puts "==> #{id} - #{@slug}..."
 
-      token_src = @token_base.sub( '{id}', offset.to_s )
-
-      ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
-      token_src = handle_ipfs( token_src )
-
-      puts "==> #{offset} - #{@slug}..."
-
+      token_src = meta_url( id: id )
       copy_json( token_src, outpath )
 
       stop = Time.now
       diff = stop - start
+      puts "    download token metadata in #{diff} sec(s)"
 
       mins = diff / 60  ## todo - use floor or such?
       secs = diff % 60
@@ -244,42 +303,21 @@ end
     start = Time.now
     delay_in_s = 0.3
 
-    range.each do |offset|
+    range.each do |id|
       ## note: for now assumes only .png format!!!
       ##    todo - check for more format - why? why not?
-      outpath = "./#{@slug}/token-i/#{offset}.png"
+      outpath = "./#{@slug}/token-i/#{id}.png"
       if !force && File.exist?( outpath )
         next   ## note: skip if file already exists
       end
 
 
-      image_url =  if direct && @image_base
-                      if @image_base_id_format
-                        @image_base.sub( '{id}', @image_base_id_format % offset )
-                      else
-                        @image_base.sub( '{id}', offset.to_s )
-                      end
-                   else
-                      ## todo/check - change/rename data to meta - why? why not?
-                      data = Meta.read( "./#{@slug}/token/#{offset}.json" )
-
-                      meta_name  = data.name
-                      meta_image = data.image
-
-                      puts "==> #{offset} - #{@slug}..."
-                      puts "   name: #{meta_name}"
-                      puts "   image: #{meta_image}"
-                      meta_image
-                   end
-
-      ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
-      image_url = handle_ipfs( image_url )
-
+      image_src = image_url( id: id, direct: direct )
 
       ## note: will auto-add format file extension (e.g. .png, .jpg)
       ##        depending on http content type!!!!!
       start_copy = Time.now
-      copy_image( image_url, "./#{@slug}/token-i/#{offset}" )
+      copy_image( image_src, "./#{@slug}/token-i/#{id}" )
 
       stop = Time.now
 
@@ -295,8 +333,5 @@ end
       sleep( delay_in_s )
     end
   end
-
-
-
 
 end # class TokenCollection
