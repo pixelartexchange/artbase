@@ -25,7 +25,7 @@ class Meta
   end
 
   ## note: auto-convert "" (empty string) to nil
-  def image()          _blank( @asset['image'] ); end
+  def image()          _blank( @data['image'] ); end
   alias_method :image_url, :image     ## add image_url alias - why? why not?
 
 

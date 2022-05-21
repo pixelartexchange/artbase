@@ -12,9 +12,11 @@ def make_composite
   cols, rows = case composite_count
                when   100 then   [10,  10]
                when   150 then   [15,  10]
+               when   314 then   [15,  21]
                when   500 then   [25,  20]
                when  1000 then   [25,  40]
                when  3000 then   [100, 30]    ## or use 50*60 - why? why not?
+               when  3979 then   [100, 40]
                when  4000 then   [100, 40]    ## or use 50x80 - why? why not?
                when  5000 then   [100, 50]    ## or use 50x100 - why? why not?
                when  5555 then   [100, 56]   # 5600 (45 left empty)

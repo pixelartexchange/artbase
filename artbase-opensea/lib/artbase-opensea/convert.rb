@@ -43,7 +43,9 @@ end
 #  - add id as opensea_id  !!!!!!!
 
 
-def self.convert( collection, meta_slugify: nil )
+def self.convert( collection,
+                  meta_slugify: nil,
+                  excludes: [] )
 
   files = Dir.glob( "./#{collection}/opensea/*.json" )
   pp files
@@ -60,8 +62,27 @@ meta.each do |asset|
    data['name']        = asset.name
    data['description'] = asset.description
 
+
+   token_id = asset.token_id
+   ## note: if not meta(data) slugify regex present, use a counter (starting at 0)
+   slug = if meta_slugify
+             do_meta_slugify( meta_slugify, asset.name )
+          elsif token_id && !token_id.empty?
+             ## quick hack
+             ##   skip if excludes
+             next  if excludes.include?( token_id.to_i(10) )
+             token_id
+          else
+            ##
+            puts "!! ERROR: no token_id found and no meta_slugify defined; cannot get id; sorry"
+            exit 1
+             num.to_s
+          end
+
+
+
    if asset.image_url.nil?
-    puts "!! ERROR - no image_url found; sorry"
+    puts "!! ERROR - no image_url found in >#{path}<; sorry"
     pp data
     exit 1
    end
@@ -75,12 +96,7 @@ meta.each do |asset|
    end
    data['attributes'] = traits
 
-   ## note: if not meta(data) slugify regex present, use a counter (starting at 0)
-   slug = if meta_slugify
-             do_meta_slugify( meta_slugify, asset.name )
-          else
-             num.to_s
-          end
+
 
    puts "#{slug} - #{asset.name}"
    pp asset.traits

@@ -129,6 +129,8 @@ def copy_image( src, dest,
                 'png'
               elsif content_type =~ %r{image/gif}i
                 'gif'
+              elsif content_type =~ %r{image/svg}i
+                'svg'
              else
               puts "!! error:"
               puts " unknown image format content type: >#{content_type}<"
@@ -140,8 +142,19 @@ def copy_image( src, dest,
     dirname = File.dirname( "#{dest}.#{format}" )
     FileUtils.mkdir_p( dirname )  unless Dir.exist?( dirname )
 
-    File.open( "#{dest}.#{format}", 'wb' ) do |f|
-      f.write( response.body )
+    if format == 'svg'
+      ## save as text  (note: assume utf-8 encoding for now)
+      text = response.body.to_s
+      text = text.force_encoding( Encoding::UTF_8 )
+
+      File.open( "#{dest}.svg", 'w:utf-8' ) do |f|
+        f.write( text )
+      end
+    else
+      ## save as binary
+      File.open( "#{dest}.#{format}", 'wb' ) do |f|
+        f.write( response.body )
+      end
     end
   else
     puts "!! error:"
