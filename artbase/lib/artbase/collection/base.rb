@@ -10,6 +10,7 @@ def make_composite
 
   composite_count = @count - @excludes.size
   cols, rows = case composite_count
+               when    99 then   [10,  10]
                when   100 then   [10,  10]
                when   150 then   [15,  10]
                when   314 then   [15,  21]
@@ -35,7 +36,13 @@ def make_composite
     composite << img
   end
 
+
+
   composite.save( "./#{@slug}/tmp/#{@slug}-#{@width}x#{@height}.png" )
+
+  if composite_count < 1000
+    composite.zoom(2).save( "./#{@slug}/tmp/#{@slug}-#{@width}x#{@height}@2x.png" )
+  end
 end
 
 
