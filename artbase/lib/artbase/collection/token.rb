@@ -97,7 +97,13 @@ end  # (nested) class Meta
     @image_base_id_format = image_base_id_format
 
     @width, @height = _parse_dimension( format )
-    @source_width, @source_height = _parse_dimension( source )
+
+
+    ## note: allow multiple source formats / dimensions
+    ### e.g. convert   512x512 into  [ [512,512] ]
+    ##
+    source = [source]  unless source.is_a?( Array )
+    @sources = source.map { |dimension| _parse_dimension( dimension ) }
 
     @top_x = top_x    ## more (down)sampling / pixelate options
     @top_y = top_y
@@ -184,8 +190,6 @@ end
       center_x =  if @center_x.is_a?( Proc ) then @center_x.call( id ); else @center_x; end
       center_y =  if @center_y.is_a?( Proc ) then @center_y.call( id ); else @center_y; end
 
-      steps_x = Image.calc_sample_steps( @source_width-@top_x, @width,   center: center_x )
-      steps_y = Image.calc_sample_steps( @source_height-@top_y, @height, center: center_y )
 
 
       puts "==> #{id}  - reading / decoding #{id} ..."
@@ -198,8 +202,24 @@ end
 
       puts "  in #{diff} sec(s)\n"
 
-      if img.width == @source_width && img.height == @source_height
-        pix = if debug
+
+      source = nil
+      @sources.each do |source_width, source_height|
+        if img.width == source_width && img.height == source_height
+            source = [source_width, source_height]
+            break
+        end
+      end
+
+
+      if source
+          source_width  = source[0]
+          source_height = source[1]
+
+          steps_x = Image.calc_sample_steps( source_width-@top_x, @width,   center: center_x )
+          steps_y = Image.calc_sample_steps( source_height-@top_y, @height, center: center_y )
+
+          pix = if debug
                 img.pixelate_debug( steps_x, steps_y,
                                     top_x: @top_x,
                                     top_y: @top_y )
@@ -217,11 +237,13 @@ end
           pix.zoom( zoom ).save( outpath )
         end
       else
-        puts "!! ERROR - unknown/unsupported dimension - #{img.width}x#{img.height}; sorry"
+        puts "!! ERROR - unknown/unsupported dimension - #{img.width}x#{img.height}; sorry - tried:"
+        pp @sources
         exit 1
       end
     end
   end
+
 
 
   def meta_url( id: )
