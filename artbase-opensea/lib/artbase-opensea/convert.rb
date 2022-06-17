@@ -102,7 +102,12 @@ meta.each do |asset|
    pp asset.traits
    puts
 
-   outpath = "./#{collection}/token/#{slug}.json"
+
+   ## make sure path exists
+   dirname= "./#{collection}/token"
+   FileUtils.mkdir_p( dirname )  unless Dir.exist?( dirname )
+
+   outpath = "./#{dirname}/#{slug}.json"
    File.open( outpath, "w:utf-8" ) do |f|
       f.write( JSON.pretty_generate( data ) )
    end
