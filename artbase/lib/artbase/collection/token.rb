@@ -247,7 +247,7 @@ end
 
 
   def meta_url( id: )
-    src = @token_base.sub( '{id}', id.to_s )
+    src = @token_base.gsub( '{id}', id.to_s )
 
     ## quick ipfs (interplanetary file system) hack - make more reusabele!!!
     src = handle_ipfs( src )
@@ -264,9 +264,9 @@ end
               ##   change image_base_id_format
               ##    to image_base proc with para id and call proc!!!!
               if @image_base_id_format
-                @image_base.sub( '{id}', @image_base_id_format % id )
+                @image_base.gsub( '{id}', @image_base_id_format % id )
               else
-                @image_base.sub( '{id}', id.to_s )
+                @image_base.gsub( '{id}', id.to_s )
               end
            else
               ## todo/check - change/rename data to meta - why? why not?
