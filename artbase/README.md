@@ -1,4 +1,4 @@
-# artbase ("right-clicker") command line tool & scripts - download complete pixel art collections - yes, you can! - automate "right-click 'n' download" and much more
+# artbase ("right-clicker") command line tool & scripts - download complete pixel art collections - yes, you can! - automate "right-click 'n' save" and much more
 
 * home  :: [github.com/pixelartexchange/artbase](https://github.com/pixelartexchange/artbase)
 * bugs  :: [github.com/pixelartexchange/artbase/issues](https://github.com/pixelartexchange/artbase/issues)
