@@ -43,7 +43,7 @@ meta_slugify: /^Blocky Doge #(?<num>[0-9]+)$/,
 ```
 
 Sorry for the "magic" config format for now  -
-see the [**opensea.sandbox**](https://github.com/pixelartexchange/opensea.sandbox) for many more "real-world" examples.
+see the [**artbase.sandbox**](https://github.com/pixelartexchange/artbase.sandbox) for many more "real-world" examples.
 
 
 
