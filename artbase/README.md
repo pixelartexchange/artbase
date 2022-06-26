@@ -66,11 +66,11 @@ Let's try:
 $ artbase blockydoge meta
 ```
 
-Note: All meta data files get stored by convention in `blockydoge/meta`.
+Note: All token meta data files get stored by convention in `blockydoge/token`.
 Resulting in a file tree like:
 
 ```
-blockydoge/meta/
+blockydoge/token/
   0.json
   1.json
   2.json
@@ -87,20 +87,18 @@ blockydoge/meta/
   ...
 ```
 
-Example - `blockydoge/meta/0.json`:
+Example - `blockydoge/token/0.json`:
 
 ``` json
 {
   "id":                  52224520,
   "token_id":            "154226446513437...7290852067901441",
-  "num_sales":           1,
   "image_url":           "https://lh3.googleusercontent.com/fIQQ0A7...gTlbgMTQ",
   "image_preview_url":   "https://lh3.googleusercontent.com/fIQQ0A7...gTlbgMTQ=s250",
   "image_thumbnail_url": "https://lh3.googleusercontent.com/fIQQ0A7...gTlbgMTQ=s128",
   "image_original_url":  null,
   "name":                "Blocky Doge #1",
   "description":         "Blocky Doge ... 100 unique pixelated Doge avatars...",
-  "external_link":       null,
 
   ...
 
@@ -116,7 +114,7 @@ Example - `blockydoge/meta/0.json`:
 
 
 
-### Download all referenced images in the meta data file
+### Download all referenced images in the token meta data file
 
 Let's try:
 
@@ -125,11 +123,11 @@ $ artbase blockydoge img
 ```
 
 Note: All referenced images (in the source format e.g. 512x512)
-get stored by convention in `blockydoge/i`.
+get stored by convention in `blockydoge/token-i`.
 Resulting in a file tree like:
 
 ```
-blockydoge/i/
+blockydoge/token-i/
   0.png
   1.png
   2.png
@@ -146,7 +144,7 @@ blockydoge/i/
   ...
 ```
 
-Example - `blockydoge/i/0.png` (512x512):
+Example - `blockydoge/token-i/0.png` (512x512):
 
 ![](i/blockydoge0-512x512.png)
 
@@ -163,29 +161,29 @@ $ artbase blockydoge px
 ```
 
 Note: All referenced images pixelated down to the orginal format (e.g. 60x60)
-get stored by convention in `blockydoge/ii`.
+get stored by convention in `blockydoge/60x60`.
 Resulting in a tree like:
 
 ```
-blockydoge/ii/
-  000001.png
-  000002.png
-  000003.png
-  000004.png
-  000005.png
-  000006.png
-  000007.png
-  000008.png
-  000009.png
-  000010.png
-  000011.png
-  000012.png
-  000013.png
+blockydoge/60x60/
+  1.png
+  2.png
+  3.png
+  4.png
+  5.png
+  6.png
+  7.png
+  8.png
+  9.png
+  10.png
+  11.png
+  12.png
+  13.png
   ...
 ```
 
 
-Example - `blockydoge/ii/000001.png` to `000013.png` (60x60):
+Example - `blockydoge/60x60/1.png` to `13.png`:
 
 ![](i/blockydoge000001.png)
 ![](i/blockydoge000002.png)
@@ -271,4 +269,4 @@ Use it as you please with no restrictions whatsoever.
 
 ## Questions? Comments?
 
-Post them on the [CryptoPunksDev reddit](https://old.reddit.com/r/CryptoPunksDev). Thanks.
+Post them on the [D.I.Y. Punk (Pixel) Art reddit](https://old.reddit.com/r/DIYPunkArt). Thanks.
