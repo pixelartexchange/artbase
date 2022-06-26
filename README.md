@@ -3,7 +3,7 @@
 
 Gems:
 
-- [**artbase**](artbase) - artbase ("right-clicker") command line tool & scripts - download complete pixel art collections - yes, you can! - automate "right-click 'n' download" and much more
+- [**artbase**](artbase) - artbase ("right-clicker") command line tool & scripts - download complete pixel art collections - yes, you can! - automate "right-click 'n' save" and much more
 - [artbase-opensea](artbase-opensea)  - opensea api wrapper / helpers
 
 
