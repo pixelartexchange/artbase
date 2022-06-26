@@ -299,6 +299,9 @@ end
         next   ## note: skip if file already exists
       end
 
+      dirname = File.dirname( outpath )
+      FileUtils.mkdir_p( dirname )  unless Dir.exist?( dirname )
+
       puts "==> #{id} - #{@slug}..."
 
       token_src = meta_url( id: id )

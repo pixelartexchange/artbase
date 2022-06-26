@@ -1,6 +1,14 @@
 require 'hoe'
 require './lib/artbase/version.rb'
 
+
+###
+# hack/ quick fix for broken intuit_values - overwrite with dummy
+class Hoe
+  def intuit_values( input ); end
+end
+
+
 Hoe.spec 'artbase' do
 
   self.version = Artbase::VERSION
@@ -18,6 +26,7 @@ Hoe.spec 'artbase' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
+    ['webclient', '>= 0.2.2'],
   ]
 
   self.licenses = ['Public Domain']

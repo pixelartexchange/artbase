@@ -1,5 +1,4 @@
 CHANGELOG.md
-LICENSE.md
 Manifest.txt
 README.md
 Rakefile
@@ -7,15 +6,13 @@ bin/artbase
 lib/artbase.rb
 lib/artbase/attributes.rb
 lib/artbase/collection.rb
+lib/artbase/collection/base.rb
 lib/artbase/collection/image.rb
 lib/artbase/collection/opensea.rb
 lib/artbase/collection/token.rb
 lib/artbase/helper.rb
 lib/artbase/image.rb
-lib/artbase/image/24x24.rb
-lib/artbase/image/32x32.rb
-lib/artbase/image/60x60.rb
-lib/artbase/image/80x80.rb
-lib/artbase/opensea.rb
+lib/artbase/image/sample.rb
+lib/artbase/retry.rb
 lib/artbase/tool.rb
 lib/artbase/version.rb
