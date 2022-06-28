@@ -22,6 +22,7 @@ def make_composite
                when  4000 then   [100, 40]    ## or use 50x80 - why? why not?
                when  5000 then   [100, 50]    ## or use 50x100 - why? why not?
                when  5555 then   [100, 56]   # 5600 (45 left empty)
+               when  6666 then   [100, 67]   # 6700 (34 left empty)
                when  6969 then   [100, 70]   # 7000 (31 left empty)
                when 10000 then   [100, 100]
                else
