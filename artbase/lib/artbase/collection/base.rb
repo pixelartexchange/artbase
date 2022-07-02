@@ -17,6 +17,7 @@ def make_composite
                when   500 then   [25,  20]
                when  1000 then   [25,  40]
                when  2200 then   [50,  44]
+               when  2222 then   [50,  45]
                when  3000 then   [100, 30]    ## or use 50*60 - why? why not?
                when  3500 then   [100, 35]    ## or use 50*x ??
                when  3979 then   [100, 40]
