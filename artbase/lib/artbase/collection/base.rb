@@ -3,6 +3,27 @@ module Artbase
 class Base     ## "abstract" Base collection - check -use a different name - why? why not?
 
 
+def make_strip
+  composite_count = @count - @excludes.size
+
+  composite = ImageComposite.new( 9, 1,
+                                  width:  @width,
+                                  height: @height )
+
+  i = 0
+  each_image do |img, id|
+    puts "==> [#{i+1}/9] #{id}"
+    composite << img
+
+    i += 1
+    break if i >= 9
+  end
+
+
+  composite.save( "./#{@slug}/tmp/#{@slug}-strip.png" )
+end
+
+
 
 def make_composite
   ### use well-known / pre-defined (default) grids
@@ -18,6 +39,7 @@ def make_composite
                when  1000 then   [25,  40]
                when  2200 then   [50,  44]
                when  2222 then   [50,  45]
+               when  2469 then   [50,  50]
                when  3000 then   [100, 30]    ## or use 50*60 - why? why not?
                when  3500 then   [100, 35]    ## or use 50*x ??
                when  3979 then   [100, 40]
@@ -28,6 +50,7 @@ def make_composite
                when  6666 then   [100, 67]   # 6700 (34 left empty)
                when  6688 then   [100, 67]   # 6700 (12 left empty)
                when  6969 then   [100, 70]   # 7000 (31 left empty)
+               when  8888 then   [100, 89]
                when 10000 then   [100, 100]
                else
                    raise ArgumentError, "sorry - unknown composite count #{composite_count}/#{@count} for now"
