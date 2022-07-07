@@ -51,7 +51,8 @@ def make_composite
                when  6688 then   [100, 67]   # 6700 (12 left empty)
                when  6969 then   [100, 70]   # 7000 (31 left empty)
                when  8888 then   [100, 89]
-               when 10000 then   [100, 100]
+               when  9969 then   [100,100]
+               when 10000 then   [100,100]
                else
                    raise ArgumentError, "sorry - unknown composite count #{composite_count}/#{@count} for now"
                end

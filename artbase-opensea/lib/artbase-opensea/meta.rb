@@ -90,6 +90,8 @@ module OpenSea
         blk.call( asset )
       end
     end
+
+    def size()  @assets.size; end
    end  # class Meta
 end # module OpenSea
 

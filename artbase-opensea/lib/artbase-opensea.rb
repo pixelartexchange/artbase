@@ -10,9 +10,12 @@ require 'fileutils'
 
 require 'json'
 
+require 'optparse'
+
 
 ## 3rd party gems
 require 'puppeteer-ruby'
+require 'webclient'
 
 
 ## our own code
@@ -23,6 +26,9 @@ require 'artbase-opensea/convert'
 
 
 require 'artbase-opensea/puppeteer'
+
+
+require 'artbase-opensea/tool'
 
 
 #####
