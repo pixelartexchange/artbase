@@ -10,7 +10,8 @@ end
 
 
 
-
+=begin
+  moved/ use Image.convert !!!  remove here
 def convert_images( collection, from: 'jpg',
                                 to: 'png',
                                 dir: 'i',
@@ -45,7 +46,7 @@ def convert_images( collection, from: 'jpg',
       end
     end
 end
-
+=end
 
 
 

@@ -59,8 +59,9 @@ class Tool
       download_images( name )
     elsif ['conv', 'convert'].include?( command )
       do_convert_images( name )
-=begin
     elsif ['m', 'meta'].include?( command )
+      download_meta( name )
+=begin
       download_meta( offset: options[ :offset] )
     elsif ['i', 'img', 'image', 'images'].include?( command )
       download_images( offset: options[ :offset] )
@@ -86,6 +87,12 @@ class Tool
     puts "==> download meta data pages >#{collection}<"
 
     Puppeteer.download_assets( collection )
+  end
+
+  def self.download_meta( collection )
+    puts "==> save / export meta data >#{collection}<"
+
+    OpenSea.convert( collection )
   end
 
 
@@ -248,6 +255,8 @@ class Tool
                   'png'
                 elsif content_type =~ %r{image/gif}i
                   'gif'
+                elsif content_type =~ %r{image/svg}i
+                  'svg'
                 else
                   puts "!! ERROR:"
                   puts " unknown image format content type: >#{content_type}<"
@@ -257,10 +266,17 @@ class Tool
        ## make sure path exists
        FileUtils.mkdir_p( outdir )  unless Dir.exist?( outdir )
 
-       ## save image - using b(inary) mode
-       File.open( "#{outdir}/#{name}.#{format}", 'wb' ) do |f|
-         f.write( res.body )
-       end
+       if format == 'svg'
+         ## save as text  (note: assume utf-8 encoding for now)
+        File.open( "#{outdir}/#{name}.#{format}", 'w:utf-8' ) do |f|
+          f.write( res.text )
+        end
+      else
+        ## save image - using b(inary) mode
+        File.open( "#{outdir}/#{name}.#{format}", 'wb' ) do |f|
+          f.write( res.body )
+        end
+      end
     else
        puts "!! ERROR - failed to download image; sorry - #{res.status.code} #{res.status.message}"
        exit 1
@@ -280,4 +296,4 @@ end # module OpenSea
 #  ReggaetonPunk #79 => 79
 #  META_SLUGIFY = /^.+ #(?<num>[0-9]+)$/
 
-META_SLUGIFY = /^CovidPunk (?<name>.+)$/
+#  META_SLUGIFY = /^CovidPunk (?<name>.+)$/
