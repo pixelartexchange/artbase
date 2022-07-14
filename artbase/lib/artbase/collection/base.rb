@@ -3,6 +3,14 @@ module Artbase
 class Base     ## "abstract" Base collection - check -use a different name - why? why not?
 
 
+def convert_images( overwrite: )
+  image_dir = "./#{slug}/token-i"
+  Image.convert( image_dir, from: 'jpg', to: 'png', overwrite: overwrite )
+  Image.convert( image_dir, from: 'gif', to: 'png', overwrite: overwrite )
+end
+
+
+
 def make_strip
   composite_count = @count - @excludes.size
 

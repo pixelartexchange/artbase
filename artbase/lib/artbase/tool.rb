@@ -93,6 +93,8 @@ class Tool
       download_meta( offset: options[ :offset] )
     elsif ['i', 'img', 'image', 'images'].include?( command )
       download_images( offset: options[ :offset] )
+    elsif ['conv', 'convert'].include?( command )
+      convert_images
     elsif ['a', 'attr', 'attributes'].include?( command )
       dump_attributes
     elsif ['x', 'exp', 'export'].include?( command )
@@ -114,6 +116,12 @@ class Tool
     puts "==> make composite"
     @collection.make_composite
   end
+
+  def self.convert_images
+    puts "==> convert images"
+    @collection.convert_images( overwrite: false )
+  end
+
 
   def self.make_strip
     puts "==> make strip"
