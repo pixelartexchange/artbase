@@ -17,8 +17,12 @@ class Meta
 
 
   def name
-    @name ||= _normalize( @data['name'] )
+    ## note: name might be an integer number e.g. 0/1/2 etc.
+    ##      e.g. see crypto pudgy punks and others?
+    ##    always auto-convert to string
+    @name ||= _normalize( @data['name'].to_s )
   end
+
 
   def description
     @description ||= _normalize( @data['description'] )
@@ -323,19 +327,25 @@ end
 
   ## note: default to direct true if image_base present/availabe
   ##                    otherwise to false
+  ##   todo/check: change/rename force para to overwrite - why? why not?
   def download_images( range=_range, force: false,
                                            direct: @image_base ? true : false )
     start = Time.now
     delay_in_s = 0.3
 
     range.each do |id|
-      ## note: for now assumes only .png format!!!
-      ##    todo - check for more format - why? why not?
-      outpath = "./#{@slug}/token-i/#{id}.png"
-      if !force && File.exist?( outpath )
-        next   ## note: skip if file already exists
-      end
 
+      ## note: skip if (downloaded) file already exists
+      skip = false
+      if !force
+        ['png', 'gif', 'jgp', 'svg'].each do |format|
+          if File.exist?( "./#{@slug}/token-i/#{id}.#{format}" )
+            skip = true
+            break
+          end
+        end
+      end
+      next if skip
 
       image_src = image_url( id: id, direct: direct )
 

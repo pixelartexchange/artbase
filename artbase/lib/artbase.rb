@@ -1,42 +1,16 @@
-require 'pp'
-require 'time'
-require 'date'
-
-require 'uri'
-require 'net/http'
-require 'net/https'
-require 'cgi'
-require 'fileutils'
-
-require 'json'
-
-require 'optparse'
+require 'cocos'
 
 
 
-
-##################
-####  commons convenience helpers
-### -  move read_json( path )  to shared  commons/prolog/... or such - why? why not?
-
-def read_json( path )
-  txt = File.open( path, 'r:utf-8' ) { |f| f.read }
-  data = JSON.parse( txt )
-  data
-end
-
-
-
-
-## our own gems
+## 3rd party gems
 require 'pixelart'
 
 
 
 
-
 ## our own code
-require 'artbase/version'    # note: let version always go first
+require_relative 'artbase/version'    # note: let version always go first
+
 
 ### add (shared) "global" config
 module Artbase
@@ -60,17 +34,18 @@ def self.config()    @config ||= Configuration.new;  end
 end  # module Artbase
 
 
-require 'artbase/image'
+require_relative 'artbase/image'
 
 
-require 'artbase/helper'
-require 'artbase/retry'    ## (global) retry_on_error helper
+require_relative 'artbase/helper'
+require_relative 'artbase/retry'    ## (global) retry_on_error helper
 
-require 'artbase/collection'
-require 'artbase/attributes'
+require_relative 'artbase/collection'
+require_relative 'artbase/attributes'
 
 
-require 'artbase/tool'
+require_relative 'artbase/tool'
+
 
 
 ######

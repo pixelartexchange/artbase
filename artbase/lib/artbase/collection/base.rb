@@ -7,6 +7,7 @@ def convert_images( overwrite: )
   image_dir = "./#{slug}/token-i"
   Image.convert( image_dir, from: 'jpg', to: 'png', overwrite: overwrite )
   Image.convert( image_dir, from: 'gif', to: 'png', overwrite: overwrite )
+  Image.convert( image_dir, from: 'svg', to: 'png', overwrite: overwrite )
 end
 
 
