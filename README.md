@@ -55,17 +55,16 @@ Step 2:  Use a script to download and save all metadata files
 in a loop counting from 0 to 9999.
 Let's write the script "from scratch" - `download_meta.rb`:
 
+
 ```ruby
-require 'webclient'
+require 'cocos'
 
 (0..9999).each do |id|
-   res = Webclient.get( "https://live---metadata-5covpqijaa-uc.a.run.app/metadata/#{id}")
+   res = wget( "https://live---metadata-5covpqijaa-uc.a.run.app/metadata/#{id}" )
 
    if res.status.ok?
       ## save metadata - pretty print/reformat json
-      File.open( "#{id}.json", "w:utf-8" ) do |f|
-         f.write( JSON.pretty_generate( res.json ))
-      end
+      write_json( "#{id}.json", res.json )
    else
       puts "!! ERROR: failed to download metadata; sorry - #{res.status.code} #{res.status.message}"
       exit 1
@@ -106,16 +105,15 @@ Let's write the script "from scratch" - `download_images.rb`:
 
 
 ```ruby
-require 'webclient'
+require 'cocos'
 
 (0..9999).each do |id|
    ## read (local) metadata
-   txt = File.open( "#{id}.json", "r:utf-8" ) { |f| f.read }
-   data = JSON.parse( txt )
+   data = read_json( "#{id}.json" )
 
    image_url = data['image']
 
-   res = Webclient.get( image_url )
+   res = wget( image_url )
 
    if res.status.ok?
       content_type   = res.content_type
@@ -136,9 +134,7 @@ require 'webclient'
                end
 
       ## save image - using b(inary) mode
-      File.open( "#{id}.#{format}", 'wb' ) do |f|
-        f.write( res.body )
-      end
+      write_blob( "#{id}.#{format}", res.blob )
    else
       puts "!! ERROR - failed to download image; sorry - #{res.status.code} #{res.status.message}"
       exit 1
@@ -201,9 +197,9 @@ using the IPFS web gateway by Cloudfare.
 
 ### Troubleshooting
 
-Note: The sample scripts use the  [**webclient package / gem**](https://rubygems.org/gems/webclient).
-If you get the error `"cannot load such file -- webclient (LoadError)"`
-when running a sample script, use `$ gem install webclient` to install the missing webclient package /gem.
+Note: The sample scripts use the  [**cocos (code commons) package / gem**](https://rubygems.org/gems/cocos).
+If you get the error `"cannot load such file -- cocos (LoadError)"`
+when running a sample script, use `$ gem install cococs` to install the missing cocos (code commons) package /gem.
 
 
 

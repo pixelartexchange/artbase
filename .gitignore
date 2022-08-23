@@ -1,4 +1,6 @@
 #############
-# ignore
+# ignore all tmp directories
 
-/tmp/
+tmp/
+
+
