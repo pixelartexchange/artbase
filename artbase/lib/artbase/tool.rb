@@ -16,7 +16,9 @@ class Tool
     puts "==> welcome to collection tool with args:"
     pp args
 
-    options = { }
+
+    options = { faster: false  }
+
     parser = OptionParser.new do |opts|
 
       opts.on("--offset NUM", Integer,
@@ -34,6 +36,11 @@ class Tool
       ##        "Range of collection (default: 0..∞") do |range|
       ##    options[ :range]  = range
       ## end
+
+      opts.on( "--faster", "Use faster (optional) pixelate binary (default: off)") do
+          options[ :faster ] = true
+      end
+
 
       opts.on("-h", "--help", "Prints this help") do
         puts opts
@@ -88,7 +95,8 @@ class Tool
         download_images
       end
     elsif ['p', 'px', 'pix', 'pixel', 'pixelate'].include?( command )
-      pixelate( offset: options[ :offset] )
+      pixelate( offset: options[ :offset],
+                faster: options[ :faster] )
     elsif ['m', 'meta'].include?( command )
       download_meta( offset: options[ :offset] )
     elsif ['i', 'img', 'image', 'images'].include?( command )
@@ -165,7 +173,9 @@ class Tool
      @collection.download_images( range )
   end
 
-  def self.pixelate( offset: )
+
+  def self.pixelate( offset:,
+                     faster: )
     puts "==> pixelate"
 
     range = if offset
@@ -174,7 +184,7 @@ class Tool
               @collection._range
             end
 
-    @collection.pixelate( range )
+    @collection.pixelate( range, faster: faster )
   end
 end # class Tool
 

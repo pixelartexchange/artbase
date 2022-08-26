@@ -177,7 +177,8 @@ end
   def pixelate( range=_range, exclude: true,
                               force: false,
                               debug: false,
-                              zoom: nil )
+                              zoom: nil,
+                              faster: false )
 
     range.each do |id|
 
@@ -197,6 +198,32 @@ end
 
 
       puts "==> #{id}  - reading / decoding #{id} ..."
+
+
+    if faster
+      ## note: faster for now only supports
+      ##        single /one source format
+      ##         always will use first source format from array for now
+      cmd = "./pixelator "
+      cmd << "./#{@slug}/token-i/#{id}.png"
+      cmd << " " + @sources[0][0].to_s
+      cmd << " " + @sources[0][1].to_s
+      cmd << " " + outpath
+      cmd << " " + @width.to_s
+      cmd << " " + @height.to_s
+      puts "==> #{cmd}..."
+      ret = system( cmd )
+      if ret
+        puts "OK"
+      else
+        puts "!! FAIL"
+        if ret.nil?
+          puts "  command not found"
+        else
+          puts "  exit code: #{$?}"
+        end
+      end
+    else
       start = Time.now
 
       img = Image.read( "./#{@slug}/token-i/#{id}.png" )
@@ -245,6 +272,7 @@ end
         pp @sources
         exit 1
       end
+    end
     end
   end
 
