@@ -65,23 +65,41 @@ class Tool
     command    = args[1]
     subcommand = args[2]
 
+    if File.exist?( "./#{name}/collection.yml" )
+       path = "./#{name}/collection.yml"
+       puts "==> reading collection config >#{path}<..."
+       config = read_yaml( path )
 
-    path = if File.exist?( "./#{name}/config.rb" )
-               "./#{name}/config.rb"
-           else
-               "./#{name}/collection.rb"
-           end
-    puts "==> reading collection config >#{path}<..."
+       ## todo - use TokenCollection.read( ) or such -- why? why not?
+       ##           or TokenCollection.build( hash ) ?? - why? why not?
+       self.collection = TokenCollection.new(
+         config['slug'],
+         config['count'],
+         token_base: config['token_base'],
+         image_base: config['image_base'],
+         format: config['format'],
+         source: config['source'],
+         offset: config['offset'] || 0
+       )
+    else
+      ## todo/check: keep config.rb alternate name - why? why not?
+      ##    or use collection.rb only ???
+      path = if File.exist?( "./#{name}/config.rb" )
+                 "./#{name}/config.rb"
+             else
+                 "./#{name}/collection.rb"
+             end
+      puts "==> reading collection config >#{path}<..."
 
-    ## note: assume for now global const COLLECTION gets set/defined!!!
-    ##   use/change to a script/dsl loader/eval later!!!
-    load( path )
+      ## note: assume for now global const COLLECTION gets set/defined!!!
+      ##   use/change to a script/dsl loader/eval later!!!
+      load( path )
 
-    ## pp COLLECTION
+      ## pp COLLECTION
 
-    ## configure collection  (note: requires self)
-    self.collection = COLLECTION
-
+      ## configure collection  (note: requires self)
+      self.collection = COLLECTION
+    end
 
     if ['d','dl','down', 'download'].include?( command )
       if subcommand
