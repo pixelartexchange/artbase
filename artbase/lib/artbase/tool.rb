@@ -17,7 +17,9 @@ class Tool
     pp args
 
 
-    options = { faster: false  }
+    options = { faster: false,
+                mirror: false,
+              }
 
     parser = OptionParser.new do |opts|
 
@@ -37,8 +39,12 @@ class Tool
       ##    options[ :range]  = range
       ## end
 
-      opts.on( "--faster", "Use faster (optional) pixelate binary (default: off)") do
+      opts.on( "--faster", "Use faster (optional) pixelate binary (default: false)") do
           options[ :faster ] = true
+      end
+
+      opts.on( "--mirror", "Mirror (or flip) images (default: false)" ) do
+          options[ :mirror ] = true
       end
 
 
@@ -126,7 +132,8 @@ class Tool
     elsif ['x', 'exp', 'export'].include?( command )
       export_attributes
     elsif ['c', 'composite'].include?( command )
-      make_composite
+      make_composite( limit: options[ :limit],
+                      mirror: options[ :mirror ])
     elsif ['strip'].include?( command )
       make_strip
     elsif ['t', 'test'].include?( command )
@@ -138,9 +145,9 @@ class Tool
     puts "bye"
   end
 
-  def self.make_composite
+  def self.make_composite( limit: nil, mirror: false )
     puts "==> make composite"
-    @collection.make_composite
+    @collection.make_composite( limit: limit, mirror: mirror )
   end
 
   def self.convert_images

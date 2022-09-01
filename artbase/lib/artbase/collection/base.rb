@@ -34,11 +34,17 @@ end
 
 
 
-def make_composite
+def make_composite( limit: nil,
+                    mirror: false )
   ### use well-known / pre-defined (default) grids
   ##        (cols x rows) for now - why? why not?
 
-  composite_count = @count - @excludes.size
+  composite_count = if limit
+                      limit
+                    else
+                      @count - @excludes.size
+                    end
+
   cols, rows = case composite_count
                when    99 then   [10,  10]
                when   100 then   [10,  10]
@@ -71,17 +77,33 @@ def make_composite
                                   width:  @width,
                                   height: @height )
 
+
+  count = 0
   each_image do |img, id|
     puts "==> #{id}"
-    composite << img
+    composite <<    if mirror
+                      img.mirror
+                    else
+                      img
+                    end
+
+    count += 1
+    break if limit && count >= limit
   end
 
 
+  slug = "#{@slug}"
+  slug += "#{limit}" if limit
+  slug += "_left"    if mirror
 
-  composite.save( "./#{@slug}/tmp/#{@slug}-#{@width}x#{@height}.png" )
+  path = "./#{@slug}/tmp/#{slug}-#{@width}x#{@height}.png"
+  puts "   saving #{path}..."
+  composite.save( path )
 
   if composite_count < 1000
-    composite.zoom(2).save( "./#{@slug}/tmp/#{@slug}-#{@width}x#{@height}@2x.png" )
+    path = "./#{@slug}/tmp/#{slug}-#{@width}x#{@height}@2x.png"
+    puts "   saving 2x #{path}..."
+    composite.zoom(2).save( path )
   end
 end
 
