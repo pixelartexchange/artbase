@@ -109,6 +109,32 @@ end
 
 
 
+def import( importer )
+
+  each_meta do |meta, id|
+    puts "==> #{id}"
+    pp meta.attributes
+    puts
+    h = importer.to_metadata( meta.attributes )
+    h[ 'id' ] = id
+    pp h
+
+    img = Image.read( "./#{@slug}/#{@width}x#{@height}/#{id}.png" )
+
+    image = "data:image/png;base64, "
+    image += Base64.strict_encode64( img.to_blob )
+
+    puts "image:"
+    puts image
+
+    rec = Database::Metadata.new( h )
+    rec.image = image
+    rec.save!
+  end
+end  # method import
+
+
+
 
 def calc_attribute_counters  ## todo/check: use a different name _counts/_stats etc - why? why not?
 

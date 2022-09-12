@@ -74,19 +74,7 @@ class Tool
     if File.exist?( "./#{name}/collection.yml" )
        path = "./#{name}/collection.yml"
        puts "==> reading collection config >#{path}<..."
-       config = read_yaml( path )
-
-       ## todo - use TokenCollection.read( ) or such -- why? why not?
-       ##           or TokenCollection.build( hash ) ?? - why? why not?
-       self.collection = TokenCollection.new(
-         config['slug'],
-         config['count'],
-         token_base: config['token_base'],
-         image_base: config['image_base'],
-         format: config['format'],
-         source: config['source'],
-         offset: config['offset'] || 0
-       )
+       self.collection = TokenCollection.read( path )
     else
       ## todo/check: keep config.rb alternate name - why? why not?
       ##    or use collection.rb only ???
@@ -131,6 +119,8 @@ class Tool
       dump_attributes
     elsif ['x', 'exp', 'export'].include?( command )
       export_attributes
+    elsif ['b', 'build'].include?( command )
+      build_database
     elsif ['c', 'composite'].include?( command )
       make_composite( limit: options[ :limit],
                       mirror: options[ :mirror ])
@@ -144,6 +134,27 @@ class Tool
 
     puts "bye"
   end
+
+
+
+  def self.build_database
+    puts "===> build database"
+
+    slug = @collection.slug
+
+    importer = Importer.read( "./#{slug}/build.rb" )
+
+    columns = importer.metadata_columns
+    pp columns
+
+    Database.connect( "./#{slug}/artbase.db" )
+    Database.auto_migrate!( columns )
+
+    @collection.import( importer )
+  end
+
+
+
 
   def self.make_composite( limit: nil, mirror: false )
     puts "==> make composite"

@@ -5,6 +5,10 @@ require 'cocos'
 ## 3rd party gems
 require 'pixelart'
 
+## database support gems
+require 'active_record'
+require 'sqlite3'
+
 
 
 
@@ -42,6 +46,10 @@ require_relative 'artbase/retry'    ## (global) retry_on_error helper
 
 require_relative 'artbase/collection'
 require_relative 'artbase/attributes'
+
+
+require_relative 'artbase/database'
+
 
 
 require_relative 'artbase/tool'

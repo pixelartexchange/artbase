@@ -78,6 +78,26 @@ end  # (nested) class Meta
 
 
 
+
+
+  def self.read( path )
+    puts "==> reading collection config >#{path}<..."
+    config = read_yaml( path )
+
+    new(
+        config['slug'],
+        config['count'],
+        token_base: config['token_base'],
+        image_base: config['image_base'],
+        format: config['format'],
+        source: config['source'],
+        offset: config['offset'] || 0
+      )
+  end  # method self.read
+
+
+
+
   attr_reader :slug, :count
 
   def initialize( slug, count,
