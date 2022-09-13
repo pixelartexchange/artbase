@@ -116,8 +116,12 @@ def import( importer )
     pp meta.attributes
     puts
     h = importer.to_metadata( meta.attributes )
+    ## auto-add id  (as intenger) - why? why not?
     h[ 'id' ] = id
-    pp h
+
+
+
+
 
     img = Image.read( "./#{@slug}/#{@width}x#{@height}/#{id}.png" )
 
@@ -129,6 +133,12 @@ def import( importer )
 
     rec = Database::Metadata.new( h )
     rec.image = image
+
+    ## check for custom callback hooks
+    if importer.respond_to?( :before_save )
+      importer.before_save( rec )
+    end
+
     rec.save!
   end
 end  # method import

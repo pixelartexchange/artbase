@@ -22,7 +22,22 @@ class Importer    ## use to import metadata into database
     str = str.gsub( /[ ]/, '_' )
     str
   end
+
+
+
+  ############
+  #   defaults ("built-ins") method for to_metadata, etc.
+
+  def to_metadata( attributes )
+    h = {}
+    attributes.each do |key,value|
+      slug = slugify( key )
+      h[ slug ] = value
+    end
+    h
+  end
 end  # class Importer
+
 
 
 
@@ -35,8 +50,9 @@ module Database
         spec.each do |column|
            column_name = column[0].to_sym
            column_opts = column[1] || {}
+           column_type = (column[2] || 'string').to_sym
 
-           t.string( column_name, **column_opts )
+           t.__send__( column_type, column_name, **column_opts )
         end
 
         t.string  :image, null: false
