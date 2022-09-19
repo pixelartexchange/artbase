@@ -46,3 +46,8 @@ tmp/
 tmp2/
 o/
 
+########
+#  exclude all dbs e.g. artbase.db etc.
+*.db
+
+

@@ -1,6 +1,76 @@
 
 
-<h1>Artserve</h1>
 
-<p>Hello.
-</p>
+<nav>
+<a href="/">moonbirdbase</a>
+<div class='sub'>The entire moonbird universe (10000 pixel owls)
+  in a single sqlite database (file)
+  with a "serverless" web page for queries
+  and all in a git repository ready to clone / fork. No rights reserved.
+</div>
+<div>
+  <a class='btn' href="/artbase.db">Download</a>
+  <a class='btn' href="https://old.reddit.com/r/DIYPunkArt/">Questions? Comments?</a>
+</div>
+<table>
+  <tr>
+    <td>SELECT</td>
+    <td><input id='select' type='text' placeholder='select columns' value='*'></td>
+  </tr>
+  <tr>
+    <td>FROM</td>
+    <td>metadata</td>
+  </tr>
+  <tr>
+    <td>WHERE</td>
+    <td><textarea id='where' placeholder='where condition'></textarea></td>
+  </tr>
+  <tr>
+    <td>LIMIT</td>
+    <td><input id='limit' type='text' placeholder='limmit' value=200></td>
+  </tr>
+</table>
+<button id='query'>Query</button>
+</nav>
+
+
+<div class='container'>
+<div class='loader'>
+  <div class='loading dots'></div>
+  <br>
+  <div>Loading ...</div>
+</div>
+</div>
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const artbase = new Artbase()
+  await artbase.init( { imageUrl: "https://github.com/pixelartexchange/moonbirds.sandbox/tree/master/moonbirds"
+                      })
+
+  artbase.next()
+
+
+  document.querySelector("#query").addEventListener("click", () => {
+    artbase.next()
+  })
+
+  document.querySelector(".container").addEventListener("click", (e) => {
+    let target = (e.target.className === "row" ? e.target : (e.target.closest(".row") ? e.target.closest(".row") : null))
+    if (target) {
+      let key = target.getAttribute('data-key')
+      let val = target.getAttribute('data-val')
+      let where = document.querySelector("#where").value
+      if (where.trim().length > 0) {
+        document.querySelector("#where").value = `${where} AND\n${key} = "${val}"`
+      } else {
+        document.querySelector("#where").value = `${key} = "${val}"`
+      }
+      artbase.next()
+    }
+  })
+})
+</script>
