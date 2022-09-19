@@ -1,0 +1,33 @@
+require 'hoe'
+require './lib/artserve/version.rb'
+
+
+Hoe.spec 'artserve' do
+
+  self.version = Artbase::Module::Artserve::VERSION
+
+  self.summary = "artserve - serve up single-file SQLite artbase dbs to query metadata and images with SQL and more"
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/pixelartexchange/artbase' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'wwwmake@googlegroups.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['sinatra'],
+    ['webrick'],
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+
+end
+
