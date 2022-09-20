@@ -4,6 +4,7 @@
 Gems:
 
 - [**artbase**](artbase) - artbase ("right-clicker") command line tool & scripts - download complete pixel art collections - yes, you can! - automate "right-click 'n' save" and much more
+- [artserve](artserve) - serve up single-file SQLite artbase dbs to query metadata and images with SQL and more
 - [artbase-opensea](artbase-opensea)  - opensea api wrapper / helpers
 
 
