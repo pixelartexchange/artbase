@@ -2,11 +2,11 @@
 
 
 <nav>
-<a href="/">moonbirdbase</a>
-<div class='sub'>The entire moonbird universe (10000 pixel owls)
+<a href="/"><%= settings.artbase %></a>
+<div class='sub'>Yes, you can!  Query the entire
+   art collection (metadata & images)
   in a single sqlite database (file)
-  with a "serverless" web page for queries
-  and all in a git repository ready to clone / fork. No rights reserved.
+  with a "serverless" web page.
 </div>
 <div>
   <a class='btn' href="/artbase.db">Download</a>
@@ -48,8 +48,7 @@
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const artbase = new Artbase()
-  await artbase.init( { imageUrl: "https://github.com/pixelartexchange/moonbirds.sandbox/tree/master/moonbirds"
-                      })
+  await artbase.init()
 
   artbase.next()
 

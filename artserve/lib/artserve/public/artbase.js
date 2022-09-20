@@ -25,7 +25,6 @@ class Artbase {
 
     const DEFAULTS = {
       database: "artbase.db",
-      imageUrl: "https://github.com/pixelartexchange/artbase.js",
     };
 
     this.settings = Object.assign( {}, DEFAULTS, options );
@@ -34,6 +33,10 @@ class Artbase {
     console.log( options );
     console.log( "settings:" );
     console.log( this.settings );
+
+
+    // todo/fix:
+    //   bundle "offline" with artserve - why? why not?
 
     console.log( "fetching sql.js..." );
     await loadScript( 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.js' );
@@ -145,9 +148,7 @@ class Artbase {
         let img = rec.image
 
         return `<div class="item">
-  <a target="_blank" href="${this.settings.imageUrl}">
      <img src="${img}">
-     </a>
   <table>${table}</table>
   </div>`
       }).join("")

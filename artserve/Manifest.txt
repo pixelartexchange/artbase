@@ -4,6 +4,7 @@ README.md
 Rakefile
 bin/artserve
 lib/artserve.rb
+lib/artserve/public/artbase.js
 lib/artserve/public/style.css
 lib/artserve/service.rb
 lib/artserve/version.rb

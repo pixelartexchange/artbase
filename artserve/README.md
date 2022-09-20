@@ -1,7 +1,7 @@
 #  Artserve
 
 
-artserve - serve up single-file SQLite artbase dbs to query metadata and images with SQL and more"
+artserve - serve up single-file SQLite artbase dbs to query metadata and images with SQL and more
 
 
 * home  :: [github.com/pixelartexchange/artbase](https://github.com/pixelartexchange/artbase)
@@ -13,7 +13,36 @@ artserve - serve up single-file SQLite artbase dbs to query metadata and images 
 
 ## Command-Line Tool
 
-To be done
+Use the command line tool named - surprise, surpirse - `artserve`
+to run a zero-config / out-of-the-box artbase server that lets
+you query entire collections in single sqlite database (metadata & images) with a "serverless" web page.
+Type:
+
+    $ artserve        # defaults to ./artbase.db
+
+That will start-up a (local loopback) web server  running on port 3000.
+Open-up up the index page in your browser to get started e.g. <http://localhost:3000/>.
+
+That's it.
+
+
+
+**`artbase.db` Options**
+
+If you pass in a directory to artserve
+the machinery will look for an `artbase.db` in the directory e.g.
+
+    $ artserve moonbirds    # defaults to ./moonbirds/artbase.db
+    $ artserve goblintown   # defaults to ./goblintown/artbase.db
+    # ...
+
+If you pass in a file to artserve
+the machinery will use the bespoke name & path to look for the sqlite database e.g.
+
+    $ artserve punkbase.db
+    $ artserve moonbirdbase.db
+    # ...
+
 
 
 

@@ -10,9 +10,22 @@ require_relative 'artserve/service'
 
 
 
-class Artserve
-  def self.main
-     puts 'hello from main'
+class Artserve     ## note: Artserve is Sinatra::Base
+  def self.main( argv=ARGV )
+     puts 'hello from main with args:'
+     pp argv
+
+     path = argv[0] || './artbase.db'
+
+     ## if passed in a directory, auto-add /artbase.db for now - why? why not
+     path += "/artbase.db"  if Dir.exist?( path )
+
+
+     puts "  using database: >#{path}<"
+
+     ## note: let's you use  latter settings.artbase (resulting in path)
+     self.set( :artbase, path )
+
 
   #####
   # fix/todo:
