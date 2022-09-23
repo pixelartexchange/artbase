@@ -24,7 +24,7 @@ class Artserve     ## note: Artserve is Sinatra::Base
      puts "  using database: >#{path}<"
 
      ## note: let's you use  latter settings.artbase (resulting in path)
-     self.set( :artbase, path )
+     set( :artbase, path )
 
 
   #####

@@ -50,4 +50,9 @@ o/
 #  exclude all dbs e.g. artbase.db etc.
 *.db
 
+######
+#  exclude all zips  (in /dl)
+*.zip
+
+
 

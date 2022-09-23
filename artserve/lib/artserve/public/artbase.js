@@ -35,16 +35,15 @@ class Artbase {
     console.log( this.settings );
 
 
-    // todo/fix:
-    //   bundle "offline" with artserve - why? why not?
-
+    // note:
+    //   use bundled "offline" sql.js with artserve
     console.log( "fetching sql.js..." );
-    await loadScript( 'https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.js' );
+    await loadScript( '/sql.js/1.8.0/sql-wasm.js' );
     console.log( "done fetching sql.js" );
 
 
     const sqlPromise = initSqlJs({
-      locateFile: file => "https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.wasm"
+      locateFile: file => "/sql.js/1.8.0/sql-wasm.wasm"
     });
 
 

@@ -5,6 +5,8 @@ Rakefile
 bin/artserve
 lib/artserve.rb
 lib/artserve/public/artbase.js
+lib/artserve/public/sql.js/1.8.0/sql-wasm.js
+lib/artserve/public/sql.js/1.8.0/sql-wasm.wasm
 lib/artserve/public/style.css
 lib/artserve/service.rb
 lib/artserve/version.rb
