@@ -9,6 +9,10 @@ Gems:
 
 
 
+Index / Registry:
+
+- [**collections.csv**](collections.csv) - known ("built-in") ready-to-use artbase collection configurations / setups   incl. Goblin Town,  Pudgy Penguins, Galactic Aliens, Unfudables, Bears, & many more
+
 
 
 
