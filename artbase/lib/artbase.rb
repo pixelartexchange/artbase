@@ -48,8 +48,12 @@ require_relative 'artbase/collection'
 require_relative 'artbase/attributes'
 
 
-require_relative 'artbase/database'
+require_relative 'artbase/reports'   # e.g. LintCollectionsReport etc.
 
+
+
+## todo - move to load on demand to build - why? why not?
+require_relative 'artbase/database'
 
 
 require_relative 'artbase/tool'
