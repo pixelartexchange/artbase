@@ -1,14 +1,8 @@
-require 'pp'
-require 'time'
-require 'date'
+require 'cocos'
 
-require 'uri'
-require 'net/http'
-require 'net/https'
 require 'cgi'
 require 'fileutils'
 
-require 'json'
 
 require 'optparse'
 
@@ -19,16 +13,16 @@ require 'webclient'
 
 
 ## our own code
-require 'artbase-opensea/version'   # note: let version always go first
-require 'artbase-opensea/api'
-require 'artbase-opensea/meta'
-require 'artbase-opensea/convert'
+require_relative 'artbase-opensea/version'   # note: let version always go first
+require_relative 'artbase-opensea/api'
+require_relative 'artbase-opensea/meta'
+require_relative 'artbase-opensea/convert'
 
 
-require 'artbase-opensea/puppeteer'
+require_relative 'artbase-opensea/puppeteer'
 
 
-require 'artbase-opensea/tool'
+require_relative 'artbase-opensea/tool'
 
 
 #####

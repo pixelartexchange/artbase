@@ -30,6 +30,18 @@ module OpenSea
   end
 
 
+  def self.collection_url( collection )
+    src = "#{BASE}/collection/#{collection}" +
+           "?format=json"
+    src
+  end
+
+  def self.collection( collection )
+    call( collection_url(collection) )
+  end
+
+
+
   def self.call( src )   ## get response as (parsed) json (hash table)
     uri = URI.parse( src )
 
