@@ -15,7 +15,8 @@ require 'webclient'
 ## our own code
 require_relative 'artbase-opensea/version'   # note: let version always go first
 require_relative 'artbase-opensea/api'
-require_relative 'artbase-opensea/meta'
+require_relative 'artbase-opensea/meta_assets'
+require_relative 'artbase-opensea/meta_collection'
 require_relative 'artbase-opensea/convert'
 
 

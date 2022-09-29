@@ -4,9 +4,10 @@ module OpenSea
   #############
   # read meta data into struct
   class Meta
+
+   ## todo/fix - add class Assets namespace!!!!
     def self.read( path )
-      txt  = File.open( path, 'r:utf-8' ) { |f| f.read }
-      data = JSON.parse( txt )
+      data = read_json( path )
       new( data )
     end
 
@@ -78,11 +79,7 @@ module OpenSea
 
     def initialize( data )
       @data = data
-
-      @assets = []
-      @data[ 'assets' ].each do |asset|
-        @assets << Asset.new( asset )
-      end
+      @assets = @data[ 'assets' ].map { |asset| Asset.new( asset ) }
     end
 
     def each( &blk )
