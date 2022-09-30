@@ -24,7 +24,11 @@ def self.read( path_or_dir )  ## rename read from cache - why? why not?
                                              {}  # note: default is empty hash
                                         end
 
-      data['stats']                   = read_json( "#{dir}/stats.json" )
+      ##  note: merge stats_changes & stats_totals into one
+      data['stats'] = {}.merge(
+                          read_json( "#{dir}/stats_changes.json" ),
+                          read_json( "#{dir}/stats_totals.json") )
+
       data['payment_tokens']          = read_json( "#{dir}/payments.json" )
 
       new( data )
