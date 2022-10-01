@@ -7,29 +7,44 @@ class Collection
 def self.read( path_or_dir )  ## rename read from cache - why? why not?
    if File.directory?( path_or_dir )
       dir = path_or_dir
+
       data = read_json( "#{dir}/collection.json" )
 
-      ## merge into one hash again / "unsplat" datafiles
-      path = "#{dir}/contracts.json"
-      data['primary_asset_contracts'] = if File.exist?( path )
+
+     ## check if data is "complete"
+     ##   e.g. includes
+     ##     - primary_asset_contracts
+     ##     - traits
+     ##     - payment_tokens
+     ##  if yes, do NOT try to read-in "unsplat" datafiles
+
+     if  data.has_key?( 'primary_asset_contracts' ) &&
+         data.has_key?( 'traits' ) &&
+         data.has_key?( 'payment_tokens')
+        ## assume collection dataset is complete
+     else
+       ## merge into one hash again / "unsplat" datafiles
+       path = "#{dir}/contracts.json"
+       data['primary_asset_contracts'] = if File.exist?( path )
                                             read_json( path )
-                                        else
+                                         else
                                            []   # note: default is empty array
-                                        end
+                                         end
 
-      path = "#{dir}/traits.json"
-      data['traits']                  = if File.exist?( path )
-                                             read_json( path )
-                                        else
-                                             {}  # note: default is empty hash
-                                        end
+        path = "#{dir}/traits.json"
+        data['traits'] = if File.exist?( path )
+                           read_json( path )
+                         else
+                           {}  # note: default is empty hash
+                         end
 
-      ##  note: merge stats_changes & stats_totals into one
-      data['stats'] = {}.merge(
-                          read_json( "#{dir}/stats_changes.json" ),
-                          read_json( "#{dir}/stats_totals.json") )
+        ##  note: merge stats_changes & stats_totals into one
+        data['stats'] = {}.merge(
+                            read_json( "#{dir}/stats_changes.json" ),
+                            read_json( "#{dir}/stats_totals.json") )
 
-      data['payment_tokens']          = read_json( "#{dir}/payments.json" )
+        data['payment_tokens'] = read_json( "#{dir}/payments.json" )
+      end
 
       new( data )
    else
@@ -114,10 +129,18 @@ class Stats
    def total_sales()  @data['total_sales'].to_i; end
    def num_owners()   @data['num_owners'].to_i; end
 
+   def thirty_day_sales()  @data['thirty_day_sales'].to_i; end
+   def seven_day_sales()   @data['seven_day_sales'].to_i; end
+   def one_day_sales()     @data['one_day_sales'].to_i; end
+
    ## floating point numbers
    def total_volume()  @data['total_volume']; end  ## in eth
    def average_price() @data['average_price']; end ## in eth
    def floor_price()   @data['floor_price']; end   ## in eth
+
+   def thirty_day_volume() @data['thirty_day_volume']; end   ## in eth
+   def seven_day_volume()  @data['seven_day_volume']; end
+   def one_day_volume()    @data['one_day_volume']; end
 end   # (nested) class Stats
 
 def stats() @stats ||= Stats.new( @data['stats'] );  end
