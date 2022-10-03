@@ -4,12 +4,16 @@ class TopCollectionsReport  < Report
 
   Collection =  Struct.new(:total_volume, :buf)
 
+  def initialize( cache_dir )
+    @cache_dir = cache_dir
+  end
 
-def build( root_dir )
+
+def build
 
   cols = []
 
-each_dir( "#{root_dir}/*" ) do |dir|
+each_dir( "#{@cache_dir}/*" ) do |dir|
   puts "==> #{dir}"
 
   meta = Meta::Collection.read( dir )
@@ -22,11 +26,12 @@ each_dir( "#{root_dir}/*" ) do |dir|
 
   buf = String.new('')
 
-  buf << "- **[#{meta.stats.total_supply} #{meta.name} (#{fmt_date(date)}), #{fmt_fees( meta.fees.seller_fees )}](https://opensea.io/collection/#{meta.slug})**"
+  buf << "- #{fmt_eth( meta.stats.total_volume )} - "
+  buf << "**[#{meta.stats.total_supply} #{meta.name} (#{fmt_date(date)}), #{fmt_fees( meta.fees.seller_fees )}](https://opensea.io/collection/#{meta.slug})**"
   buf << "   owners: #{meta.stats.num_owners},"
   if meta.stats.total_sales > 0
     buf << "   sales:  #{meta.stats.total_sales}"
-    buf << "   -  #{fmt_eth( meta.stats.total_volume )} @ "
+    buf << "   @ "
     buf << "   price avg #{fmt_eth( meta.stats.average_price ) },"
     buf << "   floor #{fmt_eth( meta.stats.floor_price ) }"
   else

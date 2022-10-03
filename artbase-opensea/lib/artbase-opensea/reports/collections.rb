@@ -4,11 +4,17 @@ class CollectionsReport  < Report
 
   Collection =  Struct.new(:date, :buf)
 
-def build( root_dir )
+
+  def initialize( cache_dir )
+    @cache_dir = cache_dir
+  end
+
+
+ def build
 
   cols = []
 
-each_dir( "#{root_dir}/*" ) do |dir|
+each_dir( "#{@cache_dir}/*" ) do |dir|
   puts "==> #{dir}"
 
   meta = Meta::Collection.read( dir )

@@ -72,5 +72,11 @@ def fmt_eth( amount )
 end
 
 
+
+def save( path )
+   buf = build
+   write_text( path, buf )
+end
+
 end    # class Report
 end   # module OpenSea
