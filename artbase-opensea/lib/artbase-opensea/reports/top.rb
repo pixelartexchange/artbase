@@ -4,8 +4,9 @@ class TopCollectionsReport  < Report
 
   Collection =  Struct.new(:total_volume, :buf)
 
-  def initialize( cache_dir )
-    @cache_dir = cache_dir
+  def initialize( *cache_dirs, select: nil )
+    @dirs  = cache_dirs
+    @slugs = select
   end
 
 
@@ -13,10 +14,7 @@ def build
 
   cols = []
 
-each_dir( "#{@cache_dir}/*" ) do |dir|
-  puts "==> #{dir}"
-
-  meta = Meta::Collection.read( dir )
+each_meta do |meta|
 
      date =  if meta.contracts.size > 0
                   meta.contracts[0].created_date

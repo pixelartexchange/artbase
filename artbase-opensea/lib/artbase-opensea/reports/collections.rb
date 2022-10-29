@@ -5,8 +5,9 @@ class CollectionsReport  < Report
   Collection =  Struct.new(:date, :buf)
 
 
-  def initialize( cache_dir )
-    @cache_dir = cache_dir
+  def initialize( *cache_dirs, select: nil )
+    @dirs  = cache_dirs
+    @slugs = select
   end
 
 
@@ -14,11 +15,7 @@ class CollectionsReport  < Report
 
   cols = []
 
-each_dir( "#{@cache_dir}/*" ) do |dir|
-  puts "==> #{dir}"
-
-  meta = Meta::Collection.read( dir )
-
+each_meta do |meta|
 
   buf = String.new('')
   buf << "##  #{meta.name}\n\n"
