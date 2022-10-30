@@ -48,7 +48,12 @@ require_relative 'artbase/collection'
 require_relative 'artbase/attributes'
 
 
-require_relative 'artbase/reports'   # e.g. LintCollectionsReport etc.
+require_relative 'artbase/reports/base'
+require_relative 'artbase/reports/collections_linter'  # e.g. LintCollectionsReport etc.
+require_relative 'artbase/reports/contracts_linter'
+
+require_relative 'artbase/reports/export'
+require_relative 'artbase/reports/opensea_linter'
 
 
 
