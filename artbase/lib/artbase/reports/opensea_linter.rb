@@ -49,6 +49,12 @@ class CollectionsOpenSeaLinter
               ## e.g. {"address"=>"0xe4cfae3aa41115cb94cff39bb5dbae8bd0ea9d41"
 
               config_address    = (config['token']||{})['contract'] || ''
+              if config_address.is_a?( Integer )
+                 puts "!! ERROR - artbase config - token.contract is a number, string expected:"
+                 pp config_address
+                 exit 1
+              end
+
               if address != config_address.downcase
                 puts "!! ERROR - contracts do NOT match:"
                 puts ">#{address}<   @ opensea"
@@ -59,16 +65,16 @@ class CollectionsOpenSeaLinter
               end
             else
               ## assume openstore
-              config_token_base =  config['token_base'] || ''
-              if 'opensea' != config_token_base.downcase
-                puts "!! ERROR - contracts do NOT match:"
+              config_token_base = config['token_base'] || ''
+              if ['opensea', 'openstore@opensea'].include?( config_token_base.downcase )
+                puts "OK - BINGO!  (token) contracts match"
+              else
+                  puts "!! ERROR - contracts do NOT match:"
                   puts ">OPENSTORE<   @ opensea"
                   puts ">#{config_token_base}<   @ token_base artbase config"
                   exit 1
-                else
-                  puts "OK - BINGO!  (token) contracts match"
-                end
               end
+            end
 
          else
             puts "!! opensea @ ???"

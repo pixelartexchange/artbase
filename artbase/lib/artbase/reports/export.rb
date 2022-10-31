@@ -14,6 +14,9 @@ def export( cache_dir,
              dir: '.', exclude: [] )
   @warns       = []
 
+
+  slugs = []   ## collect opensea slugs for summary
+
   exclude_dirs = %w[
                    sandbox
                    tmp
@@ -23,11 +26,11 @@ def export( cache_dir,
 
 
 
-  each_dir( "#{dir}/*", exclude: exclude_dirs ) do |dir|
+  each_dir( "#{dir}/*", exclude: exclude_dirs ) do |collection_dir|
 
-     config_path = "#{dir}/collection.yml"
+     config_path = "#{collection_dir}/collection.yml"
      if File.exist?( config_path )
-        puts "==> #{dir}:"
+        puts "==> #{collection_dir}:"
         config = read_yaml( config_path )
         pp config
 
@@ -35,34 +38,44 @@ def export( cache_dir,
         config_format = config['format']
         config_count  = config['count']
 
-        ## add self link
-        config['self_url'] = "#{@base_url}/#{File.basename(dir)}/collection.yml"
-
-        strip_path = "#{dir}/i/#{config_slug}-strip.png"
-        if File.exist?( strip_path )
-           config['strip_url'] = "#{@base_url}/i/#{config_slug}-strip.png"
-        else
-           puts "!! preview strip missing"
-           @warns << "teaser / preview strip missing for collection >#{dir}<"
-        end
 
 
        ## check/add some links
        config_opensea = config['opensea']
        if config_opensea
+
+         ## add self link
+         config['self_url'] = "#{@base_url}/#{File.basename(collection_dir)}/collection.yml"
+
+         strip_path = "#{dir}/i/#{config_slug}-strip.png"
+         if File.exist?( strip_path )
+            config['strip_url'] = "#{@base_url}/i/#{config_slug}-strip.png"
+         else
+            puts "!! preview strip missing - >#{strip_path}<"
+            @warns << "teaser / preview strip missing for collection >#{collection_dir}< - >#{strip_path}<"
+         end
+
           puts "OK  opensea @ #{config_opensea}"
+          slugs << config_opensea
           ###
           ##  export / write out as json for now - why? why not?
           write_json( "#{cache_dir}/#{config_opensea}.json", config )
        else
           puts "!! opensea @ ???"
-          @warns << "opensea slug missing for collection >#{dir}<"
+          @warns << "opensea slug missing for collection >#{collection_dir}<"
        end
      else
-        puts "!! WARN - no config found for dir >#{dir}<"
-        @warns << "no config found for dir >#{dir}<"
+        puts "!! WARN - no config found for dir >#{collection_dir}<"
+        @warns << "no config found for dir >#{collection_dir}<"
      end
   end
+
+
+  puts
+  puts "  #{slugs.size} opensea slug(s):"
+  pp slugs
+  puts
+
 end  # method export
 
 

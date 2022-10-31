@@ -6,9 +6,11 @@ class TimelineCollectionsReport  < Report
 
 
 
-  def initialize( *cache_dirs, select: nil )
+  def initialize( *cache_dirs, select: nil,
+                   artbase_dir: nil )
     @dirs  = cache_dirs
     @slugs = select
+    @artbase_dir = artbase_dir
   end
 
 
@@ -27,22 +29,43 @@ each_meta do |meta|
               end
 
 
+  artbase_config = nil
+  if @artbase_dir
+    ## check if extra artbase config data exists?
+    artbase_path = "#{@artbase_dir}/#{meta.slug}.json"
+    if File.exist?( artbase_path )
+       artbase_config = read_json( artbase_path )
+    end
+  end
+
+
 
   buf = String.new('')
   buf2 = String.new('')   ## use buf2 for now for summary - rename to __ - why? why not?
 
+
   ## for summary use single-string (no newline) for now
   buf2 << "[#{meta.stats.total_supply} #{meta.name}](https://opensea.io/collection/#{meta.slug})"
+  if artbase_config && artbase_config['strip_url']
+    buf2 << " ![](#{artbase_config['strip_url']})"
+  end
 
 
 
   buf << "-  #{fmt_date(date)} - **[#{meta.stats.total_supply} #{meta.name}, #{fmt_fees( meta.fees.seller_fees )}](https://opensea.io/collection/#{meta.slug})**"
+
   buf << " - #{meta.stats.num_owners} owner(s)"
   if meta.stats.total_sales > 0
      buf << ", #{meta.stats.total_sales} sale(s) - "
      buf << " #{fmt_eth( meta.stats.total_volume ) }"
   end
+
+  if artbase_config && artbase_config['strip_url']
+    buf << " <br> ![](#{artbase_config['strip_url']})"
+  end
+
   buf << "\n"
+
 
   if meta.contracts.size > 0
     meta.contracts.each do |contract|
