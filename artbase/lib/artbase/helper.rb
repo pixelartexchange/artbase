@@ -57,20 +57,56 @@ end
 def copy_json( src, dest )
   uri = URI.parse( src )
 
-  http = Net::HTTP.new( uri.host, uri.port )
 
-  puts "[debug] GET #{uri.request_uri} uri=#{uri}"
 
   headers = { 'User-Agent' => "ruby v#{RUBY_VERSION}" }
 
+  redirect_limit = 6
+  response       = nil
 
-  request = Net::HTTP::Get.new( uri.request_uri, headers )
-  if uri.instance_of? URI::HTTPS
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+  until false
+    raise ArgumentError, 'HTTP redirect too deep' if redirect_limit == 0
+    redirect_limit -= 1
+
+    puts "[debug] GET #{uri.request_uri} uri=#{uri}"
+
+    http = Net::HTTP.new( uri.host, uri.port )
+
+    if uri.instance_of? URI::HTTPS
+      # puts "[debug] use SSL (HTTPS); set verify mode to none"
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    end
+
+    request = Net::HTTP::Get.new( uri.request_uri, headers )
+    response   = http.request( request )
+
+
+    if response.code == '301' ||
+       response.code == '302' ||
+       response.code == '303' ||
+       response.code == '307'
+      # 301 = moved permanently
+      # 302 = found
+      # 303 = see other
+      # 307 = temporary redirect
+
+      puts "[debug] #{response.code} #{response.message}"
+      puts "[debug]   location: #{response.header['location']}"
+
+      newuri = URI.parse( response.header['location'] )
+      if newuri.relative?
+         puts "[debug]  url relative; try to make it absolute"
+        newuri = uri + response.header['location']
+      end
+
+      uri = newuri
+      puts "[debug]  #{uri.class.name} new uri.class.name"
+    else
+      break
+    end
   end
 
-  response   = http.request( request )
 
   if response.code == '200'
     puts "#{response.code} #{response.message}"
