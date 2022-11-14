@@ -10,7 +10,10 @@ require 'helper'
 class TestContract < MiniTest::Test
 
 
-RPC = Ethlite::Rpc.new( ENV['INFURA_URI'] )
+Ethlite.config.rpc = Ethlite::Rpc.new( ENV['INFURA_URI'] )
+RPC = Ethlite.config.rpc
+
+MARCS_ETH  = "0xe9b91d537c3aa5a3fa87275fbd2e4feaaed69bd0"
 
 
 def test_tokenURI
@@ -34,10 +37,9 @@ TXT
    assert_equal ['uint256'], tokenURI.input_types
    assert_equal ['string'], tokenURI.output_types
 
-   marcs  = "0xe9b91d537c3aa5a3fa87275fbd2e4feaaed69bd0"
 
    args = [0]
-   res = tokenURI.do_call( RPC, marcs, args )
+   res = tokenURI.do_call( RPC, MARCS_ETH, args )
    pp res
 end
 
@@ -65,10 +67,8 @@ TXT
    assert_equal ['string'], traitData.output_types
 
 
-   marcs  = "0xe9b91d537c3aa5a3fa87275fbd2e4feaaed69bd0"
-
    args = [0,0]
-   res = traitData.do_call( RPC, marcs, args )
+   res = traitData.do_call( RPC, MARCS_ETH, args )
    pp res
 end
 
@@ -97,10 +97,8 @@ TXT
   assert_equal ['uint256', 'uint256'], traitDetails.input_types
   assert_equal ['(string,string,bool)'], traitDetails.output_types
 
-  marcs  = "0xe9b91d537c3aa5a3fa87275fbd2e4feaaed69bd0"
-
   args = [0,0]
-  res = traitDetails.do_call( RPC, marcs, args )
+  res = traitDetails.do_call( RPC, MARCS_ETH, args )
   pp res
 end
 

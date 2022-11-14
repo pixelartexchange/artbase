@@ -11,13 +11,17 @@ module Abi
     #
     def keccak256(x)
       # Digest::SHA3.new(256).digest(x)
-      Digest::Keccak.digest(x, 256)
+      ## Digest::Keccak.digest(x, 256)
+      Digest::Keccak256.digest( x )
     end
 
+=begin
+  ## check where required / in use - what for?
     def keccak512(x)
       # Digest::SHA3.new(512).digest(x)
       Digest::Keccak.digest(x, 512)
     end
+=end
 
     def keccak256_rlp(x)
       keccak256 RLP.encode(x)

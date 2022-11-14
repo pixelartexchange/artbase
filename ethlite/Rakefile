@@ -20,7 +20,7 @@ Hoe.spec 'ethlite' do
 
   self.extra_deps = [
     ['cocos'],
-    ['keccak'],
+    ## ['keccak'],  -- try using bundled ruby version for now
     ['rlp'],
   ]
 
