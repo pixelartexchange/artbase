@@ -16,19 +16,20 @@ require 'rlp'               ## gem rlp    - see https://rubygems.org/gems/rlp
 require_relative 'digest/keccak'
 require_relative 'digest/sha3'
 
+require_relative 'jsonrpc/jsonrpc'
+
 
 
 ## our own code
 require_relative 'ethlite/version'    # note: let version always go first
 
+require_relative 'ethlite/constant'
+
 
 require_relative 'ethlite/abi/type'
-require_relative 'ethlite/abi/constant'
 require_relative 'ethlite/abi/utils'
 require_relative 'ethlite/abi/abi_coder'
 
-
-require_relative 'ethlite/rpc'
 
 require_relative 'ethlite/utility'
 require_relative 'ethlite/contract'
@@ -38,8 +39,14 @@ require_relative 'ethlite/contract'
 
 module Ethlite
 class Configuration
-  def rpc()       @rpc || Rpc.new( ENV['INFURA_URI'] ); end
-  def rpc=(value) @rpc = value; end
+  def rpc()       @rpc || JsonRpc.new( ENV['INFURA_URI'] ); end
+  def rpc=(value)
+    @rpc =   if value.is_a?( String )
+                 JsonRpc.new( value )   ## auto-wrap in (built-in/simple) jsonrpc client/serverproxy
+             else
+                value
+             end
+  end
 end # class Configuration
 
 

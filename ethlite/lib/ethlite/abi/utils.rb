@@ -218,8 +218,6 @@ module Abi
     def signature_hash signature, length=64
       encode_hex(keccak256(signature))[0...length]
     end
-
-
   end
 
 end  # module Abi

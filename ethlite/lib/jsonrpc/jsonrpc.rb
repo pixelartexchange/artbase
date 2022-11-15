@@ -1,11 +1,26 @@
-  module Ethlite
 
-    class Rpc
+###
+#  simple JsonRpc client
+#
+#  see   https://www.jsonrpc.org/specification
+#        https://en.wikipedia.org/wiki/JSON-RPC
+
+
+
+class JsonRpc
       def initialize( uri )
         @client_id = Random.rand( 10000000 )
 
+        ## todo/fix:  change client id to request id
+        ##  and auto-incremtn on every request by one!!!
+        ##  # Increments the request id.
+        ## def next_id
+          ## @id += 1
+        ## end
+
         @uri = URI.parse( uri )
       end
+
 
       def request( method, params=[] )
         opts = {}
@@ -29,9 +44,12 @@
           request.body = json
           response = http.request( request )
 
-          raise "Error code #{response.code} on request #{@uri.to_s} #{request.body}" unless response.kind_of?( Net::HTTPOK )
+          unless response.kind_of?( Net::HTTPOK )
+            raise "Error code #{response.code} on request #{@uri.to_s} #{request.body}"
+          end
 
-          body = JSON.parse(response.body, max_nesting: 1500)
+
+          body = JSON.parse( response.body, max_nesting: 1500 )
 
           if body['result']
             body['result']
@@ -42,7 +60,5 @@
           end
         end
       end
-    end  # class Rpc
-
-end # module Ethlite
+end  # class JsonRpc
 

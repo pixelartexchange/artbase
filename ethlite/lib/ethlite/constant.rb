@@ -1,6 +1,5 @@
 
 module Ethlite
-  module Abi
   module Constant
 
     BYTE_EMPTY = "".freeze
@@ -20,13 +19,33 @@ module Ethlite
 
     HASH_ZERO = ("\x00"*32).freeze
 
+
     PUBKEY_ZERO = ("\x00"*32).freeze
     PRIVKEY_ZERO = ("\x00"*32).freeze
     PRIVKEY_ZERO_HEX = ('0'*64).freeze
 
     CONTRACT_CODE_SIZE_LIMIT = 0x6000
 
-  end
 
-end  # module Abi
+=begin
+   # The RLP short length limit.
+    SHORT_LENGTH_LIMIT = 56.freeze
+
+    # The RLP long length limit.
+    LONG_LENGTH_LIMIT = (256 ** 8).freeze
+
+    # The RLP primitive type offset.
+    PRIMITIVE_PREFIX_OFFSET = 0x80.freeze
+
+    # The RLP array type offset.
+    LIST_PREFIX_OFFSET = 0xc0.freeze
+
+    # The binary encoding is ASCII (8-bit).
+    BINARY_ENCODING = "ASCII-8BIT".freeze
+
+    # Infinity as constant for convenience.
+    INFINITY = (1.0 / 0.0).freeze
+
+=end
+  end  # module Constant
 end  # module Ethlite

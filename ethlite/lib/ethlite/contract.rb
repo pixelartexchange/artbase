@@ -2,6 +2,35 @@
       class ContractMethod
         include Utility
 
+
+       def self.parse_abi( abi )
+         ## convenience helper -  auto-convert to json if string passed in
+         abi = JSON.parse( abi ) if abi.is_a?( String )
+
+         name           = abi['name']
+         constant       = !!abi['constant'] || abi['stateMutability']=='view'
+         input_types    = abi['inputs']  ? abi['inputs'].map{|a| _parse_component_type( a ) } : []
+         output_types   = abi['outputs'] ? abi['outputs'].map{|a| _parse_component_type( a ) } : []
+         type           = abi['type'] || 'function'
+
+         new( name, inputs: input_types,
+                    outputs: output_types,
+                    constant: constant,
+                    type: type )
+       end
+
+       def self._parse_component_type( argument )
+        if argument['type'] =~ /^tuple((\[[0-9]*\])*)/
+          argument['components'] ? "(#{argument['components'].collect{ |c| _parse_component_type( c ) }.join(',')})#{$1}"
+                                 : "()#{$1}"
+        else
+          argument['type']
+        end
+      end
+
+
+
+
         attr_reader :abi,
                     :signature,
                     :name,
@@ -10,28 +39,18 @@
                     :output_types,
                     :constant
 
-        def initialize( abi )
-          ## convenience helper -  auto-convert to json if string passed in
-          abi = JSON.parse( abi ) if abi.is_a?( String )
+        def initialize( name, inputs:,
+                              outputs:  [],
+                              constant: true,
+                              type:     'function' )
+          @name         = name
+          @constant     = constant
+          @input_types  = inputs
+          @output_types = outputs
 
-          @abi            = abi
-          @name           = abi['name']
-          @constant       = !!abi['constant'] || abi['stateMutability']=='view'
-          @input_types    = abi['inputs']  ? abi['inputs'].map{|a| parse_component_type a } : []
-          @output_types   = abi['outputs'] ? abi['outputs'].map{|a| parse_component_type a } : nil
           @signature      = Abi::Utils.function_signature( @name, @input_types )
-          @signature_hash = Abi::Utils.signature_hash( @signature, abi['type']=='event' ? 64 : 8)
+          @signature_hash = Abi::Utils.signature_hash( @signature, type=='event' ? 64 : 8)
         end
-
-        def parse_component_type( argument )
-          if argument['type'] =~ /^tuple((\[[0-9]*\])*)/
-            argument['components'] ? "(#{argument['components'].collect{|c| parse_component_type( c ) }.join(',')})#{$1}"
-                                   : "()#{$1}"
-          else
-            argument['type']
-          end
-        end
-
 
         def do_call( rpc, contract_address, args )
           data = '0x' + @signature_hash + Abi::Utils.encode_hex(

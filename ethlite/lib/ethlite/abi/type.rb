@@ -2,17 +2,16 @@ module Ethlite
   module Abi
   class Type
 
-    class ParseError < StandardError;
-    end
+    class ParseError < StandardError; end
 
-    class <<self
+
       ##
       # Crazy regexp to seperate out base type component (eg. uint), size (eg.
       # 256, 128x128, nil), array component (eg. [], [45], nil)
       #
-      def parse(type)
+      def self.parse( type )
 
-        return parse('uint256') if type=='trcToken'
+        return parse('uint256')   if type=='trcToken'
 
         if type =~ /^\((.*)\)((\[[0-9]*\])*)/
           return Tuple.parse $1, $2.scan(/\[[0-9]*\]/)
@@ -56,10 +55,10 @@ module Ethlite
         new(base, sub, dims.map {|x| x[1...-1].to_i})
       end
 
-      def size_type
+      def self.size_type
         @size_type ||= new('uint', 256, [])
       end
-    end
+
 
     attr :base, :sub, :dims
 
@@ -69,7 +68,7 @@ module Ethlite
     # @param dims [Array[Integer]] dimensions of array type, e.g. [1,2,0]
     #   for uint256[1][2][], [] for non-array type
     #
-    def initialize(base, sub, dims)
+    def initialize( base, sub, dims )
       @base = base
       @sub = sub
       @dims = dims
@@ -123,7 +122,7 @@ module Ethlite
 
   class Tuple < Type
 
-    def self.parse types, dims
+    def self.parse( types, dims )
 
       depth = 0
       collected = []
@@ -156,7 +155,8 @@ module Ethlite
     end
 
     attr_reader :types, :parsed_types
-    def initialize types, dims
+
+    def initialize( types, dims )
       super('tuple', '', dims)
       @types = types
       @parsed_types = types.map{|t| Type.parse t}
@@ -188,14 +188,11 @@ module Ethlite
           subtype.dynamic? ? nil : dims.last * subtype.size
         end
       end
-
-
     end
 
     def subtype
       @subtype ||= Tuple.new(types, dims[0...-1])
     end
-
   end
 
 
