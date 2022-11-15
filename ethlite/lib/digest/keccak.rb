@@ -55,6 +55,9 @@ module Digest
     def finish
       s = Array.new( 25, 0 )
       width = 200 - @size * 2
+
+      ###  note: padding changed in final FIPS PUB 202 standard
+      ##           from "\x01" to "\x06"
       padding = "\x01"
 
       buffer = @buffer

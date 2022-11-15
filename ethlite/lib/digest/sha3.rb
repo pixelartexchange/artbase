@@ -50,8 +50,12 @@ module Digest
       s = Array.new( 25, 0 )
       width = 200 - @size * 2
 
+      ###  note: padding changed in final FIPS PUB 202 standard
+      ##           from "\x01" to "\x06"
+      padding = "\x06"
+
       buffer = @buffer
-      buffer << "\x06" << "\0" * (width - buffer.size % width)
+      buffer << padding << "\0" * (width - buffer.size % width)
       buffer[-1] = (buffer[-1].ord | 0x80).chr
 
       0.step( buffer.size - 1, width ) do |j|
