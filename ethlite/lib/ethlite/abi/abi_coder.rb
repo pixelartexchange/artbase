@@ -14,8 +14,11 @@ module Ethlite
 
     include Constant
 
+
     class EncodingError < StandardError; end
     class DecodingError < StandardError; end
+    class ValueError < StandardError; end
+
     class ValueOutOfBounds < ValueError; end
 
     ##

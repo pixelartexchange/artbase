@@ -2,12 +2,11 @@ CHANGELOG.md
 Manifest.txt
 README.md
 Rakefile
-lib/digest/keccak256.rb
+lib/digest/keccak.rb
 lib/digest/sha3.rb
 lib/ethlite.rb
 lib/ethlite/abi/abi_coder.rb
 lib/ethlite/abi/constant.rb
-lib/ethlite/abi/exceptions.rb
 lib/ethlite/abi/type.rb
 lib/ethlite/abi/utils.rb
 lib/ethlite/contract.rb

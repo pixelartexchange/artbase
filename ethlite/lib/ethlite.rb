@@ -13,8 +13,8 @@ require 'digest'
 require 'rlp'               ## gem rlp    - see https://rubygems.org/gems/rlp
 
 ##  bundled require 'digest/keccak'     ## gem keccak - see https://rubygems.org/gems/keccak
-require 'digest/keccak256'
-
+require_relative 'digest/keccak'
+require_relative 'digest/sha3'
 
 
 
@@ -24,7 +24,6 @@ require_relative 'ethlite/version'    # note: let version always go first
 
 require_relative 'ethlite/abi/type'
 require_relative 'ethlite/abi/constant'
-require_relative 'ethlite/abi/exceptions'
 require_relative 'ethlite/abi/utils'
 require_relative 'ethlite/abi/abi_coder'
 
