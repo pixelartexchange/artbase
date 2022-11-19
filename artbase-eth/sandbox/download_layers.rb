@@ -8,11 +8,7 @@ $LOAD_PATH.unshift( "./lib" )
 require 'artbase-eth'
 
 
-##
-## todo/fix upstream
-##   if config value is a string  - auto-add Rpc.new !!!!
-
-Ethlite.config.rpc = Ethlite::Rpc.new( ENV['INFURA_URI'] )
+Ethlite.config.rpc = ENV['INFURA_URI']
 
 
 madcamels_eth   = "0xad8474ba5a7f6abc52708f171f57fefc5cdc8c1c"

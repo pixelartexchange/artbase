@@ -1,7 +1,5 @@
   module Ethlite
       class ContractMethod
-        include Utility
-
 
        def self.parse_abi( abi )
          ## convenience helper -  auto-convert to json if string passed in
@@ -31,8 +29,7 @@
 
 
 
-        attr_reader :abi,
-                    :signature,
+        attr_reader :signature,
                     :name,
                     :signature_hash,
                     :input_types,
@@ -66,7 +63,7 @@
           puts "response:"
           pp response
 
-          string_data = [remove_0x_head(response)].pack('H*')
+          string_data = [Abi::Utils.remove_0x_head(response)].pack('H*')
           return nil if string_data.empty?
 
           result = Abi::AbiCoder.decode_abi( @output_types, string_data )

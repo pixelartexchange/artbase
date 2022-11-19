@@ -8,11 +8,8 @@ $LOAD_PATH.unshift( "./lib" )
 require 'artbase-eth'
 
 
-##
-## todo/fix upstream
-##   if config value is a string  - auto-add Rpc.new !!!!
 
-Ethlite.config.rpc = Ethlite::Rpc.new( ENV['INFURA_URI'] )
+Ethlite.config.rpc =  ENV['INFURA_URI']
 
 
 ## try on-chain tokens

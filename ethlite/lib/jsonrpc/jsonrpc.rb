@@ -9,43 +9,28 @@
 
 class JsonRpc
       def initialize( uri )
-        @client_id = Random.rand( 10000000 )
-
-        ## todo/fix:  change client id to request id
-        ##  and auto-incremtn on every request by one!!!
-        ##  # Increments the request id.
-        ## def next_id
-          ## @id += 1
-        ## end
-
-        @uri = URI.parse( uri )
+        @uri        = uri    ## assume uri always as string for now
+        @request_id = 1
       end
 
 
       def request( method, params=[] )
-        opts = {}
-        if @uri.instance_of?( URI::HTTPS )
-          opts[:use_ssl]     = true
-          opts[:verify_mode] = OpenSSL::SSL::VERIFY_NONE
-        end
 
-        Net::HTTP.start( @uri.host, @uri.port, **opts ) do |http|
-          headers = {"Content-Type" => "application/json"}
-          request = Net::HTTP::Post.new( @uri.request_uri, headers )
-
-          json = { jsonrpc: '2.0',
+          data = { jsonrpc: '2.0',
                    method:  method,
                    params:  params,
-                   id: @client_id }.to_json
+                   id: @request_id }
+
+          @request_id += 1
 
           puts "json POST payload:"
-          puts json
+          puts data.to_json
 
-          request.body = json
-          response = http.request( request )
+          response = Webclient.post( @uri, json: data )
 
-          unless response.kind_of?( Net::HTTPOK )
-            raise "Error code #{response.code} on request #{@uri.to_s} #{request.body}"
+
+          if response.status.nok?
+            raise "Error code #{response.status.code} on request #{@uri} #{data}"
           end
 
 
@@ -54,11 +39,10 @@ class JsonRpc
           if body['result']
             body['result']
           elsif body['error']
-            raise "Error #{@uri.to_s} #{body['error']} on request #{@uri.to_s} #{request.body}"
+            raise "Error #{@uri} #{body['error']} on request #{@uri} #{data}"
           else
-            raise "No response on request #{@uri.to_s} #{request.body}"
+            raise "No response on request #{@uri} #{data}"
           end
-        end
-      end
+      end  # method request
 end  # class JsonRpc
 

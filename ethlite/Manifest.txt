@@ -10,6 +10,5 @@ lib/ethlite/abi/type.rb
 lib/ethlite/abi/utils.rb
 lib/ethlite/constant.rb
 lib/ethlite/contract.rb
-lib/ethlite/utility.rb
 lib/ethlite/version.rb
 lib/jsonrpc/jsonrpc.rb

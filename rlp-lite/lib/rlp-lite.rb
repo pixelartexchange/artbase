@@ -79,3 +79,8 @@ end   # module Rlp
 
 
 
+####
+#  add alternate names / spelling
+RLP   = Rlp    #  add all upcase  - why? why not?
+
+

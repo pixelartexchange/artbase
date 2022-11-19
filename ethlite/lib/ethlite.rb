@@ -10,7 +10,7 @@ require 'openssl'
 require 'digest'
 
 ## 3rd party gems
-require 'rlp'               ## gem rlp    - see https://rubygems.org/gems/rlp
+require 'rlp-lite'
 
 ##  bundled require 'digest/keccak'     ## gem keccak - see https://rubygems.org/gems/keccak
 require_relative 'digest/keccak'
@@ -31,7 +31,6 @@ require_relative 'ethlite/abi/utils'
 require_relative 'ethlite/abi/abi_coder'
 
 
-require_relative 'ethlite/utility'
 require_relative 'ethlite/contract'
 
 

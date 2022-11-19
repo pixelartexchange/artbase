@@ -43,9 +43,9 @@ TXT
 TXT
 
 
-  ETH_tokenURI     = Ethlite::ContractMethod.new( ABI_tokenURI )
-  ETH_traitData    = Ethlite::ContractMethod.new( ABI_traitData  )
-  ETH_traitDetails = Ethlite::ContractMethod.new( ABI_traitDetails )
+  ETH_tokenURI     = Ethlite::ContractMethod.parse_abi( ABI_tokenURI )
+  ETH_traitData    = Ethlite::ContractMethod.parse_abi( ABI_traitData  )
+  ETH_traitDetails = Ethlite::ContractMethod.parse_abi( ABI_traitDetails )
 
 
   def initialize( contract_address )

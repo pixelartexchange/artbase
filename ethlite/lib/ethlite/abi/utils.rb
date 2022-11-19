@@ -56,43 +56,49 @@ module Abi
     end
 
     def to_signed(i)
-      i > Constant::INT_MAX ? (i-Constant::TT256) : i
+      i > INT_MAX ? (i-TT256) : i
     end
 
-    def base58_check_to_bytes(s)
-      leadingzbytes = s.match(/\A1*/)[0]
-      data = Constant::BYTE_ZERO * leadingzbytes.size + BaseConvert.convert(s, 58, 256)
-
-      raise ChecksumError, "double sha256 checksum doesn't match" unless double_sha256(data[0...-4])[0,4] == data[-4..-1]
-      data[1...-4]
-    end
-
-    def bytes_to_base58_check(bytes, magicbyte=0)
-      bs = "#{magicbyte.chr}#{bytes}"
-      leadingzbytes = bs.match(/\A#{Constant::BYTE_ZERO}*/)[0]
-      checksum = double_sha256(bs)[0,4]
-      '1'*leadingzbytes.size + BaseConvert.convert("#{bs}#{checksum}", 256, 58)
-    end
 
     def ceil32(x)
       x % 32 == 0 ? x : (x + 32 - x%32)
     end
 
     def encode_hex(b)
-      RLP::Utils.encode_hex b
+      raise TypeError, "Value must be an instance of String" unless b.instance_of?(String)
+      b.unpack("H*").first
     end
 
-    def decode_hex(s)
-      RLP::Utils.decode_hex s
+    def decode_hex(str)
+      raise TypeError, "Value must be an instance of string" unless sstr.instance_of?(String)
+      raise TypeError, 'Non-hexadecimal digit found' unless str =~ /\A[0-9a-fA-F]*\z/
+      [str].pack("H*")
+    end
+
+
+
+
+    def int_to_big_endian(n)
+      RLP::Sedes.big_endian_int.serialize n
     end
 
     def big_endian_to_int(s)
       RLP::Sedes.big_endian_int.deserialize s.sub(/\A(\x00)+/, '')
     end
 
-    def int_to_big_endian(n)
-      RLP::Sedes.big_endian_int.serialize n
+
+    def encode_int(n)
+      raise ArgumentError, "Integer invalid or out of range: #{n}" unless n.is_a?(Integer) && n >= 0 && n <= UINT_MAX
+      int_to_big_endian n
     end
+
+    def decode_int(v)
+      raise ArgumentError, "No leading zero bytes allowed for integers" if v.size > 0 && (v[0] == BYTE_ZERO || v[0] == 0)
+      big_endian_to_int v
+    end
+
+
+
 
     def lpad(x, symbol, l)
       return x if x.size >= l
@@ -124,15 +130,6 @@ module Abi
       zpad_int x, 20
     end
 
-    def encode_int(n)
-      raise ArgumentError, "Integer invalid or out of range: #{n}" unless n.is_a?(Integer) && n >= 0 && n <= UINT_MAX
-      int_to_big_endian n
-    end
-
-    def decode_int(v)
-      raise ArgumentError, "No leading zero bytes allowed for integers" if v.size > 0 && (v[0] == Constant::BYTE_ZERO || v[0] == 0)
-      big_endian_to_int v
-    end
 
     def bytearray_to_int(arr)
       o = 0
@@ -147,6 +144,7 @@ module Abi
     def bytes_to_int_array(bytes)
       bytes.unpack('C*')
     end
+
 
     def coerce_to_int(x)
       if x.is_a?(Numeric)
@@ -178,19 +176,6 @@ module Abi
       end
     end
 
-    def normalize_address(x, allow_blank: false)
-      address = Address.new(x)
-      raise ValueError, "address is blank" if !allow_blank && address.blank?
-      address.to_bytes
-    end
-
-    def mk_contract_address(sender, nonce)
-      keccak256_rlp([normalize_address(sender), nonce])[12..-1]
-    end
-
-    def mk_metropolis_contract_address(sender, initcode)
-      keccak256(normalize_address(sender) + initcode)[12..-1]
-    end
 
 
     def parse_int_or_hex(s)
@@ -203,6 +188,24 @@ module Abi
       end
     end
 
+
+=begin
+  ## add? moved over from the old module Utility
+     def hex( num )
+        '0x' + num.to_s(16)
+      end
+
+      def from_hex( h )
+        h.nil? ? 0 : (h.kind_of?(String) ? h.to_i(16) : h)
+      end
+=end
+
+
+    def remove_0x_head( s )
+      return s if !s || s.length<2
+      s[0,2] == '0x' ? s[2..-1] : s
+    end
+
     def normalize_hex_without_prefix(s)
       if s[0,2] == '0x'
         (s.size % 2 == 1 ? '0' : '') + s[2..-1]
@@ -210,6 +213,7 @@ module Abi
         s
       end
     end
+
 
     def function_signature method_name, arg_types
       "#{method_name}(#{arg_types.join(',')})"
