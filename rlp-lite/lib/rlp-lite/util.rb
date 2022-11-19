@@ -4,15 +4,13 @@ module Util
    extend self
 
 
-
-
-  # Checks if a string is hex-adecimal.
+    # Checks if a string is hex-adecimal (string).
     #
     # @param str [String] a string to be checked.
     # @return [String] a match if true; `nil` if not.
-    def is_hex?(str)
+    def is_hex?( str )
       return false unless str.is_a?( String )
-      str = remove_hex_prefix( str )
+      str = strip_hex_prefix( str )
       str.match /\A[0-9a-fA-F]*\z/
     end
 
@@ -20,18 +18,25 @@ module Util
     #
     # @param hex [String] a prefixed hex-string.
     # @return [String] an unprefixed hex-string.
-    def remove_hex_prefix(hex)
-      return hex[2..-1] if is_prefixed?( hex )
-      return hex
+    def strip_hex_prefix(hex)
+      is_prefixed?( hex ) ? hex[2..-1] : hex
     end
+    alias_method :remove_hex_prefix, :strip_hex_prefix
+    alias_method :strip_0x,          :strip_hex_prefix   ## add more alias - why? why not?
 
    # Checks if a string is prefixed with `0x`.
     #
     # @param hex [String] a string to be checked.
     # @return [String] a match if true; `nil` if not.
     def is_prefixed?(hex)
-      hex.match /\A0x/
+      ## was: hex.match /\A0x/
+      ##   tood/check:  add support for (upcase) 0X too - why? why not?
+      hex.start_with?( '0x' ) ||
+      hex.start_with?( '0X' )
     end
+    alias_method :is_hex_prefixed?, :is_prefixed?
+    alias_method :start_with_0x?,   :is_prefixed?
+
 
      # Packs a hexa-decimal string into a binary string. Also works with
     # `0x`-prefixed strings.
@@ -64,6 +69,7 @@ module Util
     def str_to_bytes(str)
       is_bytes?(str) ? str : str.b
     end
+   ## todo/check  - rename to str_to_binary - why? why not?
 
       # Checks if a string is a byte-string.
     #
@@ -72,6 +78,7 @@ module Util
     def is_bytes?(str)
       str && str.instance_of?(String) && str.encoding.name == 'ASCII-8BIT'
     end
+    ## todo/check  - rename to is binary? is_binary?
 
 
 
@@ -79,10 +86,10 @@ module Util
     #
     # @param num [Integer] integer to be converted.
     # @return [String] packed, big-endian integer string.
-    def int_to_big_endian(num)
-      hex = num.to_s(16) unless is_hex? num
+    def int_to_big_endian( num )
+      hex = num.to_s(16)
       hex = "0#{hex}" if hex.size.odd?
-      hex_to_bin hex
+      hex_to_bin( hex )
     end
 
 
@@ -91,16 +98,18 @@ module Util
     #
     # @param str [String] big endian to be converted.
     # @return [Integer] an unpacked integer number.
-    def big_endian_to_int(str)
-      str.unpack("H*").first.to_i(16)
+    def big_endian_to_int( str )
+      str.unpack("H*")[0].to_i(16)
     end
+
+
 
     # Deserializes big endian data string to integer.
     #
     # @param str [String] serialized big endian integer string.
     # @return [Integer] an deserialized unsigned integer.
     def deserialize_big_endian_to_int(str)
-      Sedes.big_endian_int.deserialize str.sub(/\A(\x00)+/, "")
+      Sedes.big_endian_int.deserialize str.sub( /\A(\x00)+/, '' )
     end
 
 

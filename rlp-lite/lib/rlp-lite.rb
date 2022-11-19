@@ -21,18 +21,20 @@ module Rlp
 
    ## todo/check   - use encoding -ascii-8bit for source file or ? - why? why not?
    ## use  #b/.b  to ensure binary encoding? - why? why not?
-   BYTE_EMPTY = "".freeze   # The empty byte is defined as "".
-   BYTE_ZERO  = "\x00".freeze   # The zero byte is 0x00.
-   BYTE_ONE   = "\x01".freeze    # The byte one is 0x01.
+
+   ## todo/check:  use auto-freeze string literals magic comment - why? why not?
+   BYTE_EMPTY = "".b.freeze   # The empty byte is defined as "".
+   BYTE_ZERO  = "\x00".b.freeze   # The zero byte is 0x00.
+   BYTE_ONE   = "\x01".b.freeze    # The byte one is 0x01.
 
 
    SHORT_LENGTH_LIMIT = 56           # The RLP short length limit.
    LONG_LENGTH_LIMIT = (256 ** 8)    # The RLP long length limit.
    PRIMITIVE_PREFIX_OFFSET = 0x80    # The RLP primitive type offset.
-   LIST_PREFIX_OFFSET = 0xc0         # The RLP array type offset.
+   LIST_PREFIX_OFFSET      = 0xc0    # The RLP array type offset.
 
-   # Infinity as constant for convenience.
-   INFINITY = (1.0 / 0.0)
+
+   INFINITY = (1.0 / 0.0)    # Infinity as constant for convenience.
 
 
  # The Rlp module exposes a variety of exceptions grouped as {RlpException}.
