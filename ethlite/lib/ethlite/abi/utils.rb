@@ -70,7 +70,7 @@ module Abi
     end
 
     def decode_hex(str)
-      raise TypeError, "Value must be an instance of string" unless sstr.instance_of?(String)
+      raise TypeError, "Value must be an instance of string" unless str.instance_of?(String)
       raise TypeError, 'Non-hexadecimal digit found' unless str =~ /\A[0-9a-fA-F]*\z/
       [str].pack("H*")
     end

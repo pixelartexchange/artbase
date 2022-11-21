@@ -63,7 +63,8 @@
           puts "response:"
           pp response
 
-          string_data = [Abi::Utils.remove_0x_head(response)].pack('H*')
+          string_data = Abi::Utils.decode_hex(
+                           Abi::Utils.remove_0x_head(response))
           return nil if string_data.empty?
 
           result = Abi::AbiCoder.decode_abi( @output_types, string_data )

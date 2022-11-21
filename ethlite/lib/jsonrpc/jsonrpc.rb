@@ -23,7 +23,7 @@ class JsonRpc
 
           @request_id += 1
 
-          puts "json POST payload:"
+          puts "json_rpc POST payload:"
           puts data.to_json
 
           response = Webclient.post( @uri, json: data )
@@ -32,6 +32,9 @@ class JsonRpc
           if response.status.nok?
             raise "Error code #{response.status.code} on request #{@uri} #{data}"
           end
+
+          puts "json_rpc response.body:"
+          puts response.body
 
 
           body = JSON.parse( response.body, max_nesting: 1500 )
