@@ -63,8 +63,8 @@ def eth_call( rpc,
 
   ## binary encode method sig(nature)
   signature      = "#{name}(#{inputs.join(',')})"
-  signature_hash =  Ethlite::Abi::Utils.encode_hex(
-                        Ethlite::Abi::Utils.keccak256(signature))[0..7]
+  signature_hash =  Ethlite::Utils.encode_hex(
+                        Ethlite::Utils.keccak256(signature))[0..7]
 
   pp signature
   # => "tokenURI(uint256)"
@@ -72,8 +72,8 @@ def eth_call( rpc,
   # => "c87b56dd"
 
   ## binary encode method arg(ument)s
-  args_encoded = Ethlite::Abi::Utils.encode_hex(
-                   Ethlite::Abi::AbiCoder.encode_abi( inputs, args) )
+  args_encoded = Ethlite::Utils.encode_hex(
+                   Ethlite::Abi.encode_abi( inputs, args) )
 
   data = '0x' + signature_hash + args_encoded
 
@@ -91,9 +91,9 @@ def eth_call( rpc,
   pp response
 
   ## decode binary result
-  string_data = Ethlite::Abi::Utils.decode_hex(
-                     Ethlite::Abi::Utils.remove_0x_head(response))
-  result = Ethlite::Abi::AbiCoder.decode_abi( outputs, string_data )
+  string_data = Ethlite::Utils.decode_hex(
+                     Ethlite::Utils.remove_0x_head(response))
+  result = Ethlite::Abi.decode_abi( outputs, string_data )
   result.length  == 1 ? result[0] : result
 end
 ```

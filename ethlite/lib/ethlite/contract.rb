@@ -9,12 +9,10 @@
          constant       = !!abi['constant'] || abi['stateMutability']=='view'
          input_types    = abi['inputs']  ? abi['inputs'].map{|a| _parse_component_type( a ) } : []
          output_types   = abi['outputs'] ? abi['outputs'].map{|a| _parse_component_type( a ) } : []
-         type           = abi['type'] || 'function'
 
          new( name, inputs: input_types,
                     outputs: output_types,
-                    constant: constant,
-                    type: type )
+                    constant: constant )
        end
 
        def self._parse_component_type( argument )
@@ -38,20 +36,19 @@
 
         def initialize( name, inputs:,
                               outputs:  [],
-                              constant: true,
-                              type:     'function' )
+                              constant: true )
           @name         = name
           @constant     = constant
           @input_types  = inputs
           @output_types = outputs
-
-          @signature      = Abi::Utils.function_signature( @name, @input_types )
-          @signature_hash = Abi::Utils.signature_hash( @signature, type=='event' ? 64 : 8)
+          @signature      = "#{@name}(#{@input_types.join(',')})"
+          @signature_hash = Utils.signature_hash( @signature, 8 )
         end
 
+
         def do_call( rpc, contract_address, args )
-          data = '0x' + @signature_hash + Abi::Utils.encode_hex(
-                                           Abi::AbiCoder.encode_abi(@input_types, args) )
+          data = '0x' + @signature_hash + Utils.encode_hex(
+                                           Abi.encode_abi(@input_types, args) )
 
           method = 'eth_call'
           params = [{ to:   contract_address,
@@ -63,11 +60,11 @@
           puts "response:"
           pp response
 
-          string_data = Abi::Utils.decode_hex(
-                           Abi::Utils.remove_0x_head(response))
+          string_data = Utils.decode_hex(
+                           Utils.remove_0x_head(response))
           return nil if string_data.empty?
 
-          result = Abi::AbiCoder.decode_abi( @output_types, string_data )
+          result = Abi.decode_abi( @output_types, string_data )
           puts
           puts "result decode_abi:"
           pp result

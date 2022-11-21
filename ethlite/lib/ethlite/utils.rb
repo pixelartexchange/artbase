@@ -1,10 +1,7 @@
 module Ethlite
-module Abi
-  module Utils
+module Utils
 
     extend self
-
-    include Constant
 
     ##
     # Not the keccak in sha3, although it's underlying lib named SHA3
@@ -215,15 +212,11 @@ module Abi
     end
 
 
-    def function_signature method_name, arg_types
-      "#{method_name}(#{arg_types.join(',')})"
+
+    def signature_hash( signature, length=8 )
+      encode_hex( keccak256(signature) )[0...length]
     end
 
-    def signature_hash signature, length=64
-      encode_hex(keccak256(signature))[0...length]
-    end
-  end
-
-end  # module Abi
+end  # module Utils
 end  # module Ethlite
 

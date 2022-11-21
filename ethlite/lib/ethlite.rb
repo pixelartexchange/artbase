@@ -24,11 +24,11 @@ require_relative 'jsonrpc/jsonrpc'
 require_relative 'ethlite/version'    # note: let version always go first
 
 require_relative 'ethlite/constant'
+require_relative 'ethlite/utils'
 
 
 require_relative 'ethlite/abi/type'
-require_relative 'ethlite/abi/utils'
-require_relative 'ethlite/abi/abi_coder'
+require_relative 'ethlite/abi/codec'
 
 
 require_relative 'ethlite/contract'

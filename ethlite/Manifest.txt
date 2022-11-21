@@ -5,10 +5,10 @@ Rakefile
 lib/digest/keccak.rb
 lib/digest/sha3.rb
 lib/ethlite.rb
-lib/ethlite/abi/abi_coder.rb
+lib/ethlite/abi/codec.rb
 lib/ethlite/abi/type.rb
-lib/ethlite/abi/utils.rb
 lib/ethlite/constant.rb
 lib/ethlite/contract.rb
+lib/ethlite/utils.rb
 lib/ethlite/version.rb
 lib/jsonrpc/jsonrpc.rb

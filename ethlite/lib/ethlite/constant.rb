@@ -1,6 +1,5 @@
 
 module Ethlite
-  module Constant
 
 
     ## todo/check   - use encoding -ascii-8bit for source file or ? - why? why not?
@@ -33,6 +32,4 @@ module Ethlite
 
     CONTRACT_CODE_SIZE_LIMIT = 0x6000
 
-
-  end  # module Constant
 end  # module Ethlite
