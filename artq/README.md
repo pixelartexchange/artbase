@@ -31,9 +31,9 @@ set INFURA_URI=https://mainnet.infura.io/v3/<YOUR_KEY_HERE>
 To use the artq command line tool pass in the art collection contract address in the hex (string) format.
 
 
-#### "Off-Blockchain" Token Metadata - Case No. 1
+#### Case No. 1 - "Off-Blockchain" Token Metadata
 
-Let's try Moonbirds - an ("off-blockchain") pixel art collection -
+Let's try Moonbirds - an "off-blockchain" pixel art collection -
 with the token contract / service at [0x23581767a106ae21c074b2276d25e5c3e136a68b](https://etherscan.io/address/0x23581767a106ae21c074b2276d25e5c3e136a68b):
 
 ```
@@ -83,11 +83,11 @@ For example if you request  <https://live---metadata-5covpqijaa-uc.a.run.app/met
 
 
 
-####  "On-Blockchain" Token Metadata (With Inline Image)  - Case No. 2
+####  Case No. 2 - "On-Blockchain" Token Metadata (With Inline Image)
 
 
 
-Let's try The Saudis - an ("on-blockchain") pixel art collection -
+Let's try The Saudis - an "on-blockchain" pixel art collection -
 with the token contract / service at [0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1](https://etherscan.io/address/0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1):
 
 ```
