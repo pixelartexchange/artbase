@@ -2,16 +2,13 @@
 
 module Ethlite
   module Abi
-    extend self
 
   ##
   # Contract ABI encoding and decoding.
   #
   # @see https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI
   #
-  module Codec
-    extend self
-
+  class Codec
     class EncodingError < StandardError; end
     class DecodingError < StandardError; end
     class ValueError < StandardError; end
@@ -412,19 +409,23 @@ module Ethlite
         raise EncodingError, "Cannot decode int: #{n}"
       end
     end
-end # module Codec
+end # class Codec
 
 
 
 
 
 
-def encode_abi(types, args)
-    Codec.encode_abi( types, args )
+def self.codec
+  @codec ||= Codec.new
 end
 
-def decode_abi(types, data, raise_errors = false)
-    Codec.decode_abi( types, data, raise_errors )
+def self.encode_abi(types, args)
+    codec.encode_abi( types, args )
+end
+
+def self.decode_abi(types, data, raise_errors = false)
+    codec.decode_abi( types, data, raise_errors )
 end
 
 

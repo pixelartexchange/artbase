@@ -1,8 +1,7 @@
 module Ethlite
-module Utils
 
-    extend self
 
+module UtilHelper
     ##
     # Not the keccak in sha3, although it's underlying lib named SHA3
     #
@@ -211,12 +210,17 @@ module Utils
       end
     end
 
-
-
     def signature_hash( signature, length=8 )
       encode_hex( keccak256(signature) )[0...length]
     end
 
-end  # module Utils
+end  # module UtilHelper
+
+
+
+module Utils
+   extend UtilHelper
+end
+
 end  # module Ethlite
 

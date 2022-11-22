@@ -117,8 +117,8 @@ module Ethlite
     def subtype
       @subtype ||= self.class.new(base, sub, dims[0...-1])
     end
+  end   # class Type
 
-  end
 
   class Tuple < Type
 
@@ -193,7 +193,7 @@ module Ethlite
     def subtype
       @subtype ||= Tuple.new(types, dims[0...-1])
     end
-  end
+  end  # class Tuple
 
 
 end  # module Abi
