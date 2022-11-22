@@ -1,0 +1,32 @@
+require 'hoe'
+require './lib/artq/version.rb'
+
+
+Hoe.spec 'artq' do
+
+  self.version = ArtQ::VERSION
+
+  self.summary = "artq - query (ethereum) blockchain contracts / services for (meta) data about art collections via json-rpc"
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/pixelartexchange/artbase' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'wwwmake@googlegroups.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['ethlite'],
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+
+end
+
