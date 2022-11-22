@@ -2,5 +2,6 @@ CHANGELOG.md
 Manifest.txt
 README.md
 Rakefile
+bin/artq
 lib/artq.rb
 lib/artq/version.rb

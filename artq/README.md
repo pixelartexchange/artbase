@@ -17,9 +17,7 @@ artq - query (ethereum) blockchain contracts / services for (meta) data about ar
 ### Step 0:  Setup JSON RPC Client
 
 The ArtQ command line tool
-gets the eth node uri via the INFURA_URI enviroment variable / key for now e.g.  https://mainnet.infura.io/v3/<YOUR_KEY_HERE>.
-
-
+gets the eth node uri via the INFURA_URI enviroment variable / key for now.
 Set the environment variable / key
 depending on your operating system (OS) e.g.:
 
@@ -35,7 +33,7 @@ To use the artq command line tool pass in the art collection contract address in
 
 #### "Off-Blockchain" Token Metadata - Case No. 1
 
-Let's try Moonbirds - an ("off-blockchain) collection -
+Let's try Moonbirds - an ("off-blockchain") pixel art collection -
 with the token contract / service at [0x23581767a106ae21c074b2276d25e5c3e136a68b](https://etherscan.io/address/0x23581767a106ae21c074b2276d25e5c3e136a68b):
 
 ```
@@ -89,7 +87,7 @@ For example if you request  <https://live---metadata-5covpqijaa-uc.a.run.app/met
 
 
 
-Let's try The Saudis - an ("on-blockchain) collection -
+Let's try The Saudis - an ("on-blockchain") pixel art collection -
 with the token contract / service at [0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1](https://etherscan.io/address/0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1):
 
 ```
@@ -155,10 +153,8 @@ tokenURIs 0..2:
 ```
 
 Note:  The artq command-line tool "auto-magically"
-decodes "on-blockchain"  metadata in the base64 format.
-
-
-Inline svg images in the base64 format get "cut" from the metadata and "pasted" decoded.  Example for tokenId 0, that is, The Saudis #0:
+decodes "on-blockchain"  metadata in the base64 format
+and inline svg images in the base64 format get "cut" from the metadata and "pasted" decoded.  Example for tokenId 0, that is, The Saudis #0:
 
 ``` xml
 <svg xmlns="http://www.w3.org/2000/svg"
