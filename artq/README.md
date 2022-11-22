@@ -48,11 +48,11 @@ symbol: >MOONBIRD<
 totalSupply: >10000<
 
 tokenURIs 0..2:
-  tokenId: 0
+  tokenId 0:
     https://live---metadata-5covpqijaa-uc.a.run.app/metadata/0
-  tokenId: 1
+  tokenId 1:
     https://live---metadata-5covpqijaa-uc.a.run.app/metadata/1
-  tokenId: 2
+  tokenId 2:
     https://live---metadata-5covpqijaa-uc.a.run.app/metadata/2
 ```
 
