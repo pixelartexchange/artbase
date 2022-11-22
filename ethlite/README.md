@@ -16,10 +16,10 @@ ethlite -  light-weight machinery to query / call ethereum (blockchain contract)
 
 ### Step 0:  Setup JSON RPC Client
 
+Let's use the simple (built-in) JSON RPC client. 
+Get the eth node uri via the INFURA_URI enviroment variable / key e.g.  `https://mainnet.infura.io/v3/<YOUR_KEY_HERE>`:
+
 ```ruby
-## let's use a simple JSON RPC client
-##    get the eth node uri via the INFURA_URI enviroment variable / key
-##      e.g.  https://mainnet.infura.io/v3/<YOUR_KEY_HERE>
 ETH_NODE  = JsonRpc.new( ENV['INFURA_URI'] )
 ```
 
