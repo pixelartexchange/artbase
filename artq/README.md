@@ -37,7 +37,8 @@ Let's try Moonbirds - an "off-blockchain" pixel art collection -
 with the token contract / service at [0x23581767a106ae21c074b2276d25e5c3e136a68b](https://etherscan.io/address/0x23581767a106ae21c074b2276d25e5c3e136a68b):
 
 ```
-$ artq 0x23581767a106ae21c074b2276d25e5c3e136a68b
+$ artq 0x23581767a106ae21c074b2276d25e5c3e136a68b           # or
+$ artq 0x23581767a106ae21c074b2276d25e5c3e136a68b info
 ```
 
 resulting in:
@@ -91,7 +92,8 @@ Let's try The Saudis - an "on-blockchain" pixel art collection -
 with the token contract / service at [0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1](https://etherscan.io/address/0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1):
 
 ```
-$ artq 0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1
+$ artq 0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1       # or
+$ artq 0xe21ebcd28d37a67757b9bc7b290f4c4928a430b1 info
 ```
 
 resulting in:
