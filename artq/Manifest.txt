@@ -4,4 +4,5 @@ README.md
 Rakefile
 bin/artq
 lib/artq.rb
+lib/artq/contract.rb
 lib/artq/version.rb
