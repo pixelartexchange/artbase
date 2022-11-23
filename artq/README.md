@@ -194,10 +194,10 @@ to compose / make-up "on-blockchain" token images "on-demand / on-the-fly" from 
 
 If the contract uses / supports:
 
--  `traitDetails(uint256 _layerIndex, unit256 _traitIndex) returns (string _name, string _mimetype, bool _hide)` and
--  `traitData(uint256 _layerIndex, unit256 _traitIndex) returns string`
+-  `traitDetails(uint256 _layerIndex, uint256 _traitIndex) returns (string _name, string _mimetype, bool _hide)` and
+-  `traitData(uint256 _layerIndex, uint256 _traitIndex) returns string`
 
-than you can "auto-magically" download all "on-blockchain" layers, that is, all metadata triplets by repeatedly calling starting
+than you can "auto-magically" download all "on-blockchain" layers, that is, all metadata triplets by repeatedly calling `traitDetails` starting
 with index `0/0`, `0/1`, ..., `1/0`, `1/1`, ... and so on e.g.
 
 - `traitDetails( 0, 0 )`  => `["Rainbow Puke", "image/png", false]`
@@ -208,7 +208,7 @@ with index `0/0`, `0/1`, ..., `1/0`, `1/1`, ... and so on e.g.
 - ...
 
 
-and all images (as binary blobs) by calling e.g.
+and all images (as binary blobs) by calling `traitData` e.g.
 
 - `traitData( 0, 0 )`  => `"\x89PNG..."`
 - `traitData( 0, 1 )`  => `"\x89PNG..."`
