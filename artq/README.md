@@ -339,8 +339,7 @@ such as
 and many more.
 
 
-Tip:  See the [**Art Factory Sandbox**](https://github.com/pixelartexchange/artfactory.sandbox) for more art collections with "on-blockchain" layers.
-
+Tip: For more art collections with "on-blockchain" layers see the [**Art Factory Sandbox »**](https://github.com/pixelartexchange/artfactory.sandbox) 
 
 
 
