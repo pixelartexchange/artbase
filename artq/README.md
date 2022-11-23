@@ -187,31 +187,33 @@ and inline svg images in the base64 format get "cut" from the metadata and "past
 
 Note:  Some "on-blockchain" pixel art collections
 include all layers, that is, metadata and images
-to compose / make-up "on-blockchain" token images "on-demand / on-the-fly" from building blocks.
+to compose / make-up "on-blockchain" token images "on-demand / on-the-fly" from "trait" building blocks from scratch.
 
 
 If the contract uses / supports:
 
--  `tokenDetails(uint256 _layerIndex, unit256 _traitIndex) returns (string _name, string _mimetype, bool _hide)` and
--  `tokenData(uint256 _layerIndex, unit256 _traitIndex) returns string`
+-  `traitDetails(uint256 _layerIndex, unit256 _traitIndex) returns (string _name, string _mimetype, bool _hide)` and
+-  `traitData(uint256 _layerIndex, unit256 _traitIndex) returns string`
 
-than you can "auto-magically" download all "on-blockchain" layers, that is, all metadata by calling e.g.
+than you can "auto-magically" download all "on-blockchain" layers, that is, all metadata triplets by repeatedly calling starting
+with index `0/0`, `0/1`, ..., `1/0`, `1/1`, ... and so on e.g.
 
-- `tokenDetails( 0, 0 )`  => `["Rainbow Puke", "image/png", false]`
-- `tokenDetails( 0, 1 )`  => `["Bubble Gum", "image/png", false]`
+- `traitDetails( 0, 0 )`  => `["Rainbow Puke", "image/png", false]`
+- `traitDetails( 0, 1 )`  => `["Bubble Gum", "image/png", false]`
 - ...
-- `tokenDetails( 1, 0 )`  =>  `["Gold Chain", "image/png", false]`
-- `tokenDetails( 2, 1 )`  =>  `["Bowtie", "image/png", false]`
+- `traitDetails( 1, 0 )`  =>  `["Gold Chain", "image/png", false]`
+- `traitDetails( 2, 1 )`  =>  `["Bowtie", "image/png", false]`
 - ...
 
 
-and all images by calling e.g.
+and all images (as binary blobs) by calling e.g.
 
-- `tokenData( 0, 0 )`  => `"\x89PNG..."`
-- `tokenData( 0, 1 )`  => `"\x89PNG..."`
+- `traitData( 0, 0 )`  => `"\x89PNG..."`
+- `traitData( 0, 1 )`  => `"\x89PNG..."`
 - ...
 
 and so on.
+
 
 
 Let's try Mad Camels - an "on-blockchain" pixel art collection -
@@ -234,7 +236,7 @@ all images:
  ...
 ```
 
-![i/madcamels-32x32.png]
+![](i/madcamels-32x32.png)
 
 
 and a  datafile with all metadata in the comma-separated values (csv) format, that is, `layers.csv` e.g:
