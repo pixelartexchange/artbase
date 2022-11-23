@@ -182,6 +182,162 @@ and inline svg images in the base64 format get "cut" from the metadata and "past
 ```
 
 
+####  Bonus - Case No. 3 - "On-Blockchain" Layers (Incl. Metadata & Images)
+
+
+Note:  Some "on-blockchain" pixel art collections
+include all layers, that is, metadata and images
+to compose / make-up "on-blockchain" token images "on-demand / on-the-fly" from building blocks.
+
+
+If the contract uses / supports:
+
+-  `tokenDetails(uint256 _layerIndex, unit256 _traitIndex) returns (string _name, string _mimetype, bool _hide)` and
+-  `tokenData(uint256 _layerIndex, unit256 _traitIndex) returns string`
+
+than you can "auto-magically" download all "on-blockchain" layers, that is, all metadata by calling e.g.
+
+- `tokenDetails( 0, 0 )`  => `["Rainbow Puke", "image/png", false]`
+- `tokenDetails( 0, 1 )`  => `["Bubble Gum", "image/png", false]`
+- ...
+- `tokenDetails( 1, 0 )`  =>  `["Gold Chain", "image/png", false]`
+- `tokenDetails( 2, 1 )`  =>  `["Bowtie", "image/png", false]`
+- ...
+
+
+and all images by calling e.g.
+
+- `tokenData( 0, 0 )`  => `"\x89PNG..."`
+- `tokenData( 0, 1 )`  => `"\x89PNG..."`
+- ...
+
+and so on.
+
+
+Let's try Mad Camels - an "on-blockchain" pixel art collection -
+with the token contract / service at [0xad8474ba5a7f6abc52708f171f57fefc5cdc8c1c](https://etherscan.io/address/0xad8474ba5a7f6abc52708f171f57fefc5cdc8c1c):
+
+
+```
+$ artq 0xad8474ba5a7f6abc52708f171f57fefc5cdc8c1c layers
+```
+
+resulting in a temp(orary) directory holding
+all images:
+
+```
+/0_0.png
+ 0_1.png
+ ...
+ 1_0.png
+ 1_1.png
+ ...
+```
+
+![i/madcamels-32x32.png]
+
+
+and a  datafile with all metadata in the comma-separated values (csv) format, that is, `layers.csv` e.g:
+
+```
+index, name, type, hide
+0/0, Rainbow Puke, image/png, false
+0/1, Bubble Gum, image/png, false
+0/2, Vape, image/png, false
+0/3, None, image/png, false
+0/4, Cigarette, image/png, false
+0/5, Pipe, image/png, false
+1/0, Gold Chain, image/png, false
+1/1, Bowtie, image/png, false
+1/2, Gold Necklace, image/png, false
+1/3, None, image/png, false
+2/0, Eye Patch, image/png, false
+2/1, Nerd Glasses, image/png, false
+2/2, Blue Beams, image/png, false
+2/3, Purple Eye Shadow, image/png, false
+2/4, Gold Glasses, image/png, false
+2/5, Holographic, image/png, false
+2/6, Clown Eyes Red, image/png, false
+2/7, Clown Eyes Green, image/png, false
+2/8, Eye Mask, image/png, false
+2/9, Laser Eye, image/png, false
+2/10, VR, image/png, false
+2/11, 3D Glasses, image/png, false
+2/12, None, image/png, false
+2/13, Yellow Glasses, image/png, false
+2/14, Cool Glasses, image/png, false
+2/15, Purple Glasses, image/png, false
+2/16, Green Glasses, image/png, false
+3/0, Diamond, image/png, false
+3/1, Silver, image/png, false
+3/2, Gold, image/png, false
+3/3, None, image/png, false
+4/0, Crown, image/png, false
+4/1, Wireless Earphone, image/png, false
+4/2, Flower, image/png, false
+4/3, Fez, image/png, false
+4/4, Fire, image/png, false
+4/5, Beanie, image/png, false
+4/6, Headphone, image/png, false
+4/7, White Shemagh, image/png, false
+4/8, Red And White Shemagh, image/png, false
+4/9, Angle Ring, image/png, false
+4/10, Blue Mohawk, image/png, false
+4/11, Sombrero, image/png, false
+4/12, Red Mohawk, image/png, false
+4/13, Blue Bandana, image/png, false
+4/14, Viking, image/png, false
+4/15, Pilot Helmet, image/png, false
+4/16, Top Hat, image/png, false
+4/17, Captain Hat, image/png, false
+4/18, Thief Hat, image/png, false
+4/19, Orange Cap, image/png, false
+4/20, Pirate Bandana, image/png, false
+4/21, Knitted Cap, image/png, false
+4/22, Purple Cap, image/png, false
+4/23, Black Cap, image/png, false
+4/24, Pirate Hat, image/png, false
+4/25, None, image/png, false
+4/26, Red Cap, image/png, false
+4/27, Cop Hat, image/png, false
+4/28, Cowboy Hat, image/png, false
+4/29, Fedora, image/png, false
+5/0, Mole, image/png, false
+5/1, Pimple, image/png, false
+5/2, None, image/png, false
+6/0, Gold, image/png, false
+6/1, Cyborg, image/png, false
+6/2, Skeleton, image/png, false
+6/3, Female, image/png, false
+6/4, Robot, image/png, false
+6/5, Zombie, image/png, false
+6/6, Alien, image/png, false
+6/7, Default, image/png, false
+7/0, Desert, image/png, false
+7/1, Cream, image/png, false
+7/2, Pink, image/png, false
+7/3, Purple, image/png, false
+7/4, Green, image/png, false
+7/5, Blue, image/png, false
+```
+
+
+Try some more art collections with "on-blockchain" layers
+such as
+[Long Live Kevin](https://etherscan.io/address/0x8ae5523f76a5711fb6bdca1566df3f4707aec1c4),
+[Aliens vs Punks](https://etherscan.io/address/0x2612c0375c47ee510a1663169288f2e9eb912947),
+[Chi Chis](https://etherscan.io/address/0x2204a94f96d39df3b6bc0298cf068c8c82dc8d61),
+[Chopper](https://etherscan.io/address/0x090c8034e6706994945049e0ede1bbdf21498e6e),
+[Inverse Punks](https://etherscan.io/address/0xf3a1befc9643f94551c24a766afb87383ef64dd4),
+[Marcs](https://etherscan.io/address/0xe9b91d537c3aa5a3fa87275fbd2e4feaaed69bd0),
+[Phunk Ape Origins](https://etherscan.io/address/0x9b66d03fc1eee61a512341058e95f1a68dc3a913),
+[Punkin Spicies](https://etherscan.io/address/0x34625ecaa75c0ea33733a05c584f4cf112c10b6b),
+and many more.
+
+
+Tip:  See the [**Art Factory Sandbox**](https://github.com/pixelartexchange/artfactory.sandbox) for more art collections with "on-blockchain" layers.
+
+
 
 
 ## License
