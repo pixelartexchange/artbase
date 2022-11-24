@@ -4,7 +4,7 @@
 #  $ ruby sandbox/download.rb
 
 $LOAD_PATH.unshift( "./lib" )
-require 'artbase-opensea'
+require 'opensea-lite'
 
 
 

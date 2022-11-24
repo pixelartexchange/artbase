@@ -4,7 +4,7 @@
 #  $ ruby sandbox/puppeteer.rb
 
 $LOAD_PATH.unshift( "./lib" )
-require 'artbase-opensea'
+require 'opensea-lite'
 
 
 pp Opensea::Puppeteer.chrome_path

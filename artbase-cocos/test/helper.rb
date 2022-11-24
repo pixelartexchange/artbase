@@ -4,5 +4,5 @@ require 'minitest/autorun'
 
 
 ## our own code
-require 'artbase'
+require 'artbase-cocos'
 
