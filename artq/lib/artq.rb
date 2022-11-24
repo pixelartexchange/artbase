@@ -6,7 +6,7 @@ require 'optparse'
 require_relative 'artq/version'   # let version go first
 require_relative 'artq/contract'
 require_relative 'artq/layers'
-
+require_relative 'artq/tokens'
 
 
 
@@ -55,6 +55,8 @@ class Tool
         do_info( contract_address )
     elsif ['l', 'layer', 'layers'].include?( command )
         do_layers( contract_address )
+    elsif ['t', 'token', 'tokens'].include?( command )
+        do_tokens( contract_address )
     else
       puts "!! ERROR - unknown command >#{command}<, sorry"
     end
@@ -75,11 +77,11 @@ class Tool
     symbol       =  c.symbol
     totalSupply  =  c.totalSupply
 
-    meta = []
+    recs = []
     tokenIds = (0..2)
     tokenIds.each do |tokenId|
       tokenURI =        c.tokenURI( tokenId )
-      meta << [tokenId, tokenURI]
+      recs << [tokenId, tokenURI]
     end
 
     puts "   name: >#{name}<"
@@ -87,37 +89,19 @@ class Tool
     puts "   totalSupply: >#{totalSupply}<"
     puts
     puts "   tokenURIs #{tokenIds}:"
-    meta.each do |tokenId, tokenURI|
+    recs.each do |tokenId, tokenURI|
        puts "     tokenId #{tokenId}:"
-       if tokenURI.start_with?( 'data:application/json;base64')
-          ## on-blockchain!!!
-          ## decode base64
-
-          str = tokenURI.sub( 'data:application/json;base64', '' )
-          str = Base64.decode64( str )
-          data = JSON.parse( str )
-
-
-          ## check for image_data - and replace if base64 encoded
-          image_data = data['image_data']
-
-          if image_data.start_with?( 'data:image/svg+xml;base64' )
-            data['image_data'] = '...'
-            str = image_data.sub( 'data:image/svg+xml;base64', '' )
-             image_data = Base64.decode64( str )
-          end
-
-          pp data
+       meta = Meta.parse( tokenURI )
+       if meta.data.empty?   ## assume "off-blockchain" if no "on-blockchain" data found
+         puts "        #{tokenURI}"
+       else   ## assume "on-blockchain" data
+          pp meta.data
           puts
           puts "    image_data:"
-          puts image_data
-       else
-         puts "        #{tokenURI}"
+          puts meta.image_data
        end
     end
   end
-
-
 
 
 
@@ -128,6 +112,11 @@ class Tool
                           outdir: "./tmp/#{contract_address}" )
   end
 
+  def self.do_tokens( contract_address )
+    puts "==> query inline 'on-blockchain' token metadata & images for art collection contract @ >#{contract_address}<:"
+    ArtQ.download_tokens( contract_address,
+                          outdir: "./tmp/#{contract_address}" )
+  end
 
 end  # class Tool
 end   # module ArtQ

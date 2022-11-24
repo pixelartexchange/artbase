@@ -5,4 +5,6 @@ Rakefile
 bin/artq
 lib/artq.rb
 lib/artq/contract.rb
+lib/artq/layers.rb
+lib/artq/tokens.rb
 lib/artq/version.rb
