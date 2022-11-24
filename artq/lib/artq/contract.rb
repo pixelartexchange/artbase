@@ -50,13 +50,12 @@ class Contract
 
 
 
-   def self.rpc
-      @rpc ||= JsonRpc.new( ENV['INFURA_URI'] )
-   end
+  ## note: forward to Ethlite.config.rpc
+  ##   keep config here as a convenience shortcut - why? why not?
+  def self.rpc()        Ethlite.config.rpc; end
+  def self.rpc=(value)  Ethlite.config.rpc = value; end
 
-   def self.rpc=(value)
-      @rpc = value.is_a?( String ) ? JsonRpc.new( value ) : value
-   end
+
 
 
    def initialize( contract_address )
@@ -66,6 +65,7 @@ class Contract
 ######
 #   private helper to call method
    def _do_call( eth, args )
+     puts "  calling method >#{eth.name}< with args >#{args}<... "
      eth.do_call( self.class.rpc, @contract_address, args )
    end
 

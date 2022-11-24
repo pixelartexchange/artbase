@@ -5,14 +5,12 @@ require 'optparse'
 ## our own code
 require_relative 'artq/version'   # let version go first
 require_relative 'artq/contract'
+require_relative 'artq/layers'
+
 
 
 
 module ArtQ
-
-
-
-
 
 class Tool
 
@@ -121,88 +119,13 @@ class Tool
 
 
 
-  JPGSIG   = "\xFF\xD8\xFF".force_encoding( Encoding::ASCII_8BIT )
-  PNGSIG   = "\x89PNG".force_encoding( Encoding::ASCII_8BIT )
-  GIF87SIG = "GIF87".force_encoding( Encoding::ASCII_8BIT )
-  GIF89SIG = "GIF89".force_encoding( Encoding::ASCII_8BIT )
 
 
   def self.do_layers( contract_address )
     puts "==> query layers for art collection contract @ >#{contract_address}<:"
 
-    c = Contract.new( contract_address )
-
-    name         =  c.name
-    symbol       =  c.symbol
-    totalSupply  =  c.totalSupply
-
-
-    traitDetails = []
-    n=0
-    loop do
-      m=0
-      loop do
-        rec = c.traitDetails( n, m )
-        break  if rec == ['','',false]
-
-        traitDetails << [[n,m], rec ]
-        m += 1
-        sleep( 0.5 )
-      end
-      break  if m==0
-      n += 1
-    end
-
-    headers = ['index', 'name', 'type', 'hide']
-    recs = []
-    traitDetails.each do |t|
-      recs << [ t[0].join('/'),
-                t[1][0],
-                t[1][1],
-                t[1][2].to_s]
-    end
-
-    buf = String.new('')
-    buf << headers.join( ', ' )
-    buf << "\n"
-    recs.each do |rec|
-       buf << rec.join( ', ' )
-       buf << "\n"
-    end
-
-    outdir = "./tmp/#{contract_address}"
-    write_text( "#{outdir}/layers.csv", buf )
-
-    #####
-    #  try to download all images
-    traitDetails.each do |t|
-      n,m  = t[0]
-      data = c.traitData( n, m )
-
-      basename = "#{n}_#{m}"
-      if data.start_with?( PNGSIG )
-        puts "BINGO!! it's a png blob"
-        write_blob( "#{outdir}/#{basename}.png", data )
-      elsif data.start_with?( GIF87SIG ) || data.start_with?( GIF89SIG )
-        puts "BINGO!! it's a gif blob"
-        write_blob( "#{outdir}/#{basename}.gif", data )
-      elsif data.start_with?( JPGSIG )
-        puts "BINGO!! it's a jpg blob"
-        write_blob( "#{outdir}/#{basename}.jpg", data )
-      else
-        puts "!! ERROR - unknown image format; sorry"
-        exit 1
-      end
-      sleep( 0.5 )
-    end
-
-
-    puts "   name: >#{name}<"
-    puts "   symbol: >#{symbol}<"
-    puts "   totalSupply: >#{totalSupply}<"
-    puts
-    puts "   traitDetails:"
-    pp  traitDetails
+    ArtQ.download_layers( contract_address,
+                          outdir: "./tmp/#{contract_address}" )
   end
 
 
