@@ -84,13 +84,18 @@ end  # (nested) class Meta
     puts "==> reading collection config >#{path}<..."
     config = read_yaml( path )
 
+   ## note:
+   ##   allow sources to be empty - use [] quick hack for now  - why? why not?
+   ##   allow count to be empty  - use 999 quick hack for now - why? why not?
+   ##
+
     new(
         config['slug'],
-        config['count'],
+        config['count'] || 999,
         token_base: config['token_base'],
         image_base: config['image_base'],
         format: config['format'],
-        source: config['source'],
+        source: config['source'] || [],
         offset: config['offset'] || 0
       )
   end  # method self.read
