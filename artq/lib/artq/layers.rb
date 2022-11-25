@@ -58,7 +58,7 @@ module ArtQ
        buf << "\n"
     end
 
-    write_text( "#{outdir}/layers.csv", buf )
+    write_text( "#{outdir}/cache/layers.csv", buf )
 
     #####
     #  try to download all images
@@ -71,13 +71,13 @@ module ArtQ
       basename = "#{n}_#{m}"
       if data.start_with?( PNGSIG )
         puts "BINGO!! it's a png blob - #{data.size} byte(s)"
-        write_blob( "#{outdir}/#{basename}.png", data )
+        write_blob( "#{outdir}/cache/#{basename}.png", data )
       elsif data.start_with?( GIF87SIG ) || data.start_with?( GIF89SIG )
         puts "BINGO!! it's a gif blob - #{data.size} byte(s)"
-        write_blob( "#{outdir}/#{basename}.gif", data )
+        write_blob( "#{outdir}/cache/#{basename}.gif", data )
       elsif data.start_with?( JPGSIG )
         puts "BINGO!! it's a jpg blob - #{data.size} byte(s)"
-        write_blob( "#{outdir}/#{basename}.jpg", data )
+        write_blob( "#{outdir}/cache/#{basename}.jpg", data )
       else
         puts "!! ERROR - unknown image format; sorry"
         exit 1
