@@ -184,7 +184,7 @@ and inline svg images in the base64 format get "cut" from the metadata and "past
 ```
 
 
-####  Bonus - Case No. 3 - "On-Blockchain" Layers (Incl. Metadata & Images)
+#### Case No. 3 - "On-Blockchain" Layers (Incl. Metadata & Images)
 
 
 Note:  Some "on-blockchain" pixel art collections
@@ -339,7 +339,43 @@ such as
 and many more.
 
 
-Tip: For more art collections with "on-blockchain" layers see the [**Art Factory Sandbox »**](https://github.com/pixelartexchange/artfactory.sandbox) 
+Tip: For more art collections with "on-blockchain" layers see the [**Art Factory Sandbox »**](https://github.com/pixelartexchange/artfactory.sandbox)
+
+
+
+
+
+###  Using the ArtQ Machinery in Your Own Scripts
+
+
+Yes, you can. Let's try the (crypto) marcs:
+
+
+``` ruby
+require 'artq'
+
+marcs_eth  = "0xe9b91d537c3aa5a3fa87275fbd2e4feaaed69bd0"
+
+marcs = ArtQ::Contract.new( marcs_eth )
+
+n = 0
+m = 0
+res = marcs.traitData( n, m )    ## note: return binary blob (for n,m-index)
+pp res
+#=> ["\x89PNG..."]
+
+res = marcs.traitDetails( n, m )  ## note: returns tuple (name, mimetype, hide?)
+pp res
+#=> ["Zombie", "image/png", false]
+
+
+
+## or with convenience download_layers helper
+ArtQ.download_layers( marcs_eth, outdir: './marcs' )
+```
+
+
+
 
 
 

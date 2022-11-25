@@ -8,6 +8,22 @@ require 'artq'
 
 
 
+marcs_eth  = "0xe9b91d537c3aa5a3fa87275fbd2e4feaaed69bd0"
+
+marcs = ArtQ::Contract.new( marcs_eth )
+
+n = 0
+m = 0
+res = marcs.traitData( n, m )    ## note: return binary blob (for n,m-index)
+pp res
+
+res = marcs.traitDetails( n, m )  ## note: returns tuple (name, mimetype, hide?)
+pp res
+
+
+
+
+
 [
   ## '0xe9b91d537c3aa5a3fa87275fbd2e4feaaed69bd0',  ## marcs
   ## '0x2204a94f96d39df3b6bc0298cf068c8c82dc8d61',  ## chichis
