@@ -1,0 +1,9 @@
+CHANGELOG.md
+Manifest.txt
+README.md
+Rakefile
+lib/artbase-importers.rb
+lib/artbase-importers/collection.rb
+lib/artbase-importers/database.rb
+lib/artbase-importers/importer.rb
+lib/artbase-importers/version.rb
