@@ -4,14 +4,12 @@ README.md
 Rakefile
 lib/artbase-cocos.rb
 lib/artbase-cocos/attributes.rb
-lib/artbase-cocos/collection.rb
 lib/artbase-cocos/collection/base.rb
 lib/artbase-cocos/collection/image.rb
-lib/artbase-cocos/collection/opensea.rb
 lib/artbase-cocos/collection/token.rb
+lib/artbase-cocos/collection/token_meta.rb
 lib/artbase-cocos/helper.rb
 lib/artbase-cocos/image.rb
 lib/artbase-cocos/image/sample.rb
 lib/artbase-cocos/retry.rb
-lib/artbase-cocos/tool.rb
 lib/artbase-cocos/version.rb

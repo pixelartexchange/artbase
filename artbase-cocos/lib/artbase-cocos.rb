@@ -1,14 +1,8 @@
 require 'cocos'
 
 
-
 ## 3rd party gems
 require 'pixelart'
-
-## database support gems
-require 'active_record'
-require 'sqlite3'
-
 
 
 
@@ -39,26 +33,20 @@ end  # module Artbase
 
 
 require_relative 'artbase-cocos/image'
+require_relative 'artbase-cocos/image/sample'    ## check - change to downsample/pixelate - why? why not?
+
 
 
 require_relative 'artbase-cocos/helper'
 require_relative 'artbase-cocos/retry'    ## (global) retry_on_error helper
 
-require_relative 'artbase-cocos/collection'
+require_relative 'artbase-cocos/collection/base'
+require_relative 'artbase-cocos/collection/token'
+require_relative 'artbase-cocos/collection/token_meta'
+require_relative 'artbase-cocos/collection/image'
+
 require_relative 'artbase-cocos/attributes'
 
-
-require_relative 'artbase-cocos/reports/base'
-require_relative 'artbase-cocos/reports/collections_linter'  # e.g. LintCollectionsReport etc.
-require_relative 'artbase-cocos/reports/contracts_linter'
-
-require_relative 'artbase-cocos/reports/export'
-require_relative 'artbase-cocos/reports/opensea_linter'
-
-
-
-## todo - move to load on demand to build - why? why not?
-require_relative 'artbase-cocos/database'
 
 
 

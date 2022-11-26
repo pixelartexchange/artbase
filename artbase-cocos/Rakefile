@@ -1,0 +1,40 @@
+require 'hoe'
+require './lib/artbase-cocos/version.rb'
+
+
+###
+# hack/ quick fix for broken intuit_values - overwrite with dummy
+class Hoe
+  def intuit_values( input ); end
+end
+
+
+Hoe.spec 'artbase-cocos' do
+
+  self.version = Artbase::Module::Cocos::VERSION
+
+  self.summary = "artbase-cocos - artbase (shared) code commons (cocos); read artbase collection configs & metadata; download collection token metadata, images, and more"
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/pixelartexchange/artbase'}
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'wwwmake@googlegroups.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['cocos', '>= 0.1.2'],
+    ['pixelart', '>= 1.3.6'],
+    ['webclient', '>= 0.2.2'],  ## weblclient part of cocos?
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.2.2'
+  }
+
+end

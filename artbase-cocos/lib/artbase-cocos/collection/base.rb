@@ -4,7 +4,7 @@ class Base     ## "abstract" Base collection - check -use a different name - why
 
 
 def convert_images( overwrite: )
-  image_dir = "./#{slug}/token-i"
+  image_dir = "./#{@slug}/token-i"
   Image.convert( image_dir, from: 'jpg', to: 'png', overwrite: overwrite )
   Image.convert( image_dir, from: 'gif', to: 'png', overwrite: overwrite )
   Image.convert( image_dir, from: 'svg', to: 'png', overwrite: overwrite )
@@ -110,43 +110,6 @@ def make_composite( limit: nil,
     composite.zoom(2).save( path )
   end
 end
-
-
-
-def import( importer )
-
-  each_meta do |meta, id|
-    puts "==> #{id}"
-    pp meta.attributes
-    puts
-    h = importer.to_metadata( meta.attributes )
-    ## auto-add id  (as intenger) - why? why not?
-    h[ 'id' ] = id
-
-
-
-
-
-    img = Image.read( "./#{@slug}/#{@width}x#{@height}/#{id}.png" )
-
-    image = "data:image/png;base64, "
-    image += Base64.strict_encode64( img.to_blob )
-
-    puts "image:"
-    puts image
-
-    rec = Database::Metadata.new( h )
-    rec.image = image
-
-    ## check for custom callback hooks
-    if importer.respond_to?( :before_save )
-      importer.before_save( rec )
-    end
-
-    rec.save!
-  end
-end  # method import
-
 
 
 
