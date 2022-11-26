@@ -1,0 +1,8 @@
+CHANGELOG.md
+Manifest.txt
+README.md
+Rakefile
+bin/artbase
+lib/artbase.rb
+lib/artbase/tool.rb
+lib/artbase/version.rb

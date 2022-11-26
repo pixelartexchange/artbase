@@ -9,6 +9,4 @@ require_relative 'artbase/tool'
 
 
 
-puts Artbase.banner
-puts Artbase.root
-
+puts Artbase.banner    # say hello

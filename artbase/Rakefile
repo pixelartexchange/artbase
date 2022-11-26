@@ -26,9 +26,10 @@ Hoe.spec 'artbase' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['cocos', '>= 0.1.2'],
-    ['webclient', '>= 0.2.2'],
-    ['pixelart', '>= 1.3.6'],
+    ['artbase-cocos', '>= 0.0.1'],
+    # ['artbase-importers', '>= 0.0.1'],  ## note: make "heavy" sql/sqlite db support "soft" dependency
+    ['artserve'],
+    ['artq'],
   ]
 
   self.licenses = ['Public Domain']

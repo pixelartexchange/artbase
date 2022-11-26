@@ -140,6 +140,11 @@ class Tool
   def self.build_database
     puts "===> build database"
 
+### note. load database "heavy" machinery only on-demand
+##    make it a "soft" dependency for now - why? why not?
+   require 'artbase-importers'
+
+
     slug = @collection.slug
 
     importer = Importer.read( "./#{slug}/build.rb" )
@@ -152,7 +157,6 @@ class Tool
 
     @collection.import( importer )
   end
-
 
 
 
