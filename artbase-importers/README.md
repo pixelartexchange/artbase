@@ -3,7 +3,7 @@
 
 * home  :: [github.com/pixelartexchange/artbase](https://github.com/pixelartexchange/artbase)
 * bugs  :: [github.com/pixelartexchange/artbase/issues](https://github.com/pixelartexchange/artbase/issues)
-* gem   :: [rubygems.org/gems/artbase-importers](https://rubygems.org/gems/artbase-importerss)
+* gem   :: [rubygems.org/gems/artbase-importers](https://rubygems.org/gems/artbase-importers)
 * rdoc  :: [rubydoc.info/gems/artbase-importers](http://rubydoc.info/gems/artbase-importers)
 
 
