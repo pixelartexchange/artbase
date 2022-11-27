@@ -126,6 +126,8 @@ class Tool
                       mirror: options[ :mirror ])
     elsif ['strip'].include?( command )
       make_strip
+    elsif ['g', 'gen', 'generate'].include?( command )
+      generate_images    ## via token metadata & spritesheet
     elsif ['t', 'test'].include?( command )
        puts "  testing, testing, testing"
     else
@@ -133,6 +135,48 @@ class Tool
     end
 
     puts "bye"
+  end
+
+
+
+  def self.generate_images
+    puts "===> (re)generate images via token metadata"
+
+    slug = @collection.slug
+    width = @collection.width
+    height = @collection.height
+
+    ### note: requires spritesheet.png + csv for (re)generation
+    require 'artfactory'
+    gen = Artfactory.read( "./#{slug}/spritesheet-#{width}x#{height}.png",
+                            "./#{slug}/spritesheet-#{width}x#{height}.csv",
+                              width: width,
+                              height: height)
+
+
+    tokens = Dir.glob( "./#{slug}/token/*.json" )
+    puts "   #{tokens.size} token record(s)"
+
+   ## note: sort by ids (e.g. 0,1,2,3,4,5,6,7,8,9,10,11,etc.)
+   tokens = tokens.sort do |l,r|
+                       l_id = File.basename( l, File.extname( l )).to_i(10)
+                       r_id = File.basename( r, File.extname( r )).to_i(10)
+                       l_id <=> r_id
+                      end
+
+   tokens.each_with_index do |path,i|
+      puts "  reading [#{i}] #{path}..."
+      meta = TokenCollection::Meta.read( path )
+      attributes = meta.attributes
+      pp attributes
+
+      ## note: use reverse order
+      attributes = attributes.reverse
+      attributes = attributes.map {|k,v| "#{k} : #{v}"}
+
+      img = gen.generate( *attributes )
+      img.save( "./#{slug}/#{width}x#{height}/#{i}.png" )
+   end
   end
 
 

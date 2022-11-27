@@ -25,7 +25,9 @@ class TokenCollection   < Artbase::Base
 
 
 
-  attr_reader :slug, :count
+  attr_reader :slug,
+              :width, :height,
+              :count
 
   def initialize( slug, count,
                   token_base:,
