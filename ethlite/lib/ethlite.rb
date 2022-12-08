@@ -11,13 +11,10 @@ require 'digest'
 
 ## 3rd party gems
 require 'rlp-lite'
+require 'digest-lite'
 
-##  bundled require 'digest/keccak'     ## gem keccak - see https://rubygems.org/gems/keccak
-require_relative 'digest/keccak'
-require_relative 'digest/sha3'
 
 require_relative 'jsonrpc/jsonrpc'
-
 
 
 ## our own code

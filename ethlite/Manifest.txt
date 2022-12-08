@@ -2,8 +2,6 @@ CHANGELOG.md
 Manifest.txt
 README.md
 Rakefile
-lib/digest/keccak.rb
-lib/digest/sha3.rb
 lib/ethlite.rb
 lib/ethlite/abi/codec.rb
 lib/ethlite/abi/type.rb
