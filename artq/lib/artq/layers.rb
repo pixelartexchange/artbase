@@ -78,6 +78,10 @@ module ArtQ
       elsif data.start_with?( JPGSIG )
         puts "BINGO!! it's a jpg blob - #{data.size} byte(s)"
         write_blob( "#{outdir}/cache/#{basename}.jpg", data )
+      elsif data.index( /<svg[^>]*?>/i )    ## add more markers to find - why? why not?
+        puts "BINGO!! it's a svg (text) blob - #{data.size} byte(s)"
+        ## todo/check - save text as binary blob 1:1 - why? why not?
+        write_blob( "#{outdir}/cache/#{basename}.svg", data )
       else
         puts "!! ERROR - unknown image format; sorry"
         exit 1
