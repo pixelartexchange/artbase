@@ -54,6 +54,7 @@ def make_composite( limit: nil,
                when   946 then   [25,  38]
                when  1000 then   [25,  40]
                when  1300 then   [25,  52]
+               when  1700 then   [50,  34]
                when  2048 then   [50,  41]
                when  2077 then   [50,  42]
                when  2200 then   [50,  44]
