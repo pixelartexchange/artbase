@@ -67,6 +67,10 @@ module ArtQ
 
       n,m  = t[0]
       data = c.traitData( n, m )
+      ## note: return type in abi is string!!!
+      ##   change to binary blob (from utf-8 encoding)!!!!
+      data.force_encoding( Encoding::ASCII_8BIT )
+
 
       basename = "#{n}_#{m}"
       if data.start_with?( PNGSIG )
