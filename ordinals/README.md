@@ -14,7 +14,7 @@ ordinals gem - ordinals (inscription) api wrapper & helpers for Bitcoin, Litcoin
 
 For now ordinal inscription api queries are supported on
 - Bitcoin  (via <https://ordinals.com>)
-- Litecoin (via <https://litecoin.earlyordies.com>) and
+- Litecoin (via <https://ordinalslite.com>) and
 - Dogecoin (via <https://doginals.com>)
 
 
@@ -65,7 +65,7 @@ Ordinals.chain = :ltc
 
 
 # get the inscription binary blob / data by id
-#  e.g. GET https://litecoin.earlyordies.com/inscription/f2b6adf7b2d0f128fb14817ff37f5f36e9176b17571e20c49871875553f937b4i0...
+#  e.g. GET https://ordinalslite.com/inscription/f2b6adf7b2d0f128fb14817ff37f5f36e9176b17571e20c49871875553f937b4i0...
 
 id = 'f2b6adf7b2d0f128fb14817ff37f5f36e9176b17571e20c49871875553f937b4i0'
 content = Ordinals.content( id )
@@ -77,7 +77,7 @@ pp content
 
 
 # get the inscription meta data by id
-#  e.g GET https://litecoin.earlyordies.com/inscription/f2b6adf7b2d0f128fb14817ff37f5f36e9176b17571e20c49871875553f937b4i0...
+#  e.g GET https://ordinalslite.com/inscription/f2b6adf7b2d0f128fb14817ff37f5f36e9176b17571e20c49871875553f937b4i0...
 data = Ordinals.inscription( id )
 pp data
 #=> {"title"=>"Inscription 642",

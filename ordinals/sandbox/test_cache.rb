@@ -1,6 +1,5 @@
-$LOAD_PATH.unshift( "../ordinals/lib" )
 $LOAD_PATH.unshift( "./lib" )
-require 'ordbase'
+require 'ordinals'
 
 
 
@@ -8,8 +7,10 @@ require 'ordbase'
 
 base_dir = "../../ordinals.cache"
 
-
-datasets = Dir.glob( "#{base_dir}/btc/*.json" )
+# chain = 'btc'
+chain = 'ltc'
+# chain = 'doge'
+datasets = Dir.glob( "#{base_dir}/#{chain}/*.json" )
 
 puts "  #{datasets.size} inscription(s)"
 

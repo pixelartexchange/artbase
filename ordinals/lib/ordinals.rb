@@ -85,5 +85,7 @@ end  # module Ordinals
 
 ## our own code
 require_relative 'ordinals/api'
+require_relative 'ordinals/stats'
+
 
 

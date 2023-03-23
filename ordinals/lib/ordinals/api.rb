@@ -5,7 +5,8 @@ module Ordinals
 
 class Api   ## change/rename Api to Client - why? why not?
   def self.litecoin
-    @litecoin ||= new( 'https://litecoin.earlyordies.com' )
+    ## @litecoin ||= new( 'https://litecoin.earlyordies.com' )
+    @litecoin ||= new( 'https://ordinalslite.com' )
     @litecoin
   end
 

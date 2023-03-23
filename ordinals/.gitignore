@@ -54,5 +54,18 @@ o/
 #  exclude all zips  (in /dl)
 *.zip
 
+#####
+#  exclude page.txt and ordinals.csv
+#   used in sandbox
+page.txt
+page.btc.txt
+page.ltc.txt
+page.doge.txt
+
+ordinals.csv
+ordinals.btc.csv
+ordinals.ltc.csv
+ordinals.doge.csv
+
 
 

@@ -2,13 +2,14 @@
 
 class InscriptionStats
 
-  TITLE_RX = /^Inscription[ ]+(?<ord>[0-9]+)$/
+  TITLE_RX = /^(Inscription|Shibescription)[ ]+(?<ord>[0-9]+)$/
   BYTES_RX = /^(?<bytes>[0-9]+)[ ]+bytes$/
 
   def initialize
     @stats = {
       count: 0,
-      ord: { '<1000'  => 0,
+      ord: { '<100'   => 0,
+             '<1000'  => 0,
              '<10000' => 0,
              '<100000' => 0,
              '<1000000' => 0,
@@ -46,7 +47,8 @@ class InscriptionStats
         exit 1
     end
 
-    if     ord < 1000    then  @stats[:ord]['<1000'] += 1
+    if     ord < 100     then  @stats[:ord]['<100'] += 1
+    elsif  ord < 1000    then  @stats[:ord]['<1000'] += 1
     elsif  ord < 10000   then  @stats[:ord]['<10000'] += 1
     elsif  ord < 100000  then  @stats[:ord]['<100000'] += 1
     elsif  ord < 1000000 then  @stats[:ord]['<1000000'] += 1
@@ -119,7 +121,8 @@ class InscriptionStats
      buf << "#{stat[:count]} inscription(s)\n"
 
      buf << "- from ##{stat[:ord]['min']} to ##{stat[:ord]['max']} (min. to max.)\n"
-     buf << "     - <1000 => #{stat[:ord]['<1000']}\n"         if stat[:ord]["<1000"] > 0
+     buf << "     - <100 => #{stat[:ord]['<100']}\n"          if stat[:ord]["<100"] > 0
+     buf << "     - <1000 => #{stat[:ord]['<1000']}\n"        if stat[:ord]["<1000"] > 0
      buf << "     - <10000 => #{stat[:ord]['<10000']}\n"      if stat[:ord]["<10000"] > 0
      buf << "     - <100000 => #{stat[:ord]['<100000']}\n"    if stat[:ord]["<100000"] > 0
      buf << "     - <1000000 => #{stat[:ord]['<1000000']}\n"  if stat[:ord]["<1000000"] > 0
