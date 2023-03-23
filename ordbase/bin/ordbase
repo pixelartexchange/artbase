@@ -12,6 +12,6 @@
 #    % chmod a+x bin/ordbase
 #
 
-require 'ordinals'
+require 'ordbase'
 
 Ordinals::Tool.main
