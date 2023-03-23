@@ -9,6 +9,7 @@ Gems:
 - [opensea-lite](opensea-lite)  - opensea api wrapper / helpers
 - [artq](artq) - query (ethereum) blockchain contracts / services for (meta) data about art collections via json-rpc
 - [ordinals](ordinals)  - ordinals api wrapper / helpers for Bitcoin, Litcoin, Dogecoin, 'n' friends
+- [ordbase](ordbase) -  "right-clicker" (off-chain) ordinals (pixel art) command line tool, machinery & helpers for Bitcoin, Litcoin, Dogecoin & co.
 
 
 
@@ -27,9 +28,9 @@ Use it as you please with no restrictions whatsoever.
 
 
 
+
 ## Questions? Comments?
 
-Yes, you can. Post them on the [D.I.Y. Punk (Pixel) Art reddit](https://old.reddit.com/r/DIYPunkArt). Thanks.
-
+Post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.
 
 

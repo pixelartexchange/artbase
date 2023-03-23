@@ -58,7 +58,7 @@ pp data
 ```
 
 
-Let's try quering for litecoin (ltc) ordinal inscriptions:
+Let's try querying for litecoin (ltc) ordinal inscriptions:
 
 ``` ruby
 Ordinals.chain = :ltc
