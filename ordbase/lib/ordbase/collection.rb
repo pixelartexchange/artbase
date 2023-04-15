@@ -124,6 +124,7 @@ def make_composite( limit: nil )
                when    12 then   [4,   3]
                when    15 then   [5,   3]
                when    20 then   [5,   4]
+               when    40 then   [10,  4]
                when    50 then   [10,  5]
                when    69 then   [10,  7]
                when    80 then   [10,  8]
